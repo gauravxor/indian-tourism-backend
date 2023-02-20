@@ -1,0 +1,56 @@
+### SignUp Endpoint
+POST http://localhost:4000/api/auth/signup
+Content-Type: application/json
+
+{
+	"userName": "bantysharma",
+	"password": "sharma",
+	"name": {
+		"firstName": "banti",
+		"middleName": "sharma",
+		"lastName": "singh"
+	},
+
+	"contact": {
+		"email": "abcd@gmail.com",
+		"phone": "243543524"
+	},
+	"address": {
+		"addressMain": "1234 main street"
+	},
+	"dob": "2023-02-18",
+	"createdAt": "2020-12-02",
+	"updatedAt": "2020-12-02",
+	"bookings":{
+		"bookingDate": "2020-12-02",
+		"dateOfVisit": "2020-12-02",
+		"children": "100",
+		"adults": "2"
+	}
+}
+
+### Verify OTP Endpoint
+POST http://localhost:4000/api/auth/verify-otp
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2YzYjFkMDVmNTkwNGM4N2E5YmUzMzciLCJpYXQiOjE2NzY5MTUxNjcsImV4cCI6MTY3NzAwMTU2N30.g5v9bt21WoVnY0v9oxAYcYH0GK4tbyEHa2-W4BXLgLU
+
+{
+  "email": "abcd@gmail.com",
+  "otp": "q0hwyhru"
+}
+
+
+### Login Endpoint
+POST http://localhost:4000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "abcd@gmail.com",
+  "password": "sharma"
+}
+
+
+### Logout Endpoint
+POST http://localhost:4000/api/auth/logout
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2YzYTE5MDljNzNmOTdlMmFmYmNmOTMiLCJpYXQiOjE2NzY5MTEwMDIsImV4cCI6MTY3Njk5NzQwMn0.HOKJ9PlgZWaIsVtZqaTimIEmWoAS_TDvkFhO7loTS98

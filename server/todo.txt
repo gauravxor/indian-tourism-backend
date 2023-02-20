@@ -1,0 +1,16 @@
+TODO
+------
+1) Remove the assigning of username to a user. This feature is optional.
+2) Create a helper function to consolidate all JWT tasks in one place.
+3) Prevent login until the user has varified the email.
+
+
+
+DONE
+-----
+1) Implement checking of duplicate email while signing up
+2) OTP expiry time implementation.
+
+Later
+-----
+1) Check if phone numbers are duplicate.

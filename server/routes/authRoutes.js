@@ -1,20 +1,20 @@
 const express = require('express');
-const tokenValidator = require('../middlewares/verifyToken');
+
 const signUpController = require('../controllers/auth/signupController');
-const signInController = require('../controllers/auth/loginController');
+const loginController = require('../controllers/auth/loginController');
 const logoutController = require('../controllers/auth/logoutController');
-const forgotPasswordController = require('../controllers/auth/passwordController');
-const tokenController = require('../controllers/auth/tokenController')
+const otpController = require('../controllers/auth/otpController');
 
-
+const verifyToken = require('../middlewares/verifyToken');
 
 const authRoutes = express.Router();
 
 authRoutes.post('/signup', signUpController);
-authRoutes.post('/signin', signInController);
+authRoutes.post('/login', loginController);
 
+authRoutes.post('/logout', verifyToken, logoutController);
+authRoutes.post('/verify-otp', verifyToken, otpController);
 
-// authRoutes.post('/logout', logoutController);
 // authRoutes.post('/forgot-password', passwordController);
 // authRoutes.get('/refresh-token', tokenController);
 
