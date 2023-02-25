@@ -1,6 +1,4 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
 const User = require("../models/userModel");
 const Credentials = require("../models/credentialModel");
 
@@ -32,17 +30,12 @@ async function updateLoginStatus(documentId, value)
 	return queryResult;
 }
 
-// helper function to generate JWT token
-function generateJWToken(userId){
-	const token = jwt.sign({userId}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRY});
-	return token;
-}
+
 
 
 module.exports = {
 	searchCredentials,
 	searchUser,
 	validatePass,
-	generateJWToken,
 	updateLoginStatus,
 };

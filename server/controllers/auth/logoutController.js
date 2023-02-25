@@ -12,7 +12,10 @@ const  logoutController = async (req, res) => {
 		console.log("Update query result = " + updateQueryResult);
 		if(updateQueryResult != null)
 		{
-			res.status(200).send({
+			res
+			.clearCookie('accessToken')
+			.clearCookie('refreshToken')
+			.status(200).send({
 				msg: "Logged out successfully",
 			});
 		}

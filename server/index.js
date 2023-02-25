@@ -1,11 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
 // user defined routes
 const homeRoutes = require('./routes/home');
 const authRoutes = require('./routes/authRoutes');
+const updateRoutes = require('./routes/updateRoutes');
 
 
 
@@ -29,8 +31,12 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(cookieParser());
+
 app.use('/', homeRoutes);
 app.use('/api/auth/', authRoutes);
+app.use('/api/update/', updateRoutes);
+
 
 
 

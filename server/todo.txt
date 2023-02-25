@@ -2,7 +2,7 @@ TODO
 ------
 1) Remove the assigning of username to a user. This feature is optional.
 2) Create a helper function to consolidate all JWT tasks in one place.
-3) Prevent login until the user has varified the email.
+3) Implement user image handling.
 
 
 
@@ -10,7 +10,15 @@ DONE
 -----
 1) Implement checking of duplicate email while signing up
 2) OTP expiry time implementation.
+3) Prevent login until the user has varified the email.
+4) Implement refresh token functionality. It is not sent in the request headers.
+
+
+
+
 
 Later
 -----
 1) Check if phone numbers are duplicate.
+2) If email is not verified, delete the user from the database after a certain period of time.
+3) Implement user input validator helper function.

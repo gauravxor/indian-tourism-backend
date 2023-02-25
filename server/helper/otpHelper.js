@@ -1,6 +1,9 @@
 const nodemailer = require('nodemailer');
 const Otp = require('../models/otpModel');
+const { findOne } = require('../models/userModel');
 const User = require('../models/userModel');
+const jwt = require('jsonwebtoken');
+
 function generateOtp()
 {
 	let otp = '';
@@ -13,6 +16,10 @@ function generateOtp()
 
 async function saveOtp(otp, email, _id)
 {
+	console.log("Deleting previous otp".green);
+	await Otp.deleteOne({emailId: email, userId: _id});
+	console.log("Deleted previous otp".green);
+
 	console.log("Starting to save otp".green);
 	const otpDocument = new Otp({
 		userId: _id,
@@ -92,7 +99,33 @@ async function verifyOtp(userEmail, otp, res)
 }
 
 
+async function resendOtp(req, res){
+	console.log(req.cookies);
+	if(req.cookies == undefined){
+		console.log("Something went wrong, Try again".red);
+		res.send({
+			msg: "Something went wrong, Try again"
+		});
+	}
+	const accessToken = req.cookies.accessToken;
+	const userId = (jwt.decode(accessToken)).userId;
+
+	console.log("In resend otp".green);
+	console.log("userId = "+ userId);
+
+	const email = req.body.email;
+	console.log("email = "+ email);
+	const otp = await emailOtp(email, userId);
+	res.status(200).send({
+		msg: "Otp sent successfully",
+		otp: otp
+	});
+}
+
+
+
 module.exports = {
 	emailOtp,
 	verifyOtp,
+	resendOtp,
 };
