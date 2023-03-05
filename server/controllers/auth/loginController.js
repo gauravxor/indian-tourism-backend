@@ -19,74 +19,75 @@
  * It then sends a 200 response with the access token and the refresh token.
  */
 
-const Auth = require('../../helper/authHelper');
-const Tokenizer = require('../../helper/jwtHelper');
+const AUTH		= require('../../helper/authHelper');
+const TOKENIZER = require('../../helper/jwtHelper');
+
 
 const loginController = async (req, res, next) => {
-	const email = req.body.email;
-	const password = req.body.password;
 
-	const userSearchResult = await Auth.searchUser(email);
-	if(userSearchResult == null)
+	const requestEmail = req.body.email;
+	const requestPassword = req.body.password;
+
+	const searchUserResult = await AUTH.searchUser(requestEmail);
+	if(searchUserResult == null)
 		res.status(404).send({msg: "User not found"});
 	else
 	{
 		// storing the current user's id and email. These will be used to create the access token and refresh token.
-		const userId = userSearchResult._id;
-		const email = userSearchResult.contact.email;
+		const userId = searchUserResult._id;
 
-		const credentialsSearchResult = await Auth.searchCredentials(userId);
-		if(credentialsSearchResult == null)
+		const searchCredentialsResult = await AUTH.searchCredentials(userId);
+		if(searchCredentialsResult == null)
 			res.status(404).send({
 				msg: "Credentials not found, invalid user"});
 		else
 		{
-			if(credentialsSearchResult.isLoggedIn == true)
-				res.status(404).send({
-					msg: "User already logged in. Please logout to continue"
-				});
-			else
+			const userPasswordHash = searchCredentialsResult.password;
+			const validatePassResult = await AUTH.validatePass(requestPassword, userPasswordHash);
+
+			/** If password hash matches */
+			if(validatePassResult)
 			{
-				const passwordHash = credentialsSearchResult.password;
-				const validateResult = await Auth.validatePass(password, passwordHash);
-				if(validateResult)
+				const accessToken = await TOKENIZER.generateAccessToken(userId, requestEmail);
+				var refreshToken = searchCredentialsResult.refreshToken;
+
+				/** For an existing login session, update the accessToken and ask to logout */
+				if(refreshToken !== "")
 				{
-					const accessToken = await Tokenizer.generateAccessToken(userId, email);
-					const refreshToken = await Tokenizer.generateRefreshToken(userId, email);
+					res
+					.cookie('accessToken', 	accessToken,	{ httpOnly: true })
+					.cookie('refreshToken', refreshToken,	{ httpOnly: true })
+					.status(200)
+					.send({
+						msg: "Existing session found. Please Logout to continue.",
+					});
+				}
+				else
+				{
+					/** For a fresh login, generate a new refresh token. */
+					console.log("Clean login".yellow);
+					refreshToken = await TOKENIZER.generateRefreshToken(userId, requestEmail);
+					await AUTH.updateLoginStatus(searchCredentialsResult._id, refreshToken);
+					res
+					.cookie('accessToken',	accessToken,	{ httpOnly: true })
+					.cookie('refreshToken',	refreshToken,	{ httpOnly: true })
+					.status(200)
 
-					// updating the login status in credentials collection.
-					await Auth.updateLoginStatus(credentialsSearchResult._id, true);
-
-					// sending the access token and refresh token to the client.
-					res.cookie('accessToken', accessToken,{httpOnly: true})
-					.cookie('refreshToken', refreshToken, {httpOnly: true})
-					.status(200);
-
-					// checking if the email is verified or not.
-					// if not verified, then ask the user to verify the email.
-					if(userSearchResult.isEmailVerified == false){
+					/** If email is verified continue or else move to verification */
+					if(searchUserResult.isEmailVerified === false){
 						return res.send({
 							msg: "Email not verified, please verify your email to processed further",
-							userId: userSearchResult._id,
-							email: userSearchResult.contact.email,
-							accessToken: accessToken,
-							refreshToken: refreshToken
 						});
 					}
 					else{
-						// if email is verified, then allow the user to proceed further.
 						res.send({
 							msg: "Logged in successfully",
-							userId: userSearchResult._id,
-							email: userSearchResult.contact.email,
-							accessToken: accessToken,
-							refreshToken: refreshToken
 						});
 					}
 				}
-				else
-					res.status(404).send({msg: "Password not matched"});
 			}
+			else /** If password has does not match */
+				res.status(200).send({msg: "Incorrect Password"});
 		}
 	}
 }

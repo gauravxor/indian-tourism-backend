@@ -1,36 +1,50 @@
 const bcrypt = require("bcrypt");
-const User = require("../models/userModel");
-const Credentials = require("../models/credentialModel");
+
+const CredentialModel	= require("../models/credentialModel");
+const UserModel 		= require("../models/userModel");
 
 
-// helper function to search User using email in USER collection
+/** Function to search User using email in USER collection */
 async function searchUser(email){
-	const searchResult = await User.findOne({ "contact.email": email })
+	const searchResult = await UserModel.findOne({
+		"contact.email": email
+	});
 	return searchResult;
 }
 
-// helper function to search User using userId in CREDENTIALS collection
+/** Function to search Credentials for a user using User's Document Id */
 async function searchCredentials(userId){
-	const searchResult = await Credentials.findOne({ "userId": userId });
+	const searchResult = await CredentialModel.findOne({
+		"userId": userId
+	});
 	return searchResult;
 }
 
-// helper function to validate user password while login
-async function validatePass(plaintextPassword, hash){
-	const result = await bcrypt.compare(plaintextPassword, hash);
-	console.log("hash check result = " + result);
-	return result;
-}
 
-// helpper function to update login status in CREDENTIALS collection
-async function updateLoginStatus(documentId, value)
+/** Function to update User's refresh Token in CREDENTIALS collection using it's Document Id*/
+async function updateLoginStatus(documentId, refreshToken)
 {
-	console.log("The dcoument is = " + documentId);
-	const queryResult = await Credentials.findByIdAndUpdate(documentId, {isLoggedIn: value});
-	return queryResult;
+	const updateResult = await CredentialModel.findByIdAndUpdate(documentId,{
+		refreshToken: refreshToken
+	});
+	return updateResult;
 }
 
 
+/** Function to validate user password */
+async function validatePass(plaintextPassword, hash){
+	const hashCheckResult = await bcrypt.compare(plaintextPassword, hash);
+	return hashCheckResult;
+}
+
+/** Function to update password in CREDENTIALS collection */
+async function updatePassword(documentId, hash)
+{
+	const updateResult = await CredentialModel.findByIdAndUpdate(documentId,{
+		password: hash
+	});
+	return updateResult;
+}
 
 
 module.exports = {
@@ -38,4 +52,5 @@ module.exports = {
 	searchUser,
 	validatePass,
 	updateLoginStatus,
+	updatePassword,
 };

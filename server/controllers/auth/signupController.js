@@ -1,21 +1,25 @@
-const bcrypt = require('bcrypt');
-const color = require('colors');
-const Tokeniser = require('../../helper/jwtHelper');
-const User = require('../../models/userModel');
-const Credentials = require('../../models/credentialModel');
-const Auth = require('../../helper/authHelper');
-const Otp  = require('../../helper/otpHelper');
+const bcrypt	= require('bcrypt');
+const color 	= require('colors');
+
+const AUTH 		= require('../../helper/authHelper');
+const OTP  		= require('../../helper/otpHelper');
+const TOKENIZER = require('../../helper/jwtHelper');
+
+const UserModel 		= require('../../models/userModel');
+const CredentialModel	= require('../../models/credentialModel');
+
 
 const signUpController = async (req, res) => {
-	const email = req.body.contact.email;
+	const requestEmail = req.body.contact.email;
 
-
-	const emailSearchResult = await Auth.searchUser(email);
-	if(emailSearchResult != null)
-		res.status(200).send({msg: "User already exists"});
-	else
-	{
-		const user = new User({
+	const searchUserResult = await AUTH.searchUser(requestEmail);
+	if(searchUserResult != null){
+		res.status(200).send({
+			msg: "User already exists"
+		});
+	}
+	else{
+		const User = new UserModel({
 			userName: req.body.userName,
 			name: {
 				firstName: req.body.name.firstName,
@@ -43,44 +47,40 @@ const signUpController = async (req, res) => {
 				adults: req.body.bookings.adults,
 			}
 		});
+		const saveUserResult = await User.save();
 
-		console.log("saving the user".green);
-		const saveUserResult = await user.save();
-		console.log("saved the user".green);
-
-		// generating the password hash
+		/** Generating the password hash */
 		const userPassword = req.body.password;
-		const hash = await bcrypt.hash(userPassword, 10);
+		const userPasswordHash = await bcrypt.hash(userPassword, 10);
+		console.log("generated the password".green);
 
-		// creating the new credentials document
-		const credentials = new Credentials({
-			userId: user._id,
-			password: hash,
-			isLoggedIn: false,
-		});
-
-
-		await credentials.save();
-
-		await Otp.emailOtp(user.contact.email, user._id);
-
-		const userDocId = saveUserResult._id;
+		const userDocumentId = saveUserResult._id;
 		const userEmail = saveUserResult.contact.email;
-		const accessToken = await Tokeniser.generateAccessToken(userDocId, userEmail);
-		const refreshToken = await Tokeniser.generateRefreshToken(userDocId, userEmail);
 
+		/** Generating Tokens */
+		const accessToken = await TOKENIZER.generateAccessToken(userDocumentId, userEmail);
+		const refreshToken = await TOKENIZER.generateRefreshToken(userDocumentId, userEmail);
 		console.log("generated the token".green);
-		res.cookie('accessToken', accessToken,{httpOnly: true})
+
+		/** Creating the Credentials Document for the new user */
+		const Credentials = new CredentialModel({
+			userId: User._id,
+			password: userPasswordHash,
+			refreshToken: refreshToken,
+		});
+		await Credentials.save();
+
+		// sending the OTP via email
+		await OTP.emailOtp(User.contact.email, User._id);
+
+		res
+		.cookie('accessToken', accessToken,{httpOnly: true})
 		.cookie('refreshToken', refreshToken, {httpOnly: true})
 		.status(200)
 		.send({
 			msg: "User created successfully",
-			accessToken: accessToken,
-			refreshToken: refreshToken
 		});
 	}
 };
-
-
 
 module.exports = signUpController;

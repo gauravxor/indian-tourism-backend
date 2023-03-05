@@ -17,6 +17,14 @@ const otpSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	otpType: { // if it is for email verification or password reset
+		type: String,   // type = (emailVerification, passwordReset)
+		required: true,
+	},
+	isResetOtpValidated: {  // if the otp for password reset is validated or not
+		type: Boolean,
+		default: false,
+	},
 	createdAt: {
 		type: Date,
 		default: Date.now,

@@ -11,9 +11,9 @@ const credentialsSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	isLoggedIn: {
-		type: Boolean,
-		default: false,
+	refreshToken : {
+		type: String,
+		default: null,
 	}
 });
 

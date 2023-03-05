@@ -1,16 +1,19 @@
-const Auth = require('../../helper/authHelper');
+const AUTH = require('../../helper/authHelper');
 
-const  logoutController = async (req, res) => {
-	const userId = req.userId;
-	console.log("User Id = " + userId);
-	const credentialsSearchResult = await Auth.searchCredentials(userId);
-	if(credentialsSearchResult == null)
+
+const logoutController = async (req, res) => {
+
+	const requestUserId = req.userId;
+
+	const searchCredentialsResult = await AUTH.searchCredentials(requestUserId);
+	if(searchCredentialsResult == null)
 		res.status(404).send({msg: "Credentials not found"});
 	else
 	{
-		const updateQueryResult = await Auth.updateLoginStatus(credentialsSearchResult._id, false);
-		console.log("Update query result = " + updateQueryResult);
-		if(updateQueryResult != null)
+		const credentialsDocumentId = searchCredentialsResult._id;
+		const updateLoginStatusResult = await AUTH.updateLoginStatus(credentialsDocumentId, "");
+		console.log("Update query result = " + updateLoginStatusResult);
+		if(updateLoginStatusResult !== null)
 		{
 			res
 			.clearCookie('accessToken')
@@ -23,6 +26,5 @@ const  logoutController = async (req, res) => {
 			res.status(404).send({msg: "Error in updating login/logout status"});
 	}
 };
-
 
 module.exports = logoutController;
