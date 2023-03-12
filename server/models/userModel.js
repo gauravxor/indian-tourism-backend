@@ -8,6 +8,12 @@ const userSchema = new mongoose.Schema({
 		required: true,
 	},
 
+	userImageURL: {
+		type: String,
+		required: true,
+		default: '/public/images/user/default.png',
+	},
+
 	name:{
 		firstName: {
 			type: String,

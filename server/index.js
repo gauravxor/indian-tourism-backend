@@ -25,13 +25,14 @@ mongoose.connect(process.env.DATABASE_URL, {
 );
 
 const app = express();
-
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(cookieParser());
+
 
 app.use('/', homeRoute);
+app.use('/public', express.static('public'));
 app.use('/api/auth/', authRoutes);
 app.use('/api/update/', updateRoutes);
 

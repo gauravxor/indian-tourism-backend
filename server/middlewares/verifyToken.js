@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const TOKENIZER = require('../helper/jwtHelper')
 const AUTH 		= require('../helper/authHelper');
 
+const { ObjectId } = require('mongodb');
 
 async function verifyToken(req, res, next) {
 	console.log("In token verification middleware".bgYellow);
@@ -33,10 +34,10 @@ async function verifyToken(req, res, next) {
 
 	const credentialsSearchResult = await AUTH.searchCredentials(accessTokenPayloadUserId);
 
-	/** Checking if the a man in the middle is trying to modify the credentials */
+	/** Checking if  a MITM is trying to modify the credentials */
 	if(credentialsSearchResult === null){
 		return res.status(404).send({
-			msg: "Malicious request. Credentials were tried to modify"
+			msg: "Malicious request. Received a modified payload"
 		});
 	}
 	else
@@ -58,8 +59,17 @@ async function verifyToken(req, res, next) {
 		{
 			const accessTokenPayloadEmail = accessTokenPayload.userEmail;
 			const refreshTokenPayloadEmail = refreshTokenPayload.userEmail;
+			var requestEmail = req.body.email;
 
-			const requestEmail = req.body.email;
+
+
+			/** Temporary fix for multer (how to use multer here for request processing) */
+			if(requestEmail === undefined){
+				const _id = new ObjectId(credentialsSearchResult.userId);
+				const userSearchResult = await AUTH.searchUserById(_id);
+				requestEmail = userSearchResult.contact.email;
+			}
+
 
 			/** If email in request body does not matches the email in payload of Tokens */
 			if(accessTokenPayloadEmail !== requestEmail || refreshTokenPayloadEmail !== requestEmail){
@@ -114,6 +124,9 @@ async function verifyToken(req, res, next) {
 								/** Sending the user to the next middleware */
 								if(next === undefined)
 									return true;
+
+								/** Sending userId to next middleware */
+								req.userId = credentialsSearchResult.userId;
 								next();
 							}
 						});
@@ -121,7 +134,11 @@ async function verifyToken(req, res, next) {
 					else /** If Access Token is not expired */
 					{
 						console.log("Access token not expired".bgYellow);
-						req.userId = user.userId;  // ????
+
+						/** Sending userId to next middleware */
+						req.userId = credentialsSearchResult.userId;
+
+
 						if(next === undefined)
 							return true;
 						next();

@@ -21,6 +21,7 @@ const signUpController = async (req, res) => {
 	else{
 		const User = new UserModel({
 			userName: req.body.userName,
+			userImageURL: "/public/images/user/default.png",
 			name: {
 				firstName: req.body.name.firstName,
 				middleName: req.body.name.middleName,

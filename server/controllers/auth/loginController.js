@@ -24,20 +24,22 @@ const TOKENIZER = require('../../helper/jwtHelper');
 
 
 const loginController = async (req, res, next) => {
-
+	console.log("here");
 	const requestEmail = req.body.email;
 	const requestPassword = req.body.password;
 
 	const searchUserResult = await AUTH.searchUser(requestEmail);
-	if(searchUserResult == null)
+	if(searchUserResult === null)
 		res.status(404).send({msg: "User not found"});
 	else
 	{
-		// storing the current user's id and email. These will be used to create the access token and refresh token.
+		/** Storing  userid and email to use in the token generation. Data from request is not used for security reasons */
 		const userId = searchUserResult._id;
+		const userEmail = searchUserResult.contact.email;
 
-		const searchCredentialsResult = await AUTH.searchCredentials(userId);
-		if(searchCredentialsResult == null)
+		searchCredentialsResult = await AUTH.searchCredentials(userId);
+
+		if(searchCredentialsResult === null)
 			res.status(404).send({
 				msg: "Credentials not found, invalid user"});
 		else
@@ -48,7 +50,7 @@ const loginController = async (req, res, next) => {
 			/** If password hash matches */
 			if(validatePassResult)
 			{
-				const accessToken = await TOKENIZER.generateAccessToken(userId, requestEmail);
+				const accessToken = await TOKENIZER.generateAccessToken(userId, userEmail);
 				var refreshToken = searchCredentialsResult.refreshToken;
 
 				/** For an existing login session, update the accessToken and ask to logout */
@@ -66,7 +68,7 @@ const loginController = async (req, res, next) => {
 				{
 					/** For a fresh login, generate a new refresh token. */
 					console.log("Clean login".yellow);
-					refreshToken = await TOKENIZER.generateRefreshToken(userId, requestEmail);
+					refreshToken = await TOKENIZER.generateRefreshToken(userId, userEmail);
 					await AUTH.updateLoginStatus(searchCredentialsResult._id, refreshToken);
 					res
 					.cookie('accessToken',	accessToken,	{ httpOnly: true })
