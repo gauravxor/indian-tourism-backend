@@ -2,8 +2,9 @@ TODO
 ------
 1) Remove the assigning of username to a user. This feature is optional.
 2) Implement user data update with feature of image upload.
-
-
+3) Implement cacheable/non cacheable contents in response headers.
+4) Implement user type in token payloads and in user model, to determing the type of user while performing any
+operation.
 
 
 

@@ -4,9 +4,10 @@ const cookieParser 	= require('cookie-parser');
 const mongoose 		= require('mongoose');
 const dotenv 		= require('dotenv');
 
-const homeRoute		= require('./routes/home');
-const authRoutes	= require('./routes/authRoutes');
-const updateRoutes	= require('./routes/updateRoutes');
+const homeRoute		 = require('./routes/home');
+const authRoutes	 = require('./routes/authRoutes');
+const updateRoutes	 = require('./routes/updateRoutes');
+const locationRoutes = require('./routes/locationRoutes');
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use('/', homeRoute);
 app.use('/public', express.static('public'));
 app.use('/api/auth/', authRoutes);
 app.use('/api/update/', updateRoutes);
+app.use('/api/location/', locationRoutes);
 
 app.listen(process.env.PORT, () => {
 	console.log("Server started on port " + process.env.PORT + ".");
