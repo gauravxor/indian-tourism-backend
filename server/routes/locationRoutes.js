@@ -20,16 +20,16 @@ const getAvailabilityController = require('../controllers/location/getAvailabili
 
 
 /** Route to get random locations */
-locationRoutes.get('', /*verifyToken,*/ getRandomLocationsController);
+locationRoutes.get('', verifyToken, getRandomLocationsController);
 
 /** Route to get location by ID */
-locationRoutes.get(':locationId', /*verifyToken,*/ getLocationController);
+locationRoutes.get(':locationId', verifyToken, getLocationController);
 
 /** Route to get locations by state */
-locationRoutes.get('/state/:state', /*verifyToken,*/ getLocationByStateController);
+locationRoutes.get('/state/:state', verifyToken, getLocationByStateController);
 
 /** Route to get locations by state */
-locationRoutes.get('/city/:city', /*verifyToken,*/ getLocationByCityController);
+locationRoutes.get('/city/:city', verifyToken, getLocationByCityController);
 
 
 const multerConfig = {
@@ -40,13 +40,13 @@ const multerConfig = {
 	}
 };
 const upload = multer(multerConfig);
-locationRoutes.post('/add-location', upload.any(), /*verifyToken,*/ addLocationController);
+locationRoutes.post('/add-location', upload.any(), verifyToken, addLocationController);
 
 /** Route to update location data */
-locationRoutes.post('/update-location/:locationId', upload.any(), /*verifyToken,*/ updateLocationController);
+locationRoutes.post('/update-location/:locationId', upload.any(), verifyToken, updateLocationController);
 
 
 /** Route to get availability data of a location */
-locationRoutes.get('/get-availability/:locationId', /*verifyToken,*/ getAvailabilityController);
+locationRoutes.get('/get-availability/:locationId', verifyToken, getAvailabilityController);
 
 module.exports = locationRoutes;

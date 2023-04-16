@@ -3,11 +3,15 @@ const bodyParser	= require('body-parser');
 const cookieParser 	= require('cookie-parser');
 const mongoose 		= require('mongoose');
 const dotenv 		= require('dotenv');
+const cors 			= require('cors');
 
 const homeRoute		 = require('./routes/home');
 const authRoutes	 = require('./routes/authRoutes');
 const updateRoutes	 = require('./routes/updateRoutes');
 const locationRoutes = require('./routes/locationRoutes');
+const bookingRoutes  =  require('./routes/bookingRoutes');
+
+const lockCleaner = require('./services/bookingLockCleaner');
 
 dotenv.config();
 
@@ -29,7 +33,7 @@ const app = express();
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.use(cors());
 
 
 app.use('/', homeRoute);
@@ -37,7 +41,11 @@ app.use('/public', express.static('public'));
 app.use('/api/auth/', authRoutes);
 app.use('/api/update/', updateRoutes);
 app.use('/api/location/', locationRoutes);
+app.use('/api/book/', bookingRoutes);
 
 app.listen(process.env.PORT, () => {
 	console.log("Server started on port " + process.env.PORT + ".");
 });
+
+
+// setInterval(lockCleaner, 5 * 1000);

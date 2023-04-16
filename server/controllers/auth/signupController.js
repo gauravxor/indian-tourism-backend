@@ -20,7 +20,6 @@ const signUpController = async (req, res) => {
 	}
 	else{
 		const User = new UserModel({
-			userName: req.body.userName,
 			userImageURL: "/public/images/user/default.png",
 			name: {
 				firstName: req.body.name.firstName,
@@ -40,13 +39,7 @@ const signUpController = async (req, res) => {
 			},
 			dob: req.body.dob,
 			createdAt: req.body.createdAt,
-			updatedAt: req.body.updatedAt,
-			bookings: {
-				bookingDate: req.body.bookings.bookingDate,
-				dateOfVisit: req.body.bookings.dateOfVisit,
-				children: req.body.bookings.children,
-				adults: req.body.bookings.adults,
-			}
+			updatedAt: req.body.updatedAt
 		});
 		const saveUserResult = await User.save();
 

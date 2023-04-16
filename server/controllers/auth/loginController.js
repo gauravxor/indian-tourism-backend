@@ -22,13 +22,25 @@
 const AUTH		= require('../../helper/authHelper');
 const TOKENIZER = require('../../helper/jwtHelper');
 
-
 const loginController = async (req, res, next) => {
 	console.log("here");
 	const requestEmail = req.body.email;
 	const requestPassword = req.body.password;
+	let isUserAdmin = req.body.isAdmin;
 
-	const searchUserResult = await AUTH.searchUser(requestEmail);
+	if(requestEmail === "" || requestPassword === "" || isUserAdmin !== "true" && isUserAdmin !== "false"){
+	 	return res.status(400).send({
+			msg: "Bad Request"
+		});
+	}
+	isUserAdmin = (isUserAdmin === "true")? true : false;
+
+	let searchUserResult;
+	if(isUserAdmin === true)
+		searchUserResult = await AUTH.searchAdmin(requestEmail);
+	else
+		searchUserResult = await AUTH.searchUser(requestEmail);
+
 	if(searchUserResult === null)
 		res.status(404).send({msg: "User not found"});
 	else
@@ -37,6 +49,7 @@ const loginController = async (req, res, next) => {
 		const userId = searchUserResult._id;
 		const userEmail = searchUserResult.contact.email;
 
+		// local and admin user credentials are saved in the same collection
 		searchCredentialsResult = await AUTH.searchCredentials(userId);
 
 		if(searchCredentialsResult === null)
@@ -46,11 +59,11 @@ const loginController = async (req, res, next) => {
 		{
 			const userPasswordHash = searchCredentialsResult.password;
 			const validatePassResult = await AUTH.validatePass(requestPassword, userPasswordHash);
-
+			const userType = (isUserAdmin === true) ? "admin" : "local";
 			/** If password hash matches */
 			if(validatePassResult)
 			{
-				const accessToken = await TOKENIZER.generateAccessToken(userId, userEmail);
+				const accessToken = await TOKENIZER.generateAccessToken(userId, userEmail, userType);
 				var refreshToken = searchCredentialsResult.refreshToken;
 
 				/** For an existing login session, update the accessToken and ask to logout */
@@ -68,7 +81,7 @@ const loginController = async (req, res, next) => {
 				{
 					/** For a fresh login, generate a new refresh token. */
 					console.log("Clean login".yellow);
-					refreshToken = await TOKENIZER.generateRefreshToken(userId, userEmail);
+					refreshToken = await TOKENIZER.generateRefreshToken(userId, userEmail, userType);
 					await AUTH.updateLoginStatus(searchCredentialsResult._id, refreshToken);
 					res
 					.cookie('accessToken',	accessToken,	{ httpOnly: true })

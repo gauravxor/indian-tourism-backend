@@ -1,12 +1,8 @@
 TODO
 ------
-1) Remove the assigning of username to a user. This feature is optional.
-2) Implement user data update with feature of image upload.
-3) Implement cacheable/non cacheable contents in response headers.
-4) Implement user type in token payloads and in user model, to determing the type of user while performing any
-operation.
-
-
+1) When updating the capacity of the location, it should update the location availability model.
+2) Implement ticket cancellation feature.
+3) Refactor email's HTML code.
 
 DONE
 -----
@@ -19,6 +15,12 @@ the user should be logged out from the first device. Mechanism to be used is -> 
 in the database, and checking if the refresh token is present in the database, if not, then the user is logged out.
 5) Implement password reset functionality.
 6) Create a helper function to consolidate all JWT tasks in one place.
+7) Implement ticket price feature (include in locationModel, bookingModel, and bookingController)
+8) Remove the assigning of username to a user. This feature is optional.
+9) Implement user data update with feature of image upload.
+10) Implement user type in token payloads and in user model, to determing the type of user while performing any
+operation.
+11) Update the bookings array in user model when a booking succeeds.
 
 
 
@@ -30,3 +32,4 @@ Later
 1) Check if phone numbers are duplicate.
 2) If email is not verified, delete the user from the database after a certain period of time.
 3) Implement user input validator helper function.
+4) Implement cacheable/non cacheable contents in response headers.

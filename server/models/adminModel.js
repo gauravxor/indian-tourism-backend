@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 
-const userSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
 
 	userImageURL: {
 		type: String,
@@ -33,16 +33,6 @@ const userSchema = new mongoose.Schema({
 			type: String,
 			required: true,
 		},
-	},
-
-	isEmailVerified : {
-		type: Boolean,
-		default: false,
-	},
-
-	walletBalance : {
-		type: Number,
-		default: 0,
 	},
 
 	address: {
@@ -84,25 +74,26 @@ const userSchema = new mongoose.Schema({
 		default: Date.now,
 	},
 
-	bookingCount : {
+	locationCount : {
 		type: Number,
 		default: 0,
 	},
-	bookings: [
+
+	locations: [
 		{
-			_id : false,
-			bookingId: {
+			_id: false,
+			locationId: {
 				_id: false,
 				type: String,
 				required: true,
-				ref: 'bookings',
-			},
+				ref: 'locations',
+			}
 		}
 	]
 });
 
 
 
-const userModel = mongoose.model('users', userSchema);
+const adminModel = mongoose.model('admins', adminSchema);
 
-module.exports = userModel;
+module.exports = adminModel;

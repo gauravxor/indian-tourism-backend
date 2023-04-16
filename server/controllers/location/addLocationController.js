@@ -9,7 +9,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const LocationModel = require('../../models/locationModel');
 const AvailabilityModel = require('../../models/availabilityModel');
-
+const AdminModel = require('../../models/adminModel');
 
 const generateDaysArray = (year, month, capacity) => {
 	const numDays = new Date(year, month, 0).getDate();
@@ -27,7 +27,15 @@ const generateDaysArray = (year, month, capacity) => {
 
 
 const addLocationController = async (req, res, next) => {
-	const { name, description, address, city, state, country, pincode, capacity } = req.body;
+
+	console.log(req.userType);
+	if(req.userType !== 'admin'){
+		return res.status(401).json({
+			msg: "You are not authorized to perform this action"
+		});
+	}
+
+	const { name, description, address, city, state, country, pincode, capacity, ticketPrice } = req.body;
 	const newLocation = await LocationModel.create({
 		name,
 		description,
@@ -37,6 +45,7 @@ const addLocationController = async (req, res, next) => {
 		country,
 		pincode,
 		capacity,
+		ticketPrice
 	});
 
 	const locationId = newLocation._id.toString();
@@ -87,10 +96,22 @@ const addLocationController = async (req, res, next) => {
 		});
 		// console.log(imageAddResult);
 		if(imageAddResult !== null){
-			res.status(200).json({
-				message: 'Location added successfully',
-				locationId: locationId
+
+			// if images are added successfully, then add location to admin locations array
+			const adminAddResult = await AdminModel.findByIdAndUpdate(req.userId, {
+				$push: { locations: { locationId: locationId } },
+				$inc: { locationCount: 1 }
 			});
+			if(adminAddResult === null){
+				return res.status(500).json({
+					message: 'Error saving location in admin location model'
+				});
+			}else{
+				return res.status(200).json({
+					message: 'Location added successfully',
+					locationId: locationId
+				});
+			}
 		}
 		else{
 			res.status(500).json({

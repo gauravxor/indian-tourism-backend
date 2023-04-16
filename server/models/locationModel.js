@@ -61,6 +61,11 @@ const locationSchema = new mongoose.Schema({
 		},
 	},
 
+	ticketPrice: {
+		type: Number,
+		required: true,
+	},
+
 	images: {
 		type: [locationImageSchema],
 		required: false,

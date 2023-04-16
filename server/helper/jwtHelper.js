@@ -8,11 +8,12 @@ const jwt = require("jsonwebtoken");
  */
 
 /* Function to generate User Access Token */
-function generateAccessToken(userDocumentId, userEmail){
+function generateAccessToken(userDocumentId, userEmail, userType){
 
 	const accessPayload = {
 		userId: userDocumentId,
-		userEmail
+		userEmail : userEmail,
+		userType: userType
 	};
 
 	const accessToken = jwt.sign(
@@ -24,11 +25,12 @@ function generateAccessToken(userDocumentId, userEmail){
 	return accessToken;
 }
 
-function generateRefreshToken(userDocumentId, userEmail){
+function generateRefreshToken(userDocumentId, userEmail, userType){
 
 	const refreshPayload = {
 		userId: userDocumentId,
-		userEmail: userEmail
+		userEmail: userEmail,
+		userType: userType
 	};
 
 	const refreshToken = jwt.sign(

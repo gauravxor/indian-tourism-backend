@@ -25,12 +25,16 @@ async function verifyToken(req, res, next) {
 		});
 	}
 
-	/** Getting Token's Payload Data */
+	/** Decoding Token's Payload Data */
 	accessTokenPayload = jwt.decode(requestAccessToken);
 	refreshTokenPayload = jwt.decode(requestRefreshToken);
 
-	/** Geting userId from access token payload */
+	/** Getting userId from access token payload */
 	const accessTokenPayloadUserId = accessTokenPayload.userId;
+
+	/** Getting userType from access token payload */
+	const userType = accessTokenPayload.userType;
+	console.log("VT -> " + userType);
 
 	const credentialsSearchResult = await AUTH.searchCredentials(accessTokenPayloadUserId);
 
@@ -66,7 +70,9 @@ async function verifyToken(req, res, next) {
 			/** Temporary fix for multer (how to use multer here for request processing) */
 			if(requestEmail === undefined){
 				const _id = new ObjectId(credentialsSearchResult.userId);
-				const userSearchResult = await AUTH.searchUserById(_id);
+				let userSearchResult = await AUTH.searchUserById(_id);
+				if(userSearchResult === null)
+					userSearchResult = await AUTH.searchAdminUserById(_id);
 				requestEmail = userSearchResult.contact.email;
 			}
 
@@ -116,7 +122,7 @@ async function verifyToken(req, res, next) {
 								const userEmail = refreshTokenPayload.userEmail;
 
 								/** Generating new Access Token */
-								const newAccessToken = TOKENIZER.generateAccessToken(refreshTokenPayloadUserId, userEmail);
+								const newAccessToken = TOKENIZER.generateAccessToken(refreshTokenPayloadUserId, userEmail, userType);
 
 								/** Sending out a new Access Token to the user */
 								res.cookie('accessToken', newAccessToken, {httpOnly: true});
@@ -127,6 +133,10 @@ async function verifyToken(req, res, next) {
 
 								/** Sending userId to next middleware */
 								req.userId = credentialsSearchResult.userId;
+								req.userEmail = credentialsSearchResult.userEmail;
+
+								req.userType = userType;
+
 								next();
 							}
 						});
@@ -137,7 +147,8 @@ async function verifyToken(req, res, next) {
 
 						/** Sending userId to next middleware */
 						req.userId = credentialsSearchResult.userId;
-
+						req.userEmail = accessTokenPayloadEmail;
+						req.userType = userType;
 
 						if(next === undefined)
 							return true;
