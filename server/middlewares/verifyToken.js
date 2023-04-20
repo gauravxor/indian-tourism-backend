@@ -125,7 +125,7 @@ async function verifyToken(req, res, next) {
 								const newAccessToken = TOKENIZER.generateAccessToken(refreshTokenPayloadUserId, userEmail, userType);
 
 								/** Sending out a new Access Token to the user */
-								res.cookie('accessToken', newAccessToken, {httpOnly: true});
+								res.cookie('accessToken', newAccessToken, { httpOnly: true, SameSite: true, secure: true});
 
 								/** Sending the user to the next middleware */
 								if(next === undefined)

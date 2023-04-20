@@ -20,16 +20,16 @@ const getAvailabilityController = require('../controllers/location/getAvailabili
 
 
 /** Route to get random locations */
-locationRoutes.get('', verifyToken, getRandomLocationsController);
+locationRoutes.get('', getRandomLocationsController);
 
 /** Route to get location by ID */
-locationRoutes.get(':locationId', verifyToken, getLocationController);
+locationRoutes.get('/:locationId', getLocationController);
 
 /** Route to get locations by state */
-locationRoutes.get('/state/:state', verifyToken, getLocationByStateController);
+locationRoutes.get('/state/:state', getLocationByStateController);
 
-/** Route to get locations by state */
-locationRoutes.get('/city/:city', verifyToken, getLocationByCityController);
+/** Route to get locations by city */
+locationRoutes.get('/city/:city', getLocationByCityController);
 
 
 const multerConfig = {

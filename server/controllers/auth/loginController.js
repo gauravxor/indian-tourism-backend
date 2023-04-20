@@ -34,15 +34,15 @@ const loginController = async (req, res, next) => {
 		});
 	}
 	isUserAdmin = (isUserAdmin === "true")? true : false;
-
+	console.log("isUserAdmin: ", isUserAdmin);
 	let searchUserResult;
 	if(isUserAdmin === true)
 		searchUserResult = await AUTH.searchAdmin(requestEmail);
 	else
 		searchUserResult = await AUTH.searchUser(requestEmail);
-
+	console.log(searchUserResult);
 	if(searchUserResult === null)
-		res.status(404).send({msg: "User not found"});
+		res.status(401).send({msg: "User not found"});
 	else
 	{
 		/** Storing  userid and email to use in the token generation. Data from request is not used for security reasons */
@@ -53,7 +53,7 @@ const loginController = async (req, res, next) => {
 		searchCredentialsResult = await AUTH.searchCredentials(userId);
 
 		if(searchCredentialsResult === null)
-			res.status(404).send({
+			res.status(401).send({
 				msg: "Credentials not found, invalid user"});
 		else
 		{
@@ -70,9 +70,9 @@ const loginController = async (req, res, next) => {
 				if(refreshToken !== "")
 				{
 					res
-					.cookie('accessToken', 	accessToken,	{ httpOnly: true })
-					.cookie('refreshToken', refreshToken,	{ httpOnly: true })
 					.status(200)
+					.cookie('accessToken', 	accessToken,	{ httpOnly: true, SameSite: true, secure: true})
+					.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: true, secure: true})
 					.send({
 						msg: "Existing session found. Please Logout to continue.",
 					});
@@ -84,8 +84,8 @@ const loginController = async (req, res, next) => {
 					refreshToken = await TOKENIZER.generateRefreshToken(userId, userEmail, userType);
 					await AUTH.updateLoginStatus(searchCredentialsResult._id, refreshToken);
 					res
-					.cookie('accessToken',	accessToken,	{ httpOnly: true })
-					.cookie('refreshToken',	refreshToken,	{ httpOnly: true })
+					.cookie('accessToken', 	accessToken,	{ httpOnly: true, SameSite: true, secure: true})
+					.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: true, secure: true})
 					.status(200)
 
 					/** If email is verified continue or else move to verification */
@@ -102,7 +102,7 @@ const loginController = async (req, res, next) => {
 				}
 			}
 			else /** If password has does not match */
-				res.status(200).send({msg: "Incorrect Password"});
+				res.status(401).send({msg: "Incorrect Password"});
 		}
 	}
 }

@@ -68,8 +68,8 @@ const signUpController = async (req, res) => {
 		await OTP.emailOtp(User.contact.email, User._id);
 
 		res
-		.cookie('accessToken', accessToken,{httpOnly: true})
-		.cookie('refreshToken', refreshToken, {httpOnly: true})
+		.cookie('accessToken', 	accessToken,	{ httpOnly: true, SameSite: true, secure: true})
+		.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: true, secure: true})
 		.status(200)
 		.send({
 			msg: "User created successfully",

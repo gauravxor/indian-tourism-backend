@@ -172,8 +172,8 @@ const forgotPassword = async (req, res, next) => {
 			if(updateLoginStatusResult){
 				console.log("Refresh token saved in the database".green);
 				res
-				.cookie('accessToken', authToken, { httpOnly: true })
-				.cookie('refreshToken', refreshToken, { httpOnly: true })
+				.cookie('accessToken', authToken, { httpOnly: true, SameSite: true, secure: true})
+				.cookie('refreshToken', refreshToken, { httpOnly: true, SameSite: true, secure: true})
 				.status(200)
 				.send({
 					msg: "Password reset email sent",

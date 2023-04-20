@@ -33,7 +33,13 @@ const app = express();
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    allowedHeaders: ['content-type', 'Authorization', 'Content-Type'],
+    origin: ['http://localhost:3000', 'http://localhost:4000']
+	// allow all origins
+
+}));
 
 
 app.use('/', homeRoute);
