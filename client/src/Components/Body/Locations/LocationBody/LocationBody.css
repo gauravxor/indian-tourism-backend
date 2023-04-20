@@ -1,0 +1,125 @@
+/* Wrapper for the entire component */
+.location-body {
+	display: flex;
+	flex-wrap: wrap;
+  }
+
+  /* Left side of the component containing location details */
+  .location-details {
+	flex-basis: 60%;
+	padding: 20px;
+	box-sizing: border-box;
+  }
+
+  /* Title of the location */
+  .location-details h1 {
+	font-size: 36px;
+	font-weight: bold;
+	margin: 0 0 10px 0;
+  }
+
+  /* Description of the location */
+  .location-details p {
+	font-size: 18px;
+	margin: 0 0 20px 0;
+	line-height: 1.5;
+  }
+
+  /* Address of the location */
+  .location-details .address {
+	margin: 0 0 20px 0;
+	font-size: 16px;
+	color: #777;
+  }
+
+  /* Booking form on the right side of the component */
+  .booking-form {
+	flex-basis: 40%;
+	padding: 20px;
+	box-sizing: border-box;
+  }
+
+  /* Booking form label */
+  .booking-form label {
+	font-size: 16px;
+	display: block;
+	margin-bottom: 5px;
+  }
+
+  /* Booking form input */
+  .booking-form input {
+	font-size: 16px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	margin-bottom: 20px;
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+  }
+
+  /* Submit button for the booking form */
+  .booking-form button {
+	font-size: 16px;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+  }
+
+  /* Image slider at the top of the component */
+  .image-slider {
+	position: relative;
+	width: 100%;
+	height: 500px;
+  }
+
+  /* Image slider container */
+  .image-slider .slider-container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+  }
+
+  /* Image slider item */
+  .image-slider .slider-item {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+  }
+
+  /* Image slider active item */
+  .image-slider .slider-item.active {
+	opacity: 1;
+	z-index: 1;
+  }
+
+  /* Image slider control */
+  .image-slider .slider-control {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 2;
+  }
+
+  /* Image slider prev button */
+  .image-slider .slider-control .prev {
+	position: absolute;
+	left: 20px;
+	font-size: 32px;
+	color: #fff;
+	cursor: pointer;
+  }
+
+  /* Image slider next button */
+  .image-slider .slider-control .next {
+	position: absolute;
+	right: 20px;
+	font-size: 32px;
+	color: #fff;
+	cursor: pointer;
+  }

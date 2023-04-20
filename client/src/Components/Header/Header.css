@@ -1,37 +1,36 @@
-
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-  }
+}
 
-  .landing-page {
+.landing-page {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	padding: 20px;
-  }
+}
 
-  .logo img {
-	width: 100px;
-	height: 100px;
-  }
+.site-logo img {
+	width: 50px;
+	height: 50px;
+}
 
-  .search-bar {
+.search-bar {
 	flex: 1;
 	margin: 0 20px;
 	display: flex;
 	align-items: center;
-  }
+}
 
-  .search-bar input[type="text"] {
+.search-bar input[type="text"] {
 	flex: 1;
 	padding: 10px;
 	border-radius: 5px;
 	border: 1px solid #ccc;
-  }
+}
 
-  .search-bar button {
+.search-bar button {
 	padding: 10px;
 	border-radius: 5px;
 	border: none;
@@ -39,59 +38,37 @@
 	color: #fff;
 	cursor: pointer;
 	margin-left: 10px;
-  }
+}
 
-  .filter-button {
-	padding: 10px;
-	border-radius: 5px;
-	border: none;
-	background-color: #ccc;
-	color: #000;
-	cursor: pointer;
-	margin-left: 10px;
-  }
-
-  .filter-dropdown {
-	position: absolute;
-	background-color: #fff;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	padding: 10px;
-	margin-top: 5px;
-	display: none;
-	z-index: 1;
-  }
-
-  .filter-dropdown a {
+.filter-dropdown a {
 	display: block;
 	text-decoration: none;
 	color: #000;
 	padding: 5px 10px;
-  }
+}
 
-  .filter-dropdown a:hover {
+.filter-dropdown a:hover {
 	background-color: #ccc;
-  }
+}
 
-  .filter-dropdown.show {
+.filter-dropdown.show {
 	display: block;
-  }
+}
 
-
-  .user-profile {
+.user-profile {
 	display: flex;
 	align-items: center;
 	cursor: pointer;
-  }
+}
 
-  .user-profile img {
+.user-profile img {
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;
 	margin-right: 10px;
-  }
+}
 
-  .dropdown-menu {
+.dropdown-menu {
 	position: absolute;
 	top: 60px;
 	right: 0;
@@ -99,19 +76,19 @@
 	border: 1px solid gray;
 	border-radius: 5px;
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  }
+}
 
-  .dropdown-menu ul {
+.dropdown-menu ul {
 	list-style: none;
 	padding: 0;
 	margin: 0;
-  }
+}
 
-  .dropdown-menu li {
+.dropdown-menu li {
 	padding: 10px;
 	border-bottom: 1px solid gray;
-  }
+}
 
-  .dropdown-menu li:last-child {
+.dropdown-menu li:last-child {
 	border-bottom: none;
-  }
+}

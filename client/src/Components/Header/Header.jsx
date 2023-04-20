@@ -1,54 +1,115 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import "./Header.css";
-import LoginModal from "../LoginModal/LoginModal";
 
-const Header = () => {
+// eslint-disable-next-line
+import React, { useContext, useState, useEffect } from 'react';
+import LoginModal from "../Modals/LoginModal/LoginModal";
+import SignUpModal from "../Modals/SignUpModal/SignUpModal";
 
-    const [menuVisible, setMenuVisible] = useState(false);
-	const [showModal, setShowModal] 	= useState(false);
+import {AppContext} from '../../AppContext.js';
 
-    const toggleMenu = () => setMenuVisible(!menuVisible);
-	const handleLoginClick = () => setShowModal(!showModal);
+import axios from "axios";
+const Header = ( ) => {
+
+	const { context, setContext } = useContext(AppContext);
+
+	const { isLoggedIn, isLoginModalOpen, isSignUpModalOpen } = context;
+
+	const [searchTxt, setSearchTxt] = useState("");
+
+	const handleLogoutClick = async () => {
+		console.log("Logout Clicked");
+
+		// data to be sent to the server
+		const data = {
+			userEmail: "connect2gaurav15@gmail.com",
+		}
+
+		try {
+			const response = await axios.post(
+				"http://localhost:4000/api/auth/logout",
+				data
+			);
+			console.log(response.data);
+
+			// if user logs out reset the app context
+			setContext({ ...context,
+				isLoggedIn: false,
+				isUserAdmin: false,
+				isHamburgerCliked: false,
+				showMainBody: true
+			});
+		}
+		catch (error) {
+			console.error(error);
+		}
+	}
+
+	const handleSearchClicked = () => {
+		console.log("Search Clicked, re-rendering the main body");
+		setContext({ ...context, searchText: searchTxt, isSearchClicked: true});
+	}
+
+	const handleLoginClicked = () => {
+		console.log("Login Clicked");
+		setContext({ ...context, isLoginModalOpen: true, isHamburgerVisible: false });
+	}
+
+	const handleSignUpClicked = () => {
+		console.log("Signup Clicked");
+		setContext({ ...context, isSignUpModalOpen: true, isHamburgerVisible: false });
+	}
+
+	const handleHamburgetClick = () => {
+		console.log("Hamburger Clicked");
+		if(context.isHamburgerVisible)
+			setContext({ ...context, isHamburgerVisible: false });
+		else
+			setContext({ ...context, isHamburgerVisible: true });
+	}
+
 
     return (
         <div className="landing-page">
 
-            <div className="logo">
-                <img src="logo.png" alt="Site Logo" />
+			{/* Site Logo Container */}
+            <div className="site-logo">
+                <img src={process.env.PUBLIC_URL + "/res/icons/site-icon.png"} alt="Site Logo" />
             </div>
 
+			{/* Search Bar Container */}
             <div className="search-bar">
-                <input type="text" placeholder="Search for amusement parks and locations"/>
-                <div className="filter-dropdown">
-                    <select>
-                        <option value="all">All</option>
-                        <option value="amusement-parks">Amusement Parks</option>
-                        <option value="water-parks">Water Parks</option>
-                        <option value="zoo">Zoo</option>
-                    </select>
-                </div>
-                <button>Search</button>
-            </div>
+  				<input type="text" placeholder="Search for amusement parks and locations"
+    				value={searchTxt} onChange={(e) => setSearchTxt(e.target.value)} />
+  				<button onClick={() => handleSearchClicked()}>Search</button>
+			</div>
 
 
-            <div className="user-profile" onClick={toggleMenu}>
-                <img src="23889994.jpg" alt="User Profile" /> </div>
-                {menuVisible && (
-                    <div className="dropdown-menu">
-                        <ul>
-                            <li> <button onClick={handleLoginClick}> Login </button> </li>
-                            <li> <Link to="/settings">Signup</Link> </li>
-							<li> <button>About</button> </li>
-                        </ul>
-                    </div>)
-				}
-				{showModal && <LoginModal toggleModal={handleLoginClick} toggleMenu={toggleMenu}/>}
-            {/* </div> */}
+			{/* Hamburger Menu Container */}
+            <div className="user-profile" onClick={() => handleHamburgetClick()}>
+                <img src={process.env.PUBLIC_URL + "/res/icons/default-user.jpg"} alt="User Profile" />
+			</div>
 
 
-        </div>
-    );
+			{context.isHamburgerVisible && (
+				<div className="dropdown-menu">
+					<ul>
+						{!isLoggedIn && <li> <button onClick={() => handleLoginClicked()}> Login </button> </li>}
+						{!isLoggedIn && <li> <button onClick={() => handleSignUpClicked()}> Signup </button> </li>}
+
+
+						{isLoggedIn && <li> <button> Profile </button> </li>}
+						{isLoggedIn && <li> <button> Bookings </button> </li>}
+						{isLoggedIn && <li> <button> Cancellations </button> </li>}
+						{isLoggedIn && <li> <button onClick={handleLogoutClick}> Logout </button> </li>}
+
+
+					</ul>
+				</div>)
+			}
+			{isLoginModalOpen && <LoginModal/>}
+			{isSignUpModalOpen && <SignUpModal/>}
+		</div>
+	);
 };
 
 export default Header;

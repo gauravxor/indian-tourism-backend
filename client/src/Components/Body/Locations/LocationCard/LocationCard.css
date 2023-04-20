@@ -1,0 +1,90 @@
+.location-card {
+	border: 1px solid #e0e0e0;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	width: 300px;
+	margin: 10px;
+}
+
+.image-section {
+	position: relative;
+}
+
+.image-section img {
+	display: block;
+	width: 100%;
+}
+
+.arrow-buttons {
+	display: flex;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 100%;
+	justify-content: space-between;
+	color: #ffffff;
+	cursor: pointer;
+	font-size: 30px;
+}
+
+.arrow-buttons:hover {
+	background: rgba(0, 0, 0, 0.3);
+	border-radius: 50%;
+}
+
+.arrow-buttons:focus {
+	outline: none;
+}
+
+.arrow-buttons:first-child {
+	margin-left: 0;
+}
+
+
+.name-section {
+	color: #333333;
+	font-size: 20px;
+	margin: 0;
+	text-align: center;
+}
+
+.description-section {
+	color: #333333;
+	font-size: 20px;
+	margin: 0;
+	text-align: center;
+}
+
+.price-section {
+	background-color: #f7f7f7;
+	padding: 10px;
+}
+
+.price-section h4 {
+	color: #333333;
+	font-size: 24px;
+	margin: 0;
+	text-align: center;
+}
+
+.button-section {
+	background-color: #ffffff;
+	padding: 10px;
+	text-align: center;
+}
+
+.button-section a {
+	background-color: #0077ff;
+	border-radius: 5px;
+	color: #ffffff;
+	display: inline-block;
+	font-size: 18px;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.button-section a:hover {
+	background-color: #005ab5;
+}
