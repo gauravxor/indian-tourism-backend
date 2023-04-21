@@ -5,6 +5,9 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginModal from "../Modals/LoginModal/LoginModal";
 import SignUpModal from "../Modals/SignUpModal/SignUpModal";
+import OtpModal from "../Modals/OtpModal/OtpModal";
+import ForgotPasswordModal from "../Modals/ForgotPasswordModal/ForgotPasswordModal";
+
 
 import {AppContext} from '../../AppContext.js';
 
@@ -15,9 +18,11 @@ const Header = ( ) => {
 
 	const { context, setContext } = useContext(AppContext);
 
-	const { isLoggedIn, isLoginModalOpen, isSignUpModalOpen, isUserAdmin} = context;
+	const { isLoggedIn, isUserAdmin} = context;
+	const { isLoginModalOpen, isSignUpModalOpen, isOtpModalOpen, isForgotPasswordModalOpen } = context;
 
 	const [searchTxt, setSearchTxt] = useState("");
+	const [searchPlaceholder, setSearchPlaceholder] = useState("Search for locations");
 
 	const handleLogoutClick = async () => {
 		console.log("Logout Clicked");
@@ -38,7 +43,6 @@ const Header = ( ) => {
 			setContext({ ...context,
 				isLoggedIn: false,
 				isUserAdmin: false,
-				isHamburgerCliked: false,
 				showMainBody: true,
 				userEmail: "",
 			});
@@ -48,10 +52,17 @@ const Header = ( ) => {
 		}
 	}
 
-	const handleSearchClicked = () => {
+	const handleSearchClicked = (event) => {
+		event.preventDefault()
 		console.log("Search Clicked, re-rendering the main body");
-		setContext({ ...context, searchText: searchTxt});
-		navigate("/locations");
+		if(searchTxt === ""){
+			console.log("Please enter a location");
+			setSearchPlaceholder("Please enter a location");
+		}
+		else{
+			setContext({ ...context, searchText: searchTxt});
+			navigate("/locations");
+		}
 	}
 
 	const handleLoginClicked = () => {
@@ -102,24 +113,27 @@ const Header = ( ) => {
 				</div>
 
 				<form className="navbar-search">
-					<input type="text" placeholder="Seearch for locations"
+					<input type="text" placeholder={searchPlaceholder}
 						value={searchTxt} onChange={(e) => setSearchTxt(e.target.value)} />
-					<button type="submit" onClick = {handleSearchClicked}>Search</button>
+					<button onClick = {handleSearchClicked}>Search</button>
 				</form>
 
 				<div className="navbar-buttons">
 					{context.isLoggedIn && (
-						<button onClick = {handleLogoutClick}>Logout</button>
+						<button onClick = {() => handleLogoutClick()}>Logout</button>
 					)}
 					{!context.isLoggedIn && ( <>
-						<button onClick = {handleLoginClicked}>Login</button>
-						<button onClick = {handleSignUpClicked}>Signup</button>
+						<button onClick = {() => handleLoginClicked()}>Login</button>
+						<button onClick = {() => handleSignUpClicked()}>Signup</button>
 						</>
 					)}
 				</div>
 			</nav>
 			{isLoginModalOpen && <LoginModal/>}
 			{isSignUpModalOpen && <SignUpModal/>}
+			{isOtpModalOpen && <OtpModal/>}
+			{isForgotPasswordModalOpen && <ForgotPasswordModal/>
+			}
 		</div>
 	);
 };

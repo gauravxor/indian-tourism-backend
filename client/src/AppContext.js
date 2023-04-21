@@ -23,19 +23,15 @@ const AppContextProvider = ({ children }) => {
 
 			// user state variables
 			isLoggedIn: false,
-
-			// context event variables
-			isProfileClicked: false,
-			isBookingsClicked: false,
-			isLocationClicked: false,
-			isSearchClicked: false,
-
+			isVerfied: false,
 
 			// context state variables
 			showMainBody: true,
 			isLoginModalOpen: false,
 			isSignUpModalOpen: false,
+			isOtpModalOpen: false,
 			isAddLocationModalOpen: false,
+			isForgotPasswordModalOpen: false,
 		}
 	});
 

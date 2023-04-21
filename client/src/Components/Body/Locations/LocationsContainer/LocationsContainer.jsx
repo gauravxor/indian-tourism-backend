@@ -18,20 +18,31 @@ function LocationsContainer() {
 
 	useEffect(() => {
 		console.log("Use effect search text is = " + context.searchText);
-		const url = 'http://localhost:4000/api/location/city/' + context.searchText;
-		axios.get(url, {withCredentials: false})
+
+		let url = "";
+		if(context.searchText === "") {
+			console.log("Calling the default function");
+			url = 'http://localhost:4000/api/location';
+		}
+		else {
+			console.log("Calling the city function");
+			url = 'http://localhost:4000/api/location/city/' + context.searchText;
+		}
+
+		const apiUrl = url;
+
+		axios.get(apiUrl, {withCredentials: false})
 		.then((response) => {
 			console.log("The response object is = " + response.data)
 			// check if the response is empty
 			if(response.data.length === 0) {
 				console.log("The response is empty");
-				setLocations([]);
-				setContext({ ...context, showMainBody: true });
-
+				// setLocations([]);
+				setContext({ ...context, showMainBody: true});
 			}
 			else {
 				setLocations(response.data);
-				setContext({ ...context, showMainBody: false });
+				setContext({ ...context, showMainBody: false});
 			}})
 
 		.catch(error => console.log(error));
@@ -40,18 +51,19 @@ function LocationsContainer() {
 
 
 	return (
-	<div className='location-card-container'>
-	{locations.map(location => (
-		<LocationCard
-			key={uuidv4()}
-			locationId={location._id}
-			name={location.name}
-			description={location.description}
-			images={location.images}
-			price={location.ticketPrice}
-		/>
-		))}
-	</div>
+		<div className='location-card-container'>
+			{locations.map(location => (
+				<LocationCard
+					key={uuidv4()}
+					locationId={location._id}
+					name={location.name}
+					description={location.description}
+					images={location.images}
+					price={location.ticketPrice}
+				/>
+				))
+			}
+		</div>
 	)
 }
 

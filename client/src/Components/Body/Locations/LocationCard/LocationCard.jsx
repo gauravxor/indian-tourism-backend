@@ -13,7 +13,7 @@ const Card = (props) => {
 
 	const {context, setContext} = useContext(AppContext);
 
-	console.log("Location Id = " + locationId);
+	// setContext( {...context, searchText: ""});
 
 	const [currentImage, setCurrentImage] = useState(0);
 
@@ -28,7 +28,7 @@ const Card = (props) => {
 	const handleKnowMoreClick = () => {
 		console.log("In handle know more click function");
 		setContext( {...context, locationId: locationId, isSearchClicked: false,
-			isHamburgerVisible: false, isLocationClicked: true});
+			isLocationClicked: true});
 	}
 
 	return (
