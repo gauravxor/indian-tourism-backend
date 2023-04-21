@@ -2,6 +2,7 @@ import "./Header.css";
 
 // eslint-disable-next-line
 import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LoginModal from "../Modals/LoginModal/LoginModal";
 import SignUpModal from "../Modals/SignUpModal/SignUpModal";
 
@@ -10,9 +11,11 @@ import {AppContext} from '../../AppContext.js';
 import axios from "axios";
 const Header = ( ) => {
 
+	const navigate = useNavigate();
+
 	const { context, setContext } = useContext(AppContext);
 
-	const { isLoggedIn, isLoginModalOpen, isSignUpModalOpen } = context;
+	const { isLoggedIn, isLoginModalOpen, isSignUpModalOpen, isUserAdmin} = context;
 
 	const [searchTxt, setSearchTxt] = useState("");
 
@@ -21,7 +24,7 @@ const Header = ( ) => {
 
 		// data to be sent to the server
 		const data = {
-			userEmail: "connect2gaurav15@gmail.com",
+			userEmail: context.userEmail,
 		}
 
 		try {
@@ -36,7 +39,8 @@ const Header = ( ) => {
 				isLoggedIn: false,
 				isUserAdmin: false,
 				isHamburgerCliked: false,
-				showMainBody: true
+				showMainBody: true,
+				userEmail: "",
 			});
 		}
 		catch (error) {
@@ -46,66 +50,74 @@ const Header = ( ) => {
 
 	const handleSearchClicked = () => {
 		console.log("Search Clicked, re-rendering the main body");
-		setContext({ ...context, searchText: searchTxt, isSearchClicked: true});
+		setContext({ ...context, searchText: searchTxt});
+		navigate("/locations");
 	}
 
 	const handleLoginClicked = () => {
 		console.log("Login Clicked");
-		setContext({ ...context, isLoginModalOpen: true, isHamburgerVisible: false });
+		setContext({ ...context, isLoginModalOpen: true});
 	}
 
 	const handleSignUpClicked = () => {
 		console.log("Signup Clicked");
-		setContext({ ...context, isSignUpModalOpen: true, isHamburgerVisible: false });
-	}
-
-	const handleHamburgetClick = () => {
-		console.log("Hamburger Clicked");
-		if(context.isHamburgerVisible)
-			setContext({ ...context, isHamburgerVisible: false });
-		else
-			setContext({ ...context, isHamburgerVisible: true });
+		setContext({ ...context, isSignUpModalOpen: true});
 	}
 
 
-    return (
-        <div className="landing-page">
-
-			{/* Site Logo Container */}
-            <div className="site-logo">
-                <img src={process.env.PUBLIC_URL + "/res/icons/site-icon.png"} alt="Site Logo" />
-            </div>
-
-			{/* Search Bar Container */}
-            <div className="search-bar">
-  				<input type="text" placeholder="Search for amusement parks and locations"
-    				value={searchTxt} onChange={(e) => setSearchTxt(e.target.value)} />
-  				<button onClick={() => handleSearchClicked()}>Search</button>
-			</div>
+	return (
+		<div className="navbar-container">
+			<nav className="navbar">
 
 
-			{/* Hamburger Menu Container */}
-            <div className="user-profile" onClick={() => handleHamburgetClick()}>
-                <img src={process.env.PUBLIC_URL + "/res/icons/default-user.jpg"} alt="User Profile" />
-			</div>
+				<div className="site-logo">
+					<img src={process.env.PUBLIC_URL + "/res/icons/site-icon.png"} href="/" alt="Site Logo" />
+				</div>
 
+				<div className="navbar-links">
 
-			{context.isHamburgerVisible && (
-				<div className="dropdown-menu">
-					<ul>
-						{!isLoggedIn && <li> <button onClick={() => handleLoginClicked()}> Login </button> </li>}
-						{!isLoggedIn && <li> <button onClick={() => handleSignUpClicked()}> Signup </button> </li>}
+					{isLoggedIn && !isUserAdmin && (<>
+						<a href="/">Home</a>
+						<a href="/profile">Profile</a>
+						<a href="/bookings">Bookings</a>
+						<a href="/about">About</a>
+						</>
+					)}
 
+					{isLoggedIn && isUserAdmin && (<>
+						<a href="/">Home</a>
+						<a href="/profile">Profile</a>
+						<a href="/locations">Locations</a>
+						<a href="/add-location">Add Location</a> {/* Implement a modal */}
+						<a href="/about">About</a>
+						</>
+					)}
 
-						{isLoggedIn && <li> <button> Profile </button> </li>}
-						{isLoggedIn && <li> <button> Bookings </button> </li>}
-						{isLoggedIn && <li> <button> Cancellations </button> </li>}
-						{isLoggedIn && <li> <button onClick={handleLogoutClick}> Logout </button> </li>}
+					{!isLoggedIn && (<>
+						<a href="/">Home</a>
+						<a href="/locations">Locations</a>
+						<a href="/about">About</a>
+						</>
+					)}
+				</div>
 
+				<form className="navbar-search">
+					<input type="text" placeholder="Seearch for locations"
+						value={searchTxt} onChange={(e) => setSearchTxt(e.target.value)} />
+					<button type="submit" onClick = {handleSearchClicked}>Search</button>
+				</form>
 
-					</ul>
-				</div>)
-			}
+				<div className="navbar-buttons">
+					{context.isLoggedIn && (
+						<button onClick = {handleLogoutClick}>Logout</button>
+					)}
+					{!context.isLoggedIn && ( <>
+						<button onClick = {handleLoginClicked}>Login</button>
+						<button onClick = {handleSignUpClicked}>Signup</button>
+						</>
+					)}
+				</div>
+			</nav>
 			{isLoginModalOpen && <LoginModal/>}
 			{isSignUpModalOpen && <SignUpModal/>}
 		</div>

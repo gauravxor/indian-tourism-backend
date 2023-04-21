@@ -36,7 +36,7 @@ const LoginModal = () => {
 			/** Wait for 2 seconds and then close the lgoin modal */
 			setTimeout(() => {
 				setContext({...context, isLoggedIn: true, isLoginModalOpen: false,
-					isHamburgerVisible: false, isUserAdmin: isAdmin})
+					isUserAdmin: isAdmin, userEmail: email})
 			}, 2000);
 
 		}

@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-import {AppContext} from './AppContext.js';
 import Body 		from './Components/Body/Body.jsx';
 import Header 		from './Components/Header/Header.jsx';
 import Footer 		from './Components/Footer/Footer.jsx';
@@ -14,21 +14,16 @@ import LocationsContainer 	from './Components/Body/Locations/LocationsContainer/
 
 
 function App() {
-
-	const {context} = useContext(AppContext);
-	console.log("IsSearchClicked: ", context.isSearchClicked)
-	console.log("IsLocationClicked: ", context.isLocationClicked)
-	console.log("The context search text is: ", context.searchText)
-	console.log("The context location id is: ", context.locationId)
-	console.log("The location id is: ", context.locationId)
 	return (
 		<>
 			<Header />
-			{context.isBookingsClicked && <BookingsContainer />}
-			{context.isProfileClicked && <Profile />}
-			{context.isSearchClicked && <LocationsContainer searchText={context.searchText} />}
-			{context.isLocationClicked && <LocationBody/>}
-			{context.showMainBody && <Body />}
+			<Routes>
+				<Route path="/" Component={Body} />
+				<Route path="/profile" Component={Profile} />
+				<Route path="/bookings" Component={BookingsContainer} />
+				<Route path="/locations" Component={LocationsContainer} />
+				<Route path="/locations/:locationId" Component={LocationBody} />
+			</Routes>
 			<Footer />
 		</>
 	);

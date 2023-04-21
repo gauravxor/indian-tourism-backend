@@ -1,36 +1,48 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 
 const AppContext = createContext();
+const LOCAL_STORAGE_KEY = "app-context";
+
 
 const AppContextProvider = ({ children }) => {
-	const [context, setContext] = useState({
-		userId: "",
-		userEmail: "",
-		isUserAdmin: false,
-		locationId: "",
-		bookingId: "",
-		paymentId: "",
-		tempBookingId: "",
-		searchText: "",
-		errorMessage: "",
 
-		// user state variables
-		isLoggedIn: false,
+	const [context, setContext] = useState(() => {
 
-		// context event variables
-		isHamburgerVisible: false, // hamburger menu
-		isProfileClicked: false,   // user profile section
-		isBookingsClicked: false,  // user bookings section
-		isLocationClicked: false, // details of a location
-		isSearchClicked: false,    // search button click
+		const storedContext = localStorage.getItem(LOCAL_STORAGE_KEY);
+		return storedContext ? JSON.parse(storedContext) : {
+			userId: "",
+			userEmail: "",
+			isUserAdmin: false,
+			locationId: "",
+			bookingId: "",
+			paymentId: "",
+			tempBookingId: "",
+			searchText: "",
+			errorMessage: "",
 
-		// context state variables
-		showMainBody: true,
-		isLoginModalOpen: false,
-		isSignUpModalOpen: false,
-		isAddLocationModalOpen: false,
+			// user state variables
+			isLoggedIn: false,
+
+			// context event variables
+			isProfileClicked: false,
+			isBookingsClicked: false,
+			isLocationClicked: false,
+			isSearchClicked: false,
+
+
+			// context state variables
+			showMainBody: true,
+			isLoginModalOpen: false,
+			isSignUpModalOpen: false,
+			isAddLocationModalOpen: false,
+		}
 	});
+
+	// Save context state in local storage whenever it changes
+	useEffect(() => {
+		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(context));
+	},[context]);
 
 	return (
 		<AppContext.Provider value={{ context, setContext }}>

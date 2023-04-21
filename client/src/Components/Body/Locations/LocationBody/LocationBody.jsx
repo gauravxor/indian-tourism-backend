@@ -29,10 +29,6 @@ function LocationBody() {
 	}, [locationData]);
 
 
-
-
-
-
 	return (
 		<div>
 			<p> Location Name: {locationData.name} </p>
