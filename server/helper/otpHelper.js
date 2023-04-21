@@ -111,7 +111,9 @@ function isOtpExpired(otpCreationTime)
 {
 	const timeCreated = (new Date(otpCreationTime)).getTime();
 	const timeNow = (new Date()).getTime();
-	return ((timeNow - timeCreated) > (5 * 60 * 1000));
+	const timeDifference = timeNow - timeCreated;
+	console.log("the time difference is: " + timeDifference + "ms")
+	return (timeDifference > (50 * 60 * 1000));
 }
 
 
@@ -161,8 +163,9 @@ async function verifyOtp(userEmail, otp, otpType)
 			}
 		}
 	}
-	else  /** If OTP does not matches */
+	else{  /** If OTP does not matches */
 		return "otpError";
+	}
 }
 
 /** Function to resend OTP. It handles both email verification and password reset */
@@ -172,9 +175,8 @@ async function resendOtp(req, res){
 	if(req.cookies === undefined){
 		console.log("Cookies not sent with request".red);
 
-		res
-		.status(401)
-		.send({
+		res.status(401).send({
+			status: "failure",
 			msg: "Unauthorized"
 		});
 	}
@@ -193,6 +195,7 @@ async function resendOtp(req, res){
 		res
 		.status(200)
 		.send({
+			status: "success",
 			msg: "Otp for sent for email verification",
 			otp: otp
 		});
@@ -203,6 +206,7 @@ async function resendOtp(req, res){
 		res
 		.status(200)
 		.send({
+			status: "success",
 			msg: "Otp for sent for password reset",
 			otp: otp
 		});

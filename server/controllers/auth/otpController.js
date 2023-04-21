@@ -18,17 +18,33 @@ const otpController = async (req, res) => {
 		const verifyOtpResult = await OTP.verifyOtp(requestEmail, requestOtp, requestOtpType);
 		console.log("The returned result is = "+ verifyOtpResult);
 
-		if(verifyOtpResult === "emailError")
-			return res.status(200).send({msg: "User not found or invalid email"});
+		if(verifyOtpResult === "emailError"){
+			return res.status(200).send({
+				status: "error",
+				msg: "User not found or invalid email"
+			});
+		}
 		else
-		if(verifyOtpResult === "otpError")
-				res.status(200).send({msg: "OTP expired or invalid otp"});
+		if(verifyOtpResult === "otpError"){
+				res.status(200).send({
+					status: "error",
+					msg: "OTP expired or invalid otp"
+			});
+		}
 		else
-		if(verifyOtpResult === "emailVerified")
-			res.status(200).send({msg: "Email verified successfully"});
+		if(verifyOtpResult === "emailVerified"){
+			res.status(200).send({
+				status: "success",
+				msg: "Email verified successfully"
+			});
+		}
 		else
-		if(verifyOtpResult === "otpValidated")
-			res.status(200).send({msg: "OTP validated successfully"});
+		if(verifyOtpResult === "otpValidated"){
+			res.status(200).send({
+				status: "success",
+				msg: "OTP validated successfully"
+			});
+		}
 	}
 };
 

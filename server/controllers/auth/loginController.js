@@ -30,6 +30,7 @@ const loginController = async (req, res, next) => {
 
 	if(requestEmail === "" || requestPassword === "" || isUserAdmin !== "true" && isUserAdmin !== "false"){
 	 	return res.status(400).send({
+			status: "failure",
 			msg: "Bad Request"
 		});
 	}
@@ -41,8 +42,12 @@ const loginController = async (req, res, next) => {
 	else
 		searchUserResult = await AUTH.searchUser(requestEmail);
 	console.log(searchUserResult);
-	if(searchUserResult === null)
-		res.status(401).send({msg: "User not found"});
+	if(searchUserResult === null){
+		res.status(401).send({
+			status: "failure",
+			msg: "User not found"
+		});
+	}
 	else
 	{
 		/** Storing  userid and email to use in the token generation. Data from request is not used for security reasons */
@@ -74,6 +79,7 @@ const loginController = async (req, res, next) => {
 					.cookie('accessToken', 	accessToken,	{ httpOnly: true, SameSite: true, secure: true})
 					.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: true, secure: true})
 					.send({
+						status: "failure",
 						msg: "Existing session found. Please Logout to continue.",
 					});
 				}
@@ -91,18 +97,23 @@ const loginController = async (req, res, next) => {
 					/** If email is verified continue or else move to verification */
 					if(searchUserResult.isEmailVerified === false){
 						return res.send({
+							status: "failure",
 							msg: "Email not verified, please verify your email to processed further",
 						});
 					}
 					else{
 						res.send({
+							status: "success",
 							msg: "Logged in successfully",
 						});
 					}
 				}
 			}
-			else /** If password has does not match */
-				res.status(401).send({msg: "Incorrect Password"});
+			else{ /** If password has does not match */
+				res.status(401).send({
+					status: "failure",
+					msg: "Incorrect Password"})
+			}
 		}
 	}
 }

@@ -7,7 +7,9 @@ const logoutController = async (req, res) => {
 
 	const searchCredentialsResult = await AUTH.searchCredentials(requestUserId);
 	if(searchCredentialsResult == null)
-		res.status(404).send({msg: "Credentials not found"});
+		res.status(404).send({
+			status: "failure",
+			msg: "Credentials not found"});
 	else
 	{
 		const credentialsDocumentId = searchCredentialsResult._id;
@@ -19,11 +21,16 @@ const logoutController = async (req, res) => {
 			.clearCookie('accessToken')
 			.clearCookie('refreshToken')
 			.status(200).send({
+				status: "success",
 				msg: "Logged out successfully",
 			});
 		}
-		else
-			res.status(404).send({msg: "Error in updating login/logout status"});
+		else{
+			res.status(404).send({
+				status: "failure",
+				msg: "Error in updating login/logout status"
+			});
+		}
 	}
 };
 

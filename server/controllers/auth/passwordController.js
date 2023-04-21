@@ -18,8 +18,11 @@ const changePassword = async (req, res) => {
 	/** Search if the user exists in the database */
 	const searchUserResult = await AUTH.searchUser(requestEmail);
 
-	if(searchUserResult === null)
-		res.status(404).send({msg: "User not found"});
+	if(searchUserResult === null){
+		res.status(404).send({
+			status: "failure",
+			msg: "User not found"});
+	}
 	else
 	{
 		/** If user is found, search for their credentials */
@@ -28,6 +31,7 @@ const changePassword = async (req, res) => {
 
 		if(searchCredentialsResult === null)
 			res.status(404).send({
+				status: "failure",
 				msg: "Something went wrong, user credentials not found"
 			});
 		else
@@ -35,6 +39,7 @@ const changePassword = async (req, res) => {
 			/** If credentials are found, check if the user is logged in */
 			if(searchCredentialsResult.refreshToken === "")
 				res.status(404).send({
+					status: "failure",
 					msg: "User must be logged in to change password"
 				});
 			else
@@ -49,15 +54,21 @@ const changePassword = async (req, res) => {
 					const updatePasswordResult = await AUTH.updatePassword(searchCredentialsResult._id, newPasswordHash);
 					if(updatePasswordResult)
 						res.status(200).send({
+							status: "success",
 							msg: "Password updated successfully!"
 						});
 					else
 						res.status(500).send({
+							status: "failure",
 							msg: "Failed to update password"
 						});
 				}
-				else
-					res.status(200).send({msg: "Invalid current password"});
+				else{
+					res.status(200).send({
+						status: "failure",
+						msg: "Invalid current password"
+					});
+				}
 			}
 		}
 	}
@@ -84,6 +95,7 @@ const forgotPassword = async (req, res, next) => {
 
 	if(searchUserResult === null)
 		res.status(404).send({
+			status: "failure",
 			msg: "Wrong email id or user doesnot exist"
 		});
 	else /** If the request body has cookies then the user is trying to send a new password */
@@ -138,11 +150,13 @@ const forgotPassword = async (req, res, next) => {
 				.clearCookie('refreshToken')
 				.status(200)
 				.send({
+					status: "success",
 					msg: "Password changed successfully! User your new password to login"
 				});
 			}
 			else
 				res.status(500).send({
+					status: "failure",
 					msg: "Password update failed"
 				});
 		}
@@ -176,12 +190,14 @@ const forgotPassword = async (req, res, next) => {
 				.cookie('refreshToken', refreshToken, { httpOnly: true, SameSite: true, secure: true})
 				.status(200)
 				.send({
+					status: "success",
 					msg: "Password reset email sent",
 					otp: sendPasswordResetEmailResult
 				});
 			}
 			else{
 				res.status(500).send({
+					status: "failure",
 					msg: "Failed to update login status"
 				});
 			}
@@ -190,6 +206,7 @@ const forgotPassword = async (req, res, next) => {
 		}
 		else{
 			res.status(500).send({
+				status: "failure",
 				msg: "Password reset email failed"
 			});
 		}

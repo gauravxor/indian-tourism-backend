@@ -15,6 +15,7 @@ const signUpController = async (req, res) => {
 	const searchUserResult = await AUTH.searchUser(requestEmail);
 	if(searchUserResult != null){
 		res.status(200).send({
+			status: "failure",
 			msg: "User already exists"
 		});
 	}
@@ -44,7 +45,7 @@ const signUpController = async (req, res) => {
 		const saveUserResult = await User.save();
 
 		/** Generating the password hash */
-		const userPassword = req.body.password;
+		const userPassword = (req.body.password).toString();
 		const userPasswordHash = await bcrypt.hash(userPassword, 10);
 		console.log("generated the password".green);
 
@@ -72,7 +73,9 @@ const signUpController = async (req, res) => {
 		.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: true, secure: true})
 		.status(200)
 		.send({
-			msg: "User created successfully",
+			status: "success",
+			msg: "User Created",
+			userId: User._id
 		});
 	}
 };

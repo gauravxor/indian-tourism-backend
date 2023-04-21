@@ -2,7 +2,7 @@ const LocationModel = require('../../models/locationModel');
 
 const getRandomLocationsController = async (req, res, next) => {
 	const locations = await LocationModel.aggregate([
-		{ $sample: { size: 20 } }
+		{ $sample: { size: 4 } }
 	]);
     res.status(200).json(locations);
 }
