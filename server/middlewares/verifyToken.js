@@ -50,12 +50,17 @@ async function verifyToken(req, res, next) {
 		const existingRefreshToken = credentialsSearchResult.refreshToken;
 
 		/** Checking if the user is logged in or not */
-		if(existingRefreshToken === "")
-			return res.status(401).send({msg: "User Not Loggen In. Please Login to continue"});
+		if(existingRefreshToken === ""){
+			return res.status(401).send({
+				status: "failure",
+				msg: "User Not Loggen In. Please Login to continue"
+			});
+		}
 		else
 		/** Checking if the user is logged in from another device or not */
 		if(existingRefreshToken !== "" && existingRefreshToken !== requestRefreshToken){
 			return res.status(401).send({
+				status: "failure",
 				msg: "User logged in from another device."
 			});
 		}
@@ -80,6 +85,7 @@ async function verifyToken(req, res, next) {
 			/** If email in request body does not matches the email in payload of Tokens */
 			if(accessTokenPayloadEmail !== requestEmail || refreshTokenPayloadEmail !== requestEmail){
 				return res.status(403).send({
+					status: "failure",
 					msg: "Malicious Attempt"
 				});
 			}
@@ -106,11 +112,13 @@ async function verifyToken(req, res, next) {
 								/** Update the User's login status in database */
 								const credentialDocumentId = credentialsSearchResult._id;
 								const updateLoginStatus = await AUTH.updateLoginStatus(credentialDocumentId, "");
-								if(updateLoginStatus !== null)
+								if(updateLoginStatus !== null){
 									console.log("Tokens expired, logging out...".yellow);
 									return res.status(201).send({
-									msg: "Token expired, logging out, please login again to continue"
-								});
+										status: "failure",
+										msg: "Token expired, logging out, please login again to continue"
+									});
+								}
 							}
 							else /** If Refresh Token is not expired */
 							{

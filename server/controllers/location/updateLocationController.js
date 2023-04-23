@@ -12,6 +12,7 @@ const updateLocationController = async (req, res, next) => {
 
 	if(req.userType !== 'admin'){
 		return res.status(401).json({
+			status: "failure",
 			msg: "You are not authorized to perform this action"
 		});
 	}
@@ -25,6 +26,7 @@ const updateLocationController = async (req, res, next) => {
 
 		if(adminSearchResult === null){
 			return res.status(401).json({
+				status: "failure",
 				msg: "You are not the admin of this location"
 			});
 		}
@@ -34,6 +36,7 @@ const updateLocationController = async (req, res, next) => {
 
 			if(!location) {
 				res.status(404).json({
+					status: "failure",
 					message: 'Location not found'
 				});
 				return;
@@ -93,6 +96,7 @@ const updateLocationController = async (req, res, next) => {
 			);
 
 			res.status(200).json({
+				status: "success",
 				message: 'Location updated successfully'
 			});
 		}
@@ -101,6 +105,7 @@ const updateLocationController = async (req, res, next) => {
 			res
 			.status(500).
 			json({
+				status: "failure",
 				message: 'Error updating location'
 			});
 		}

@@ -11,8 +11,12 @@ const otpController = async (req, res) => {
 	console.log("Request otp type = "+ requestOtpType.yellow);
 	console.log("email = "+ requestEmail);
 
-	if(requestEmail === null)
-		return res.status(400).send({msg: "Email is required"});
+	if(requestEmail === null){
+		return res.status(400).send({
+			status: "failure",
+			msg: "Email is required"
+		});
+	}
 	else
 	{
 		const verifyOtpResult = await OTP.verifyOtp(requestEmail, requestOtp, requestOtpType);
@@ -20,14 +24,14 @@ const otpController = async (req, res) => {
 
 		if(verifyOtpResult === "emailError"){
 			return res.status(200).send({
-				status: "error",
+				status: "failure",
 				msg: "User not found or invalid email"
 			});
 		}
 		else
 		if(verifyOtpResult === "otpError"){
 				res.status(200).send({
-					status: "error",
+					status: "failure",
 					msg: "OTP expired or invalid otp"
 			});
 		}

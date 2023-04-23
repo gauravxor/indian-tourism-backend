@@ -39,6 +39,7 @@ const bookingLockController = async (req, res, next) => {
 		return res
 		.status(400)
 		.json({
+			status: "failure",
 			message: "Invalid request"
 		});
 	}
@@ -47,6 +48,7 @@ const bookingLockController = async (req, res, next) => {
 		return res
 		.status(400)
 		.json({
+			status: "failure",
 			message: "Invalid number of tickets"
 		});
 	}
@@ -56,6 +58,7 @@ const bookingLockController = async (req, res, next) => {
 		return res
 		.status(400)
 		.json({
+			status: "failure",
 			message: "Invalid date"
 		});
 	}
@@ -65,6 +68,7 @@ const bookingLockController = async (req, res, next) => {
 		return res.
 		status(400).
 		json({
+			status: "failure",
 			message: 'Location not found'
 		});
 	}
@@ -82,6 +86,7 @@ const bookingLockController = async (req, res, next) => {
 		if(locationAvailabilityData === null){
 			console.log("Availability data was not found".red);
 			return res.status(400).json({
+				status: "failure",
 				message: "Location was found but no availability data was found"
 			});
 		}
@@ -93,6 +98,7 @@ const bookingLockController = async (req, res, next) => {
 
 			if(day.availableTickets < noOfTickets) {
 				return res.status(400).json({
+					"status": "failure",
 					message: "Not enough tickets available"
 				});
 			}
@@ -121,12 +127,14 @@ const bookingLockController = async (req, res, next) => {
 				const lockBookingDataSaveResult = await lockBookingSchema.save();
 				if(lockBookingDataSaveResult === null) {
 					return res.status(400).json({
+						status: "failure",
 						message: "Unable to save booking data"
 					});
 				}
 
 				// return detailed response (todo)
 				return res.status(200).json({
+					status: "success",
 					message: "Booking lock successful",
 					lockId: tempBookingId
 				});

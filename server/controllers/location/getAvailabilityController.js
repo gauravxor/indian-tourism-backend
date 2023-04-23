@@ -10,8 +10,9 @@ const getAvailabilityController = async (req, res, next) => {
 		const availability = await AvailabilityModel.findOne({ locationId: locationId });
 		if (!availability) {
 			return res.
-			status(404).
+			status(200).
 			json({
+				status: "failure",
 				message: 'Availability not found'
 			});
 		}
@@ -20,8 +21,9 @@ const getAvailabilityController = async (req, res, next) => {
 		);
 		if(currentMonthIndex === -1) {
 			return res
-			.status(404)
+			.status(200)
 			.json({
+				status: "failure",
 				message: 'Availability not found for current month'
 			});
 		}
@@ -35,6 +37,7 @@ const getAvailabilityController = async (req, res, next) => {
 		return res
 		.status(200)
 		.json({
+			status: "success",
 			message: 'Availability retrieved successfully',
 			availability: result
 		});
@@ -43,6 +46,7 @@ const getAvailabilityController = async (req, res, next) => {
 		return res
 		.status(500).
 		json({
+			status: "failure",
 			message: 'Error retrieving availability',
 			error: error
 		});

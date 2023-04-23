@@ -14,6 +14,7 @@ const getLocationController = async (req, res, next) => {
 	const locationIdSearchResult = await LocationModel.findOne({ _id: locationId });
 	if(locationIdSearchResult === null) {
 		return res.status(404).json({
+			status: "failure",
 			message: 'Location not found or invalid location ID'
 		});
 	}
@@ -31,6 +32,7 @@ const getLocationByStateController = async (req, res, next) => {
 	const locations = await LocationModel.find({ state: state }).exec();
 	if(locations === null) {
 		return res.status(500).json({
+			status: "failure",
 			message: 'Error getting locations by state'
 		});
 	}
@@ -45,6 +47,7 @@ const getLocationByCityController = async (req, res, next) => {
 	const locations = await LocationModel.find({ city: city }).exec();
 	if(locations === null) {
 		return res.status(500).json({
+			status: "failure",
 			message: 'Error getting locations by city'
 		});
 	}

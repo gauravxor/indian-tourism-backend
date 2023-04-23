@@ -31,6 +31,7 @@ const addLocationController = async (req, res, next) => {
 	console.log(req.userType);
 	if(req.userType !== 'admin'){
 		return res.status(401).json({
+			status: "failure",
 			msg: "You are not authorized to perform this action"
 		});
 	}
@@ -104,10 +105,12 @@ const addLocationController = async (req, res, next) => {
 			});
 			if(adminAddResult === null){
 				return res.status(500).json({
+					status: "failure",
 					message: 'Error saving location in admin location model'
 				});
 			}else{
 				return res.status(200).json({
+					status: "success",
 					message: 'Location added successfully',
 					locationId: locationId
 				});
@@ -115,12 +118,14 @@ const addLocationController = async (req, res, next) => {
 		}
 		else{
 			res.status(500).json({
+				status: "failure",
 				message: 'Error saving location'
 			});
 		}
 	}
 	else{
 		res.status(500).json({
+			status: "failure",
 			message: 'Error saving location'
 		});
 	}

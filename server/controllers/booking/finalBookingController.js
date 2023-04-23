@@ -26,6 +26,7 @@ const finalBookingController = async (req, res, next) => {
 	const bookingData = await LockBookingModel.findOne({ lockId: lockId });
 	if(bookingData === null) {
 		res.status(400).json({
+			status: "failure",
 			message: "Invalid booking id"
 		});
 	}
@@ -47,6 +48,7 @@ const finalBookingController = async (req, res, next) => {
 		if(bookingDataSaveResult === null) {
 			console.log("Error dsaving booking data".red);
 			res.status(400).json({
+				status: "failure",
 				message: "Error saving booking data"
 			});
 		}
@@ -62,10 +64,12 @@ const finalBookingController = async (req, res, next) => {
 			if(userModelUpdateResult === null) {
 				console.log("Error saving booking data in user model".red);
 				return res.status(400).json({
+					status: "failure",
 					message: "Error saving booking data in user model"
 				});
 			}
 			res.status(200).json({
+				status: "success",
 				message: "Booking successful",
 				bookingId: bookingId
 			});

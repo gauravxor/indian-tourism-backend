@@ -99,11 +99,13 @@ const userUpdateController = async (req, res, next) => {
 	/** Sending the appropriate response */
 	if(saveUserResult === null){
 		res.status(200).send({
+			status: "failure",
 			msg: "Error updating user data",
 		});
 	}
 	else{
 		res.status(200).send({
+			status: "success",
 			msg: "User data updated successfully",
 		});
 	}
