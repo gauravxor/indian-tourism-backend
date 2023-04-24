@@ -5,10 +5,12 @@ import Body from './Components/Body/Body.jsx';
 import Header from './Components/Header/Header.jsx';
 import Footer from './Components/Footer/Footer.jsx';
 
-import Profile from './Components/Body/Profile/Profile.jsx';
-import LocationBody from './Components/Body/Locations/LocationBody/LocationBody.jsx'
-import BookingsContainer from './Components/Body/Bookings/BookingsContainer/BookingsContainer.jsx';
-import LocationsContainer from './Components/Body/Locations/LocationsContainer/LocationsContainer.jsx';
+
+
+import Profile 				from './Components/Body/UserProfile/UserProfile.jsx';
+import LocationBody 		from './Components/Body/Locations/LocationBody/LocationBody.jsx'
+import BookingsContainer 	from './Components/Body/Bookings/BookingsContainer/BookingsContainer.jsx';
+import LocationsContainer 	from './Components/Body/Locations/LocationsContainer/LocationsContainer.jsx';
 
 
 function App() {
