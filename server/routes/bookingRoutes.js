@@ -8,6 +8,10 @@ const finalBookingController = require('../controllers/booking/finalBookingContr
 const getTempBookingDetailsController = require('../controllers/booking/getTempBookingDetailsController');
 const getBookingDetailsController = require('../controllers/booking/getBookingDetailsController');
 
+const getCancellationsController = require('../controllers/location/getCancellationsController');
+const cancelRequestController = require('../controllers/location/cancelRequestController');
+const bookingCancellationController = require('../controllers/location/bookingCancellationController');
+
 
 bookingRoutes.post('/lock', verifyToken, bookingLockController);
 bookingRoutes.get('/lock/details', verifyToken, getTempBookingDetailsController);
@@ -15,5 +19,8 @@ bookingRoutes.get('/lock/details', verifyToken, getTempBookingDetailsController)
 bookingRoutes.post('/final', verifyToken, finalBookingController);
 bookingRoutes.get('/final/details', verifyToken, getBookingDetailsController);
 
+bookingRoutes.post('/cancel/', verifyToken, cancelRequestController);
+bookingRoutes.get('/cancellations/:adminId', verifyToken, getCancellationsController);
+bookingRoutes.post('/cancel/approve', verifyToken, bookingCancellationController)
 
 module.exports = bookingRoutes;

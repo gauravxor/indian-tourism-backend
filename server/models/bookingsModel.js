@@ -48,6 +48,11 @@ const bookingSchema = new mongoose.Schema({
 	timeOfBooking: {
 		type: Date,
 		required: true,
+	},
+	cancellationStatus: {
+		type: String,
+		required: true,
+		default: "na"
 	}
 });
 
