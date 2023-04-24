@@ -3,6 +3,8 @@ const {v4: uuidv4} = require('uuid');
 const LockBookingModel = require('../../models/lockBookingModel');
 const BookingModel = require('../../models/bookingsModel');
 const UserModel  = require('../../models/userModel');
+const fs = require('fs');
+const path = require('path');
 
 const sendQrCode = require('../../helper/bookingHelper');
 
@@ -35,8 +37,13 @@ const finalBookingController = async (req, res, next) => {
 
 		const bookingSchema = BookingModel({
 			bookingId: bookingId,
-			userId : userId,
 			locationId: bookingData.locationId,
+			locationName: bookingData.locationName,
+			locationDesc: bookingData.locationDesc,
+			locationAddress: bookingData.locationAddress,
+
+			userId : userId,
+			userName: bookingData.userName,
 			dateOfVisit: bookingData.dateOfVisit,
 			noOfTickets: bookingData.noOfTickets,
 			bookingPrice: bookingData.bookingPrice,
@@ -74,7 +81,7 @@ const finalBookingController = async (req, res, next) => {
 				bookingId: bookingId
 			});
 
-			// delete the lock booking data
+			/** Delete the lock booking data */
 			const deleteLockIdResult = await LockBookingModel.deleteOne({ lockId: lockId });
 			if(deleteLockIdResult === null) {
 				console.log("Error deleting lock id".red);
@@ -83,7 +90,13 @@ const finalBookingController = async (req, res, next) => {
 				console.log("Lock id deleted successfully".green);
 			}
 
-			// generate the qr for the booking id and send that qr to user email id
+			/**  Checking if ./public/qr folder exists or not if not then create one */
+			const qrFolder = './public/qr';
+			if(!fs.existsSync(qrFolder)) {
+				fs.mkdirSync(qrFolder);
+			}
+
+			/** Generate the qr for the booking id and send that qr to user email id */
 			const qrFile = './public/qr/'+bookingId+'.png';
 			const qrResult = await qrcode.toFile(qrFile, bookingId, {
 				version: 5,
@@ -97,7 +110,7 @@ const finalBookingController = async (req, res, next) => {
 			}
 			else{
 				console.log("QR code generated successfully".green);
-				// once genrereated, send out an email to the user with th qr code and booking details
+				/** Once QR is generated send send it to user with booking details */
 				while(true) {
 					const sendEmailResult = await sendQrCode(bookingId, req.userEmail);
 					if(sendEmailResult === true) {

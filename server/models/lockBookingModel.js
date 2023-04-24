@@ -14,10 +14,27 @@ const tempBookingNumber = new mongoose.Schema({
 		required: true,
 		ref : 'locations'
 	},
+	locationName: {
+		type: String,
+		required: true,
+	},
+	locationDesc: {
+		type: String,
+		required: true,
+	},
+	locationAddress: {
+		type: Object,
+		required: true,
+	},
+
 	userId: {
 		type: String,
 		required: true,
 		ref : 'users'
+	},
+	userName: {
+		type: String,
+		required: true,
 	},
 	noOfTickets: {
 		type: Number,

@@ -10,7 +10,7 @@ const authRoutes	 = require('./routes/authRoutes');
 const updateRoutes	 = require('./routes/updateRoutes');
 const locationRoutes = require('./routes/locationRoutes');
 const bookingRoutes  =  require('./routes/bookingRoutes');
-
+const userRoutes 	 = require('./routes/userRoutes');
 const lockCleaner = require('./services/bookingLockCleaner');
 
 dotenv.config();
@@ -48,6 +48,7 @@ app.use('/api/auth/', authRoutes);
 app.use('/api/update/', updateRoutes);
 app.use('/api/location/', locationRoutes);
 app.use('/api/book/', bookingRoutes);
+app.use('/api/user/', userRoutes);
 
 app.listen(process.env.PORT, () => {
 	console.log("Server started on port " + process.env.PORT + ".");

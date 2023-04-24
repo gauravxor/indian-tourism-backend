@@ -1,6 +1,7 @@
 const LocationModel = require('../../models/locationModel');
 const AvailabilityModel = require('../../models/availabilityModel');
 const LockBookingModel = require('../../models/lockBookingModel');
+const UserModel = require('../../models/userModel');
 
 const color = require('colors');
 const { v4: uuidv4 } = require('uuid');
@@ -25,7 +26,7 @@ function convertToISODate(dateString) {
 }
 
 
-// this will check the booking reuest and validate for available capacity
+// this will check the booking request and validate for available capacity
 // if we have the capacity, it will decrease it but no of tickets and generate a
 // temporary booking id and return it to the user. The user will use it to pay.
 const bookingLockController = async (req, res, next) => {
@@ -63,13 +64,14 @@ const bookingLockController = async (req, res, next) => {
 		});
 	}
 
+	const userData = await UserModel.findOne({ _id: userId });
 	const locationData = await LocationModel.findOne({ _id: locationId });
-	if(locationData === null) {
+	if(locationData === null || userData === null) {
 		return res.
 		status(400).
 		json({
 			status: "failure",
-			message: 'Location not found'
+			message: 'Location/ user not found'
 		});
 	}
 	else {
@@ -110,14 +112,30 @@ const bookingLockController = async (req, res, next) => {
 				// generate a temporary booking id
 				const tempBookingId = uuidv4();
 
+
 				// calculate the  booking price
 				const bookingPrice = noOfTickets * locationData.ticketPrice;
 
-				// save the booking id in the lockBookingModel
+
+				// creating location address oject to save with lock booking data
+				const locationAddress = {
+					address: locationData.address,
+					country: locationData.country,
+					state: locationData.state,
+					city : locationData.city,
+					pincode: locationData.pincode
+				}
+
+				const userName = userData.name.firstName +  " " + userData.name.middleName + userData.name.lastName;
 				const lockBookingSchema = LockBookingModel({
 					lockId: tempBookingId,
 					locationId: locationId,
+					locationName: locationData.name,
+					locationDesc: locationData.description,
+					locationAddress: locationAddress,
+
 					userId: userId,
+					userName: userName,
 					noOfTickets: noOfTickets,
 					bookingPrice: bookingPrice,
 					dateOfVisit: bookingDate,

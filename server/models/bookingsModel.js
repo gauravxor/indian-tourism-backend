@@ -5,16 +5,34 @@ const bookingSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	userId: {
-		type: String,
-		required: true,
-		ref: 'users'
-	},
 	locationId: {
 		type: String,
 		required: true,
 		ref: 'locations'
 	},
+	locationName: {
+		type: String,
+		required: true,
+	},
+	locationDesc: {
+		type: String,
+		required: true,
+	},
+	locationAddress: {
+		type: Object,
+		required: true,
+	},
+
+	userId: {
+		type: String,
+		required: true,
+		ref: 'users'
+	},
+	userName: {
+		type: String,
+		required: true,
+	},
+
 	dateOfVisit: {
 		type: Date,
 		required: true,
