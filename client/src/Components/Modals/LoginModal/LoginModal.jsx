@@ -3,8 +3,8 @@ import "./LoginModal.css";
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import {AppContext} from '../../../AppContext.js'
-
-
+import Button from "../../UI/Buttons/Button";
+import logo from '../../UI/Images/profile.png'
 const LoginModal = () => {
 
 	const { context, setContext } = useContext(AppContext);
@@ -60,14 +60,15 @@ const LoginModal = () => {
 
 	return (
 		<div className="modal">
-			<div className="modal-content">
-				<span className="close" onClick={() => handleModalClose()}>&times;</span>
-
-				<h2>Login</h2>
+			<div className="modal_content">
+			<div className="header"></div>
+				<Button className="close" onClick={() => handleModalClose()}>&times;</Button>
+			  <div className="login">	
+				<img src={logo} alt="Login Image here" className="image"/>
 
 				<form onSubmit={handleLoginSubmit}>
-
-					<label>Email:</label>
+					<div className="control">
+                   <label>Email:</label>
 					<input
 						type="email"
 						name="email"
@@ -75,8 +76,8 @@ const LoginModal = () => {
 						onChange={(e) => setEmail(e.target.value)}
 						required
 					/>
-					<br />
-
+					</div>
+                    <div className="control">
 					<label>Password:</label>
 					<input
 						type="password"
@@ -85,21 +86,25 @@ const LoginModal = () => {
 						onChange={(e) => setPassword(e.target.value)}
 						required
 					/>
-					<br/>
-
-					<label>Is Admin:</label>
+					</div>
+                     <div className="checkbox">
+					<label>Is Admin:</label><br/>
 					<input
 						type="checkbox"
 						name="isAdmin"
+						className="isadmin"
 						value={isAdmin}
 						onChange={(e) => setIsAdmin(e.target.checked)}
 					/>
-					<br/>
-
-					<button type="submit">Login</button>
+					</div>
+                   <div className="actions">
+					<Button type="submit">Login</Button>
+					</div>
 				</form>
-				<button type="button" onClick={() => handlePasswordReset()}>Forgot Password?</button>
-				<div> <h1> {loginMessage} </h1> </div>
+				<Button type="button" onClick={() => handlePasswordReset()}>Forgot Password?</Button>
+				<div className="message"> {loginMessage} </div>
+			<div className="footer"></div>
+			</div>
 			</div>
 		</div>
 	);

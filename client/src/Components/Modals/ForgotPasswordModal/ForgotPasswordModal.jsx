@@ -3,7 +3,7 @@ import "./ForgotPasswordModal.css";
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import {AppContext} from '../../../AppContext.js'
-
+import Button from "../../UI/Buttons/Button";
 
 const ForgotPasswordModal = () => {
 
@@ -158,13 +158,14 @@ const ForgotPasswordModal = () => {
 
 	return (
 		<div className="modal">
-			<div className="modal-content">
-				<span className="close" onClick={() => handleModalClose()}>&times;</span>
+			<div className="modal--content">
+				<div className="head"></div>
+				<Button className="close__" onClick={() => handleModalClose()}>&times;</Button>
 
 				<h2>Passowrd Reset</h2>
 				{!isMailSent && !isOtpValidated && ( <>
 					<form onSubmit={handleSubmit}>
-						<label>Email:</label>
+						<label>Email :- </label>
 						<input
 							type="email"
 							name="email"

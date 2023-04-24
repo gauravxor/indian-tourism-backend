@@ -7,7 +7,7 @@ import LoginModal from "../Modals/LoginModal/LoginModal";
 import SignUpModal from "../Modals/SignUpModal/SignUpModal";
 import OtpModal from "../Modals/OtpModal/OtpModal";
 import ForgotPasswordModal from "../Modals/ForgotPasswordModal/ForgotPasswordModal";
-
+import Button from "../UI/Buttons/Button";
 
 import {AppContext} from '../../AppContext.js';
 
@@ -81,7 +81,6 @@ const Header = ( ) => {
 		<div className="navbar-container">
 			<nav className="navbar">
 
-
 				<div className="site-logo">
 					<img src={process.env.PUBLIC_URL + "/res/icons/site-icon.png"} href="/" alt="Site Logo" />
 				</div>
@@ -116,16 +115,16 @@ const Header = ( ) => {
 				<form className="navbar-search">
 					<input type="text" placeholder={searchPlaceholder}
 						value={searchTxt} onChange={(e) => setSearchTxt(e.target.value)} />
-					<button onClick = {handleSearchClicked}>Search</button>
+					<Button onClick = {handleSearchClicked}>Search</Button>
 				</form>
 
 				<div className="navbar-buttons">
 					{context.isLoggedIn && (
-						<button onClick = {() => handleLogoutClick()}>Logout</button>
+						<Button onClick = {() => handleLogoutClick()}>Logout</Button>
 					)}
 					{!context.isLoggedIn && ( <>
-						<button onClick = {() => handleLoginClicked()}>Login</button>
-						<button onClick = {() => handleSignUpClicked()}>Signup</button>
+						<Button onClick = {() => handleLoginClicked()}>Login</Button>
+						<Button onClick = {() => handleSignUpClicked()}>Signup</Button>
 						</>
 					)}
 				</div>

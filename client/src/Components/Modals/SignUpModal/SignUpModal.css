@@ -10,19 +10,42 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-family: 'Fira Sans', sans-serif;
+    font-family: 'Karla', sans-serif;
+    font-family: 'Roboto Slab', serif;
 }
 
-.modal-content {
-	background-color: #fefefe;
+.modal__content {
+	/* background-color: #fefefe;
 	padding: 20px;
 	border: 1px solid #888;
 	width: 50%;
 	max-width: 500px;
-	text-align: center;
+	text-align: center; */
+
+	width: 50%;
+    height: 550px;
+    margin: 5px;
+    padding: 5px;
+    top: 70px;
+    left: 30%;
+    background:  linear-gradient(to right, #dcd7e6, #baffea);
+    border-radius: 15px;
+    position: fixed;
+    margin: auto;
+    display: block;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    overflow: hidden;
+    z-index: 100;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+  align-items: left;
+  overflow: scroll;
 }
 
 .close {
-	color: #aaa;
+	color: #0d0404;
 	float: right;
 	font-size: 28px;
 	font-weight: bold;
@@ -35,11 +58,67 @@
 	cursor: pointer;
 }
 
-.modal button[type="submit"] {
-	padding: 10px 20px;
-	border-radius: 5px;
-	border: none;
-	background-color: #007bff;
-	color: #fff;
-	cursor: pointer;
+
+form{
+    margin: 20px;
+}
+form label{
+    font-size: 15px;
+    font-weight: 500;
+	position: relative;
+	float: left;
+	/* align-items: left; */
+  
+}
+form input{
+ width: 60%;
+ height: 20px;
+ margin-bottom: 8px;
+ border-radius: 5px;
+ padding: 1px;
+ float: left;
+
+}
+.btn{
+    display: block;
+    margin: auto;
+}
+.gender{
+    display: flex;
+    flex-direction: row;
+     padding: 0;
+     margin: 0;
+     width: 50%;
+}
+.header{
+	height: 32px;
+    width: 100%;
+    margin-left: -20px;
+    background-color: black;
+    position:fixed;
+}
+@media screen and (max-width:600px) {
+    form input{
+        width: 80%;
+    }
+	.modal__content{
+		width: 90%;
+		left: 10%;
+	}
+}
+
+@media only screen and (min-width: 601px) and (max-width:1000px) {
+    form input{
+        width: 75%;
+    }
+}
+
+@media only screen and (min-width: 100px) and (max-width:1950px) {
+    form input{
+        width: 55%;
+    }
+	.modal__content{
+		width: 40%;
+	
+	}
 }

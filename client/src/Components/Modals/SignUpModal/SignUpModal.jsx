@@ -3,7 +3,7 @@ import "./SignUpModal.css";
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { AppContext } from '../../../AppContext.js'
-
+import Button from "../../UI/Buttons/Button";
 
 
 const SignUpModal = () => {
@@ -89,13 +89,14 @@ const SignUpModal = () => {
 
 	return (
 		<div className="modal">
-			<div className="modal-content">
-				<span className="close" onClick={() => handleModalClose()}>&times;</span>
+			<div className="modal__content">
+				<div className="header"></div>
+				<Button className="close" onClick={() => handleModalClose()}>&times;</Button>
 
-				<h2>Sign Up</h2>
+				<h2>Sign Up here</h2>
 				<form onSubmit={handleSubmit}>
 
-					<label htmlFor="firstName">First Name:</label>
+					<label htmlFor="firstName" placeholder="Enter your first name">First Name:</label><br/>
 					<input
 						type="text"
 						id="firstName"
@@ -103,9 +104,9 @@ const SignUpModal = () => {
 						value={firstName}
 						onChange={(e) => setFirstName(e.target.value)}
 						required
-					/> <br/>
+					/> <br/><br/>
 
-					<label htmlFor="middleName">Middle Name:</label>
+					<label htmlFor="middleName" placeholder="Enter your middle name">Middle Name:</label><br/>
 					<input
 						type="text"
 					id="middleName"
@@ -113,9 +114,9 @@ const SignUpModal = () => {
 					value={middleName}
 					onChange={(e) => setMiddleName(e.target.value)}
 					required
-					/> <br/>
+					/> <br/><br/>
 
-					<label htmlFor="LastName">Last Name:</label>
+					<label htmlFor="LastName" placeholder="Enter your last name">Last Name:</label><br/>
 					<input
 						type="text"
 						id="lastName"
@@ -123,10 +124,18 @@ const SignUpModal = () => {
 						value={lastName}
 						onChange={(e) => setLastName(e.target.value)}
 						required
-					/> <br/>
-
-
-					<label htmlFor="dob">Date of Birth:</label>
+					/> <br/><br/>
+                   
+                    <label htmlFor="gender">Gender : </label>
+                    <div className='gender'>
+                        <input type="radio"/>
+                        <label htmlFor="male">Male</label>
+                        <input type="radio" />
+                        <label htmlFor="female">Female</label>
+                        <input type="radio"/>
+                        <label htmlFor="others">Others</label>
+                    </div><br/>
+					<label htmlFor="dob">Date of Birth:</label><br/>
 					<input
 						type="date"
 						id="dob"
@@ -134,10 +143,10 @@ const SignUpModal = () => {
 						value={dob}
 						onChange={(e) => setDob(e.target.value)}
 						required
-					/> <br/>
+					/> <br/><br/>
 
 
-					<label htmlFor="email">Email:</label>
+					<label htmlFor="email" placeholder="xyz@gmail.com">Email:</label><br/>
 					<input
 						type="email"
 						id="email"
@@ -145,9 +154,9 @@ const SignUpModal = () => {
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						required
-					/> <br/>
+					/> <br/><br/>
 
-					<label htmlFor="phone">Phone:</label>
+					<label htmlFor="phone">Phone:</label><br/>
 					<input
 						type="tel"
 						id="phone"
@@ -155,10 +164,10 @@ const SignUpModal = () => {
 						value={phone}
 						onChange={(e) => setPhone(e.target.value)}
 						required
-					/> <br/>
+					/> <br/><br/>
 
 
-					<label htmlFor="password">Password:</label>
+					<label htmlFor="password">Password:</label><br/>
 					<input
 						type="password"
 						id="password"
@@ -166,9 +175,9 @@ const SignUpModal = () => {
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 						required
-					/> <br/>
+					/> <br/><br/>
 
-					<label htmlFor="country">Country:</label>
+					<label htmlFor="country">Country:</label><br/>
 					<input
 						type="text"
 						id="country"
@@ -176,9 +185,9 @@ const SignUpModal = () => {
 						value={country}
 						onChange={(e) => setCountry(e.target.value)}
 						required
-					/> <br/>
+					/> <br/><br/>
 
-					<label htmlFor="address">Address:</label>
+					<label htmlFor="address">Address:</label><br/>
 					<input
 						type="text"
 						id="address"
@@ -186,9 +195,9 @@ const SignUpModal = () => {
 						value={address}
 						onChange={(e) => setAddress(e.target.value)}
 						required
-					/> <br/>
+					/> <br/><br/>
 
-					<label htmlFor="state">State:</label>
+					<label htmlFor="state">State:</label><br/>
 					<input
 						type="text"
 						id="state"
@@ -196,9 +205,9 @@ const SignUpModal = () => {
 						value={state}
 						onChange={(e) => setState(e.target.value)}
 						required
-					/> <br/>
+					/> <br/><br/>
 
-					<label htmlFor="city">City:</label>
+					<label htmlFor="city">City:</label><br/>
 					<input
 						type="text"
 						id="city"
@@ -206,9 +215,9 @@ const SignUpModal = () => {
 						value={city}
 						onChange={(e) => setCity(e.target.value)}
 						required
-					/> <br/>
+					/> <br/><br/>
 
-					<label htmlFor="pincode">Pincode:</label>
+					<label htmlFor="pincode">Pincode:</label><br/>
 					<input
 						type="text"
 						id="pincode"
@@ -216,8 +225,8 @@ const SignUpModal = () => {
 						value={pincode}
 						onChange={(e) => setPincode(e.target.value)}
 						required
-					/> <br/>
-					<button type="submit">Submit</button>
+					/> <br/><br/>
+					<Button type="submit">Submit</Button>
 				</form>
 				<div> <h1>{signUpMessage}</h1> </div>
 			</div>
