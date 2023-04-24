@@ -75,7 +75,8 @@ const Header = ( ) => {
 		setContext({ ...context, isSignUpModalOpen: true});
 	}
 
-
+	console.log("Is user admin: ", isUserAdmin);
+	console.log("Is user admin in type: ", typeof(isUserAdmin));
 	return (
 		<div className="navbar-container">
 			<nav className="navbar">

@@ -32,6 +32,7 @@ const AppContextProvider = ({ children }) => {
 			isOtpModalOpen: false,
 			isAddLocationModalOpen: false,
 			isForgotPasswordModalOpen: false,
+			isPaymentModalOpen: false,
 		}
 	});
 

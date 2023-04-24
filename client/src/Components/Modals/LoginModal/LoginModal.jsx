@@ -11,7 +11,7 @@ const LoginModal = () => {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [isAdmin, setIsAdmin] = useState("false");
+	const [isAdmin, setIsAdmin] = useState(false);
 
 	const [loginMessage, setLoginMessage] = useState("");
 
@@ -21,7 +21,7 @@ const LoginModal = () => {
 		const data = {
 			email: email,
 			password: password,
-			isAdmin: isAdmin,
+			isAdmin: isAdmin.toString()
 		};
 
 		console.log(data);
@@ -36,8 +36,9 @@ const LoginModal = () => {
 
 			/** Wait for 2 seconds and then close the login modal */
 			setTimeout(() => {
+
 				setContext({...context, isLoggedIn: true, isLoginModalOpen: false,
-					isUserAdmin: isAdmin, userEmail: email})
+					isUserAdmin: isAdmin, userEmail: email, userId: response.data.userId})
 			}, 2000);
 		}
 		catch (error) {
@@ -91,7 +92,7 @@ const LoginModal = () => {
 						type="checkbox"
 						name="isAdmin"
 						value={isAdmin}
-						onChange={(e) => setIsAdmin(e.target.checked.toString())}
+						onChange={(e) => setIsAdmin(e.target.checked)}
 					/>
 					<br/>
 

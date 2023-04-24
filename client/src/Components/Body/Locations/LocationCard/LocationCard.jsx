@@ -2,6 +2,8 @@ import React, { useState, useContext } from "react";
 import "./LocationCard.css";
 import { BsArrowRightCircle, BsArrowLeftCircle } from "react-icons/bs";
 import { AppContext } from "../../../../AppContext";
+import { useNavigate } from 'react-router-dom';
+
 
 const Card = (props) => {
 
@@ -11,9 +13,9 @@ const Card = (props) => {
 	const images = props.images;
 	const price = props.price;
 
-	const {context, setContext} = useContext(AppContext);
+	const navigate = useNavigate();
 
-	// setContext( {...context, searchText: ""});
+	const {context, setContext} = useContext(AppContext);
 
 	const [currentImage, setCurrentImage] = useState(0);
 
@@ -27,10 +29,9 @@ const Card = (props) => {
 
 	const handleKnowMoreClick = () => {
 		console.log("In handle know more click function");
-		setContext( {...context, locationId: locationId, isSearchClicked: false,
-			isLocationClicked: true});
+		setContext( {...context, locationId: locationId, isSearchClicked: false});
+		navigate(`/locations/${locationId}`);
 	}
-
 	return (
 		<div className="location-card">
 
