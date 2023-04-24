@@ -105,6 +105,7 @@ const loginController = async (req, res, next) => {
 						res.send({
 							status: "success",
 							msg: "Logged in successfully",
+							userId: userId,
 						});
 					}
 				}
