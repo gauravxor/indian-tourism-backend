@@ -18,8 +18,8 @@ function App() {
       <div className={classes.container}>
         <ImageSlider slides={slides} parentWidth={700} />
       </div>
-      {/* <div className={classes.body}> */}
-	  <div>
+      <div className={classes.body}>
+	  {/* <div> */}
         <Routes>
           <Route path="/" Component={Body} />
           <Route path="/profile" Component={Profile} />
