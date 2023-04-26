@@ -1,9 +1,9 @@
 import React from 'react'
-
-function Footer() {
+import classes from './footer.module.css'
+function Footer(props) {
 	return (
-		<div>
-			<h1>Footer</h1>
+		<div className={`${props.className} ${classes.Footer}`}>
+			<a href="https://github.com/gauravxor/indian-tourism/tree/master" target='blank'>Check project details</a>
 		</div>
 	)
 }
