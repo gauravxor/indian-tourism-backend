@@ -3,7 +3,7 @@ import "./OtpModal.css";
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import {AppContext} from '../../../AppContext.js'
-
+import Button from "../../UI/Buttons/Button";
 
 const OtpModal = () => {
 
@@ -97,7 +97,7 @@ const OtpModal = () => {
 	return (
 		<div className="modal">
 			<div className="modal-content">
-				<span className="close" onClick={() => handleModalClose()}>&times;</span>
+				<Button className="close-btn" onClick={() => handleModalClose()}>&times;</Button>
 
 				<h2>Verify Email Address</h2>
 

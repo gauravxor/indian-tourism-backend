@@ -12,7 +12,7 @@
     height: 100%;
     display: block;
     margin: auto;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     border-radius: 10px;
     margin-top: 10px;
   }

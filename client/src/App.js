@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useContext} from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 import classes from './App.module.css'
@@ -11,13 +11,20 @@ import Profile 				from './Components/Body/UserProfile/UserProfile.jsx';
 import LocationBody 		from './Components/Body/Locations/LocationBody/LocationBody.jsx'
 import BookingsContainer 	from './Components/Body/Bookings/BookingsContainer/BookingsContainer.jsx';
 import LocationsContainer 	from './Components/Body/Locations/LocationsContainer/LocationsContainer.jsx';
+import {AppContext}  from './AppContext';
+
 function App() {
+       const {context, setContext} = useContext(AppContext);
+	    const {isSlideShow} = context; 
+		console.log(typeof(context.isSlideShow));
+	   console.log(typeof(isSlideShow));
+	   
 	return (
     <React.Fragment className={classes.App}>
       <Header />
-      <div className={classes.container}>
-        <ImageSlider slides={slides} parentWidth={700} />
-      </div>
+      {!isSlideShow &&(<div className={classes.container}>
+	    <ImageSlider slides={slides} parentWidth={700} />
+      </div>)}
       <div className={classes.body}>
 	  {/* <div> */}
         <Routes>

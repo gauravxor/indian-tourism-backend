@@ -1,7 +1,44 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useContext} from 'react';
 import classes from './ImageSlider.module.css';
+import { AppContext } from '../../AppContext';
 
-
+const LeftArrowStyles = {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translate(0, -50%)',
+    left: '10px',
+    fontSize: '65px',
+    color: 'black',
+    opacity: 0.8,
+    zIndex:0,
+    cursor:'pointer',
+}
+const Title ={
+    position: 'absolute',
+    top: '86%',
+    left: '90px',
+    transform: 'translate(30%, -40%)',
+    left: '10px',
+    color: 'white',
+    fontSize: '18px',
+     zIndex: 0,
+    backgroundColor: 'black',
+    fontWeight: '600',
+    padding: '2px',
+    borderRadius: '3px',
+    cursor: 'pointer',
+}
+ const RightArrowStyles = {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translate(0, -50%)',
+    right: '20%',
+    fontSize: '65px',
+    color: 'black',
+    opacity: 0.8,
+    zIndex:0,
+    cursor:'pointer',
+}
 const leftArrowStyles = {
     position: 'absolute',
     top: '50%',
@@ -12,6 +49,7 @@ const leftArrowStyles = {
     opacity: 0.8,
     zIndex:1,
     cursor:'pointer',
+    writeable: true,
 }
 const title ={
     position: 'absolute',
@@ -21,12 +59,13 @@ const title ={
     left: '10px',
     color: 'white',
     fontSize: '18px',
-    zIndex: 1,
+     zIndex: 1,
     backgroundColor: 'black',
     fontWeight: '600',
     padding: '2px',
     borderRadius: '3px',
     cursor: 'pointer',
+    writeable: true,
 }
 const rightArrowStyles = {
     position: 'absolute',
@@ -38,6 +77,7 @@ const rightArrowStyles = {
     opacity: 0.8,
     zIndex:1,
     cursor:'pointer',
+    writeable: true,
 }
 const dotStyles = {
     margin: '0 12px',
@@ -107,14 +147,23 @@ useEffect(()=>{
 },2000);
 return ()=> clearTimeout(timerRef.current);
  },[gotoNext]);
+         
+       const {context, setContext} = useContext(AppContext);
+      const {isLoginModalOpen,
+        isSignUpModalOpen,
+        isOtpModalOpen,
+        isAddLocationModalOpen,
+        isForgotPasswordModalOpen,
+        isPaymentModalOpen,} = context;
+     const isActive = (isLoginModalOpen || isSignUpModalOpen || isOtpModalOpen || isAddLocationModalOpen || isForgotPasswordModalOpen || isPaymentModalOpen);
 
     return(
         <div style={sliderStyles}>
             <div>
-               <div style={leftArrowStyles} onClick={gotoPrevious}>⮜</div>
+               <div style={isActive?LeftArrowStyles:leftArrowStyles} onClick={gotoPrevious}>⮜</div>
                <div style={slideStyles}></div>
-               <div style={title}>{slides[currIndex].title}</div>
-               <div style={rightArrowStyles} onClick={gotoNext}>⮞</div>
+               <div style={isActive?Title:title}>{slides[currIndex].title}</div>
+               <div style={isActive?RightArrowStyles:rightArrowStyles} onClick={gotoNext}>⮞</div>
             </div>
             <div style={slidesContainerOverflowStyles}></div>
             <div style={getSlidesContainerStylesWithWidth()}>

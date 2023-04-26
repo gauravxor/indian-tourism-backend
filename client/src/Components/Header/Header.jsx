@@ -18,12 +18,13 @@ const Header = ( ) => {
 
 	const { context, setContext } = useContext(AppContext);
 
-	const { isLoggedIn, isUserAdmin} = context;
+	const { isLoggedIn, isUserAdmin, isSlideShow} = context;
 	const { isLoginModalOpen, isSignUpModalOpen, isOtpModalOpen, isForgotPasswordModalOpen } = context;
 
 	const [searchTxt, setSearchTxt] = useState("");
 	const [searchPlaceholder, setSearchPlaceholder] = useState("Search for locations");
-
+    console.log(`In Header.js : isShlideShow: ${isSlideShow}`);
+    console.log(`In Header.js : isLoggedIn: ${isLoggedIn}`);
 	const handleLogoutClick = async () => {
 		console.log("Logout Clicked");
 
