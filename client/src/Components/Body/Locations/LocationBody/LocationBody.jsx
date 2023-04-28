@@ -1,13 +1,13 @@
 import React, {useContext, useEffect, useState } from 'react'
-import { AppContext } from '../../../../AppContext'
-import { useParams } from "react-router-dom";
 import axios from 'axios';
+import { useParams } from "react-router-dom";
 
 
-import TopImageSlider from './TopImageSlider';
-import LeftLocationSection from './LeftLocationSection';
-import RightLocationSection from './RightLocationSection';
+import TopImageSlider 			from './TopImageSlider';
+import LeftLocationSection 		from './LeftLocationSection';
+import RightLocationSection 	from './RightLocationSection';
 
+import { AppContext } 			from '../../../../AppContext'
 import './LocationBody.css';
 
 function LocationBody() {
@@ -22,20 +22,29 @@ function LocationBody() {
 	const url = `http://localhost:4000/api/location/${locationId}`;
 
 	useEffect(() => {
-	axios.get(url, {withCredentials: false})
-	.then((response) => {
-		console.log(JSON.stringify(response.data.location));
-		setLocationData(response.data.location);
-		}
-	)
-	.catch(error => console.log(error));
-	// eslint-disable-next-line
-	}, [locationId]);
+		axios
+		.get(url, {withCredentials: false})
+		.then((response) => {
+			if(response.data.status === "success"){
+				console.log("Fetched location data");
+				setLocationData(response.data.location);
+			}
+			else{
+				console.log("Error fetching location data");
+			}
+		})
+		.catch(error => console.log("Error fetching location data"));
+	}, [locationId]); // eslint-disable-line
 
 	return (
 		<div>
+			{/* Passing the image data to the TopImageSlider */}
 			<TopImageSlider imageData = {locationData.images}/>
+
+			{/* Passing the location data to the LeftLocationSection */}
 			<LeftLocationSection locationData={locationData}/>
+
+			{/* If user is an admin, they will not be allowed to access booking section */}
 			{context.isUserAdmin === false && (
 				<RightLocationSection locationId = {context.locationId}/>
 			)}

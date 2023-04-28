@@ -5,21 +5,20 @@ import React from 'react';
 
 const cancellationCard = (props) => {
 
+	/** Storing the cancellationData object */
 	const cancellationData = props.cancellationData;
 
 	const cancelApprovalHandler = () => {
-		console.log("Cancellation tried to approve");
-
+		console.log("Approve button clicked");
 
 		const data = {
 			bookingId : cancellationData.bookingId,
 			adminId : cancellationData.adminId
 		}
 
-		console.log(data);
-
 		const url = `http://localhost:4000/api/book/cancel/approve`;
 
+		/** Calling the cancellation API to approve cancellation */
 		axios
 		.post(url, data, {withCredentials: true})
 		.then((response) => {
@@ -32,7 +31,6 @@ const cancellationCard = (props) => {
 		})
 		.catch(error => console.log(error));
 	}
-
 
 	return (
 		<div className="cancellation-card">

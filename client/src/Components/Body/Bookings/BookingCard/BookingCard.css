@@ -4,32 +4,32 @@
 	box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 	padding: 20px;
 	margin-bottom: 20px;
-  }
+}
 
-  .booking-card-header {
+.booking-card-header {
 	margin-bottom: 10px;
-  }
+}
 
-  .booking-card-header h2 {
+.booking-card-header h2 {
 	font-size: 24px;
 	margin-bottom: 5px;
-  }
+}
 
-  .booking-card-header p {
+.booking-card-header p {
 	font-size: 16px;
-  }
+}
 
-  .booking-card-details-row {
+.booking-card-details-row {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 5px;
-  }
+}
 
-  .booking-card-details p {
+.booking-card-details p {
 	font-size: 16px;
-  }
+}
 
-  .booking-card-details p strong {
+.booking-card-details p strong {
 	font-weight: bold;
 	margin-right: 10px;
-  }
+}

@@ -6,56 +6,58 @@
 	height: 500px;
 	text-align: center;
 	padding-top: 50px;
-  }
+}
 
-  /* Style for the right section */
-  .right-section {
+/* Style for the right section */
+.right-section {
 	background-color: #e6e6e6;
 	float: right;
 	width: 50%;
 	height: 100%;
 	text-align: center;
 	padding-top: 50px;
-  }
+}
 
-  .details {
+.details {
 	width: 45%;
-  }
+}
 
-  .details h2 {
+.details h2 {
 	font-size: 24px;
 	margin-bottom: 10px;
-  }
+}
 
-  .details p {
+.details p {
 	font-size: 18px;
 	margin-bottom: 10px;
-  }
+}
 
-  .details form {
+.details form {
 	margin-top: 20px;
-  }
+}
 
-  .details label {
+.details label {
 	display: block;
 	font-size: 18px;
 	margin-bottom: 5px;
-  }
+}
 
-  .details input[type="number"], .details input[type="date"], .details input[type="submit"] {
+.details input[type="number"],
+.details input[type="date"],
+.details input[type="submit"] {
 	display: block;
 	margin-bottom: 10px;
 	font-size: 18px;
 	padding: 5px;
-  }
+}
 
-  .details input[type="submit"] {
+.details input[type="submit"] {
 	background-color: #4CAF50;
 	color: white;
 	border: none;
 	cursor: pointer;
-  }
+}
 
-  .details input[type="submit"]:hover {
+.details input[type="submit"]:hover {
 	background-color: #45a049;
-  }
+}

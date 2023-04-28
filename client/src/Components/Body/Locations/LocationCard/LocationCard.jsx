@@ -18,8 +18,6 @@ const Card = (props) => {
 
 	const [currentImage, setCurrentImage] = useState(0);
 
-
-
 	const handleClick = (direction) => {
 		if (direction === "left")
 			setCurrentImage(currentImage === 0 ? images.length - 1 : currentImage - 1);

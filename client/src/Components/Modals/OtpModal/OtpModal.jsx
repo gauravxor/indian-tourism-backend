@@ -1,19 +1,28 @@
-import "./OtpModal.css";
-
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import {AppContext} from '../../../AppContext.js'
-import Button from "../../UI/Buttons/Button";
+
+import Button		from "../../UI/Buttons/Button";
+import {AppContext}	from '../../../AppContext.js'
+
+import "./OtpModal.css";
 
 const OtpModal = () => {
 
 	const { context, setContext } = useContext(AppContext);
 
+	/** To store the OTP entered by user */
 	const [otp, setOtp] = useState("");
+
+	/** To store the OTP expiry timer value */
 	const [timer, setTimer] = useState(120);
+
+	/** To store the verification message to be displayed to user */
 	const [verificationMsg, setVerificationMsg] = useState("");
+
+	/** To store if the user has clicked the modal close button */
 	const [modalCloseClicked, setModalCloseClicked] = useState(false);
 
+	/** Function to handle things when user clicks the SUBMIT button in OTP form */
 	const handleLoginSubmit = async (e)	 => {
 		e.preventDefault();
 
@@ -23,14 +32,11 @@ const OtpModal = () => {
 			otpType: "emailVerification"
 		};
 
-		console.log(data);
-
 		try {
-			const response = await axios.post("http://localhost:4000/api/auth/verify-otp", data)
-			console.log(response.data);
+			const url = "http://localhost:4000/api/auth/verify-otp";
+			const response = await axios.post(url, data)
 
 			if(response.data.status === "success"){
-
 				setVerificationMsg("Email verified successfully");
 
 				/** Wait for 2 seconds and then close the OTP modal */
@@ -41,13 +47,15 @@ const OtpModal = () => {
 			}
 			else{
 				setVerificationMsg("Invalid OTP or OTP expired");
+				console.log("Invalid OTP or OTP expired");
 			}
 		}
 		catch (error) {
-			console.log(error);
+			console.log("Invalid OTP or OTP expired");
 		}
 	};
 
+	/** Function to handle OTP modal close button click */
 	const handleModalClose = () => {
 		if(context.isVerified === true){
 			console.log("OTP Modal Closed")
@@ -78,7 +86,10 @@ const OtpModal = () => {
 		}
 	};
 
+	/** Function to handle the OTP expiry timer */
 	const handleCountdown = () => {
+
+	/** Decrease timer count by 1, each second */
 		if (timer > 0) {
 			setTimeout(() => {
 				setTimer(timer - 1);
@@ -88,32 +99,29 @@ const OtpModal = () => {
 
 	useEffect(() => {
 		handleCountdown();
-		// eslint-disable-next-line
-	}, [timer]);
-
-
-
+	}, [timer]); // eslint-disable-line
 
 	return (
 		<div className="modal">
 			<div className="modal-content">
 				<Button className="close-btn" onClick={() => handleModalClose()}>&times;</Button>
-
 				<h2>Verify Email Address</h2>
 
 				<form onSubmit={handleLoginSubmit}>
-
 					<label>OTP : </label>
 					<input
 						type="text"
 						name="otp"
+						placeholder="Enter OTP"
 						value={otp}
 						onChange={(e) => setOtp(e.target.value)}
 						required
 					/>
-					<br />
+					<br/>
 					<button type="submit">Login</button>
 				</form>
+
+				{/* Enable OTP resend button when OTP timer expires*/}
 				<div>
 					{timer === 0 ? (
 						<button type="submit" onClick={handleResendOtp}>Resend OTP</button>
@@ -121,8 +129,15 @@ const OtpModal = () => {
 						<p>Resend OTP in {timer} seconds</p>
 					)}
 				</div>
-				<div> <h1> {modalCloseClicked ? "First verify the email id" : ""} </h1> </div>
-				<div> <h1> {verificationMsg} </h1> </div>
+
+				{/* Prevent User from closing the OTP modal without verifying the OTP */}
+				<div>
+					<h1> {modalCloseClicked ? "First verify the email id" : ""} </h1>
+				</div>
+
+				<div>
+					<h1> {verificationMsg} </h1>
+				</div>
 			</div>
 		</div>
 	);

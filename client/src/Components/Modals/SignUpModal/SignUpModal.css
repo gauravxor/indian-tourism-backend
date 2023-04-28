@@ -11,8 +11,8 @@
 	justify-content: center;
 	align-items: center;
 	font-family: 'Fira Sans', sans-serif;
-    font-family: 'Karla', sans-serif;
-    font-family: 'Roboto Slab', serif;
+	font-family: 'Karla', sans-serif;
+	font-family: 'Roboto Slab', serif;
 }
 
 .modal__content {
@@ -24,24 +24,24 @@
 	text-align: center; */
 
 	width: 50%;
-    height: 550px;
-    margin: 5px;
-    padding: 5px;
-    top: 70px;
-    left: 30%;
-    background:  linear-gradient(to right, #dcd7e6, #baffea);
-    border-radius: 15px;
-    position: fixed;
-    margin: auto;
-    display: block;
-    text-align: center;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
-    overflow: hidden;
-    z-index: 100;
-    transform: scale(1.1);
-    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
-  align-items: left;
-  overflow: scroll;
+	height: 550px;
+	margin: 5px;
+	padding: 5px;
+	top: 70px;
+	left: 30%;
+	background: linear-gradient(to right, #dcd7e6, #baffea);
+	border-radius: 15px;
+	position: fixed;
+	margin: auto;
+	display: block;
+	text-align: center;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+	overflow: hidden;
+	z-index: 100;
+	transform: scale(1.1);
+	transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+	align-items: left;
+	overflow: scroll;
 }
 
 .close {
@@ -59,66 +59,74 @@
 }
 
 
-form{
-    margin: 20px;
+form {
+	margin: 20px;
 }
-form label{
-    font-size: 15px;
-    font-weight: 500;
+
+form label {
+	font-size: 15px;
+	font-weight: 500;
 	position: relative;
 	float: left;
 	/* align-items: left; */
-  
-}
-form input{
- width: 60%;
- height: 20px;
- margin-bottom: 8px;
- border-radius: 5px;
- padding: 1px;
- float: left;
 
 }
-.btn{
-    display: block;
-    margin: auto;
+
+form input {
+	width: 60%;
+	height: 20px;
+	margin-bottom: 8px;
+	border-radius: 5px;
+	padding: 1px;
+	float: left;
+
 }
-.gender{
-    display: flex;
-    flex-direction: row;
-     padding: 0;
-     margin: 0;
-     width: 50%;
+
+.btn {
+	display: block;
+	margin: auto;
 }
-.header{
+
+.gender {
+	display: flex;
+	flex-direction: row;
+	padding: 0;
+	margin: 0;
+	width: 50%;
+}
+
+.header {
 	height: 32px;
-    width: 100%;
-    margin-left: -20px;
-    background-color: black;
-    position:fixed;
+	width: 100%;
+	margin-left: -20px;
+	background-color: black;
+	position: fixed;
 }
+
 @media screen and (max-width:600px) {
-    form input{
-        width: 80%;
-    }
-	.modal__content{
+	form input {
+		width: 80%;
+	}
+
+	.modal__content {
 		width: 90%;
 		left: 10%;
 	}
 }
 
 @media only screen and (min-width: 601px) and (max-width:1000px) {
-    form input{
-        width: 75%;
-    }
+	form input {
+		width: 75%;
+	}
 }
 
 @media only screen and (min-width: 100px) and (max-width:1950px) {
-    form input{
-        width: 55%;
-    }
-	.modal__content{
+	form input {
+		width: 55%;
+	}
+
+	.modal__content {
 		width: 40%;
-	
+
 	}
 }

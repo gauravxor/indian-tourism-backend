@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import axios from 'axios';
 const AddLocationContainer = () => {
 
+	/** React states to store location data */
 	const [locationName, setLocationName] = useState("");
 	const [locationAddress, setLocationAddress] = useState("");
 	const [locationDescription, setLocationDescription] = useState("");
@@ -22,13 +23,12 @@ const AddLocationContainer = () => {
 	const [locationSliderImage3, setLocationSliderImage3] = useState("");
 
 
-
+	/** Function to handle adding location to the database */
 	const handleAddLocation = async (event) => {
 		event.preventDefault();
-		console.log("Add Location Clicked");
+		console.log("Add Location Button Clicked");
 
-		event.preventDefault();
-
+		/** Since the form will be sending out a multipart data, we are using FormApi to create data object */
 		const data = new FormData();
 		data.append("name", locationName);
 		data.append("description", locationDescription);
@@ -42,7 +42,6 @@ const AddLocationContainer = () => {
 		data.append("capacity", locationCapacity);
 		data.append("ticketPrice", locationPrice);
 
-
 		data.append("cover-image1", locationCoverImage1);
 		data.append("cover-image2", locationCoverImage2);
 		data.append("cover-image3", locationCoverImage3);
@@ -55,21 +54,23 @@ const AddLocationContainer = () => {
 
 		try{
 			const url = "http://localhost:4000/api/location/add-location/";
+
+			/** Sending out the request with appropriate data */
 			const response = await axios.post(url, data, {
 				headers: {
 					"Content-Type": "multipart/form-data"
 				}, withCredentials: true });
 
-			console.log(response);
 			if (response.data.status === "success") {
-				alert("Location was succeesfully added to the database");
+				alert("Location successfully added to the database");
+				console.log("Location successfully added to the database");
 			}
 			else {
 				alert("Error adding location to the database");
+				console.log("Error adding location to the database");
 			}
 		}
 		catch(error){
-			console.log(error);
 			alert("Error adding location to the database");
 		}
 	}
@@ -250,5 +251,4 @@ const AddLocationContainer = () => {
 		</div>
 	)
 };
-
 export default AddLocationContainer;

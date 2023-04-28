@@ -1,46 +1,47 @@
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import ForgotPasswordModal 	from "../Modals/ForgotPasswordModal/ForgotPasswordModal";
+import LoginModal			from "../Modals/LoginModal/LoginModal";
+import SignUpModal			from "../Modals/SignUpModal/SignUpModal";
+import OtpModal				from "../Modals/OtpModal/OtpModal";
+import Button				from "../UI/Buttons/Button";
+
+import {AppContext}			from '../../AppContext.js';
 import "./Header.css";
 
-// eslint-disable-next-line
-import React, { useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import LoginModal from "../Modals/LoginModal/LoginModal";
-import SignUpModal from "../Modals/SignUpModal/SignUpModal";
-import OtpModal from "../Modals/OtpModal/OtpModal";
-import ForgotPasswordModal from "../Modals/ForgotPasswordModal/ForgotPasswordModal";
-import Button from "../UI/Buttons/Button";
-
-import {AppContext} from '../../AppContext.js';
-
 import axios from "axios";
+
 const Header = ( ) => {
+
 
 	const navigate = useNavigate();
 
 	const { context, setContext } = useContext(AppContext);
 
-	const { isLoggedIn, isUserAdmin, isSlideShow} = context;
+	const { isLoggedIn, isUserAdmin} = context;
 	const { isLoginModalOpen, isSignUpModalOpen, isOtpModalOpen, isForgotPasswordModalOpen } = context;
 
-	const [searchTxt, setSearchTxt] = useState("");
+	const [searchText, setSearchText] = useState("");
 	const [searchPlaceholder, setSearchPlaceholder] = useState("Search for locations");
-    console.log(`In Header.js : isShlideShow: ${isSlideShow}`);
-    console.log(`In Header.js : isLoggedIn: ${isLoggedIn}`);
+
+	/** Function to handle things when user clicks the logout button */
 	const handleLogoutClick = async () => {
 		console.log("Logout Clicked");
 
-		// data to be sent to the server
+		/** Data to be sent to the server */
 		const data = {
 			userEmail: context.userEmail,
 		}
 
 		try {
-			const response = await axios.post(
-				"http://localhost:4000/api/auth/logout",
-				data
-			);
+			const url = "http://localhost:4000/api/auth/logout";
+
+			/** Calling the Logout API */
+			const response = await axios.post(url, data, { withCredentials: true });
 			console.log(response.data);
 
-			// if user logs out reset the app context
+			/** Since user is logging out, so reset the context variables */
 			setContext({ ...context,
 				isLoggedIn: false,
 				isUserAdmin: false,
@@ -53,39 +54,42 @@ const Header = ( ) => {
 		}
 	}
 
+	/** Function to handle things when user clicks the SEARCH button */
 	const handleSearchClicked = (event) => {
 		event.preventDefault()
-		console.log("Search Clicked, re-rendering the main body");
-		if(searchTxt === ""){
-			console.log("Please enter a location");
-			setSearchPlaceholder("Please enter a location");
+		console.log("Search button clicked");
+
+		if(searchText === ""){
+			console.log("Empty search text");
+			setSearchPlaceholder("Enter a valid search text");
 		}
 		else{
-			setContext({ ...context, searchText: searchTxt});
-			navigate("/locations");
+			setContext({ ...context, searchText: searchText});
+			navigate("/locations");  /** Navigate the user to {locations} route */
 		}
 	}
 
+	/** Function to handle things when user clicks the LOGIN button */
 	const handleLoginClicked = () => {
-		console.log("Login Clicked");
+		console.log("Login button clicked");
 		setContext({ ...context, isLoginModalOpen: true});
 	}
 
+	/** Function to handle things when user clicks the SIGNUP button */
 	const handleSignUpClicked = () => {
 		console.log("Signup Clicked");
 		setContext({ ...context, isSignUpModalOpen: true});
 	}
 
-	console.log("Is user admin: ", isUserAdmin);
-	console.log("Is user admin in type: ", typeof(isUserAdmin));
 	return (
 		<div className="navbar-container">
 			<nav className="navbar">
-
+				{/* The site logo container */}
 				<div className="site-logo">
 					<img src={process.env.PUBLIC_URL + "/res/icons/site-icon.png"} href="/" alt="Site Logo" />
 				</div>
 
+				{/* The navbar links container */}
 				<div className="navbar-links">
 
 					{isLoggedIn && !isUserAdmin && (<>
@@ -114,10 +118,11 @@ const Header = ( ) => {
 					)}
 				</div>
 
+				{/* The search bar container */}
 				<form className="navbar-search">
 					<input type="text" placeholder={searchPlaceholder}
-						value={searchTxt} onChange={(e) => setSearchTxt(e.target.value)} />
-					<Button onClick = {handleSearchClicked}>Search</Button>
+						value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+					<Button onClick = {handleSearchClicked}> Search </Button>
 				</form>
 
 				<div className="navbar-buttons">
@@ -131,11 +136,11 @@ const Header = ( ) => {
 					)}
 				</div>
 			</nav>
+
 			{isLoginModalOpen && <LoginModal/>}
 			{isSignUpModalOpen && <SignUpModal/>}
 			{isOtpModalOpen && <OtpModal/>}
-			{isForgotPasswordModalOpen && <ForgotPasswordModal/>
-			}
+			{isForgotPasswordModalOpen && <ForgotPasswordModal/>}
 		</div>
 	);
 };

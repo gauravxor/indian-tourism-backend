@@ -7,10 +7,9 @@
 	color: #fff;
 	border-radius: 0px 0px 10px 10px;
 	font-family: "Secular One", sans-serif;
-    font-family: "Source Sans Pro", sans-serif;
-    font-weight: 500;
+	font-family: "Source Sans Pro", sans-serif;
+	font-weight: 500;
 	height: 30px;
-	/* margin-top: -8px; */
 	margin: -8px -8px 0px -8px;
 }
 
@@ -29,7 +28,7 @@
 	text-decoration: none;
 	font-weight: bold;
 	transition: color 0.2s;
-	font-size:20px;
+	font-size: 20px;
 }
 
 .navbar-links a:hover {
@@ -39,7 +38,6 @@
 
 .navbar-search {
 	display: flex;
-	/* gap: 0.5rem; */
 	align-items: center;
 	border-radius: 0.5rem;
 	padding: 0.1rem;
@@ -59,7 +57,7 @@
 	padding: 0.5rem;
 	font-weight: bold;
 	cursor: pointer;
-	
+
 }
 
 .navbar-buttons {
@@ -79,8 +77,8 @@
 	height: 50px;
 }
 
-@media screen and (max-width:750px)  {
-    .navbar-links{
+@media screen and (max-width:750px) {
+	.navbar-links {
 		display: none;
 	}
 }

@@ -4,32 +4,32 @@
 	box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 	padding: 20px;
 	margin-bottom: 20px;
-  }
+}
 
-  .cancellation-card-header {
+.cancellation-card-header {
 	margin-bottom: 10px;
-  }
+}
 
-  .cancellation-card-header h2 {
+.cancellation-card-header h2 {
 	font-size: 24px;
 	margin-bottom: 5px;
-  }
+}
 
-  .cancellation-card-header p {
+.cancellation-card-header p {
 	font-size: 16px;
-  }
+}
 
-  .cancellation-card-details-row {
+.cancellation-card-details-row {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 5px;
-  }
+}
 
-  .cancellation-card-details p {
+.cancellation-card-details p {
 	font-size: 16px;
-  }
+}
 
-  .cancellation-card-details p strong {
+.cancellation-card-details p strong {
 	font-weight: bold;
 	margin-right: 10px;
-  }
+}

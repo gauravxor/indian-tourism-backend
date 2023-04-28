@@ -1,12 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react'
+import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
-import BookingCard from '../BookingCard/BookingCard.jsx';
 import './BookingsContainer.css';
+import BookingCard from '../BookingCard/BookingCard.jsx';
 
 import { AppContext } from '../../../../AppContext.js';
-
-import { v4 as uuidv4 } from 'uuid';
 
 
 function BookingsContainer() {
@@ -16,30 +15,27 @@ function BookingsContainer() {
 
 	const [bookings, setBookings] = useState([]);
 
-	useEffect(() => {
-		console.log("The context is = " + context.userId);
-	}, [context.userId]);
-
+	/** As soon as we have the userId, fetch all the bookings under that UserId */
 	useEffect(() => {
 		const userId = context.userId;
-		console.log("The context user id is = " + userId);
+		console.log("The user id is = " + userId);
 
 		const url = `http://localhost:4000/api/user/bookings/${userId}`;
 
 		axios.get(url, {withCredentials: true})
 		.then((response) => {
-			console.log("The response object is = " + response.data)
 
 			/** Check if we received a valid response */
 			if(response.data.status === "success"){
+				console.log("Successfully fetched bookings");
 				setBookings(response.data.userBookings);
 			}
 			else{
-				console.log("The response status is not success");
+				console.log("Faild to fetch bookings");
 			}
 		})
 		.catch((error) => {
-			console.log("The error is = " + error);
+			console.log("");
 		})
 	}, [context.userId]);
 

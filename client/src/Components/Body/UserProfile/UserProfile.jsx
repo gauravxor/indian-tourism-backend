@@ -1,8 +1,9 @@
-import axios from 'axios';
 import React, { useState, useContext, useEffect } from 'react';
-import { AppContext } from '../../../AppContext.js'
+import axios from 'axios';
+
+import UserProfileEdit	from './UserProfileEdit.jsx';
+import { AppContext }	from '../../../AppContext.js'
 import './UserProfile.css';
-import UserProfileEdit from './UserProfileEdit.jsx';
 
 
 const UserProfile = () => {
@@ -15,34 +16,28 @@ const UserProfile = () => {
 	/** If user want to edit their profile */
 	const [inEditableMode, setInEditableMode] = useState(false);
 
-
-
+	/** Fetch the user details as soon as the component is mounted */
 	useEffect(() => {
 		const url = `http://localhost:4000/api/user/details/${context.userId}`;
 
+		/** Calling the API to fetch the user data */
 		axios
 		.get(url, { withCredentials: true })
 		.then((response) => {
 			if (response.data.status === "success") {
+				console.log("User details fetched successfully");
 				setUserDetails(response.data.userData);
-				console.log(JSON.stringify(userDetails));
 			}
 			else {
 				console.log("Error fetching user details");
 			}
 		})
 		.catch((error) => {
-			console.log(error);
 			console.log("Error fetching user details");
 		})
 	},[context.userId]);  //eslint-disable-line
 
-
-	useEffect(() => {
-		console.log("User details: " + JSON.stringify(userDetails));
-	}, [userDetails]);
-
-
+	/** If userId is emptry in context, then the user is not logged in, hence display appropriate message */
 	if (context.userId === "") {
 		return (
 			<div>
@@ -50,9 +45,10 @@ const UserProfile = () => {
 			</div>
 		)
 	}
-	else
+	else  /** If userDetails are are fetched successfully, only then render the component */
 	if (Object.keys(userDetails).length !== 0){
 		return (<>
+			{/* If the state of inEditableMode is false, then display the user details, else display the edit form */}
 			{!inEditableMode ? (
 				<div className="user-details">
 					<div className="user-image">
@@ -93,6 +89,7 @@ const UserProfile = () => {
 					</div>
 				</div>
 			) : (
+				/** Displaying the edit form */
 				<UserProfileEdit userDetails={userDetails} setInEditableMode={setInEditableMode} />
 			)}
 		</>

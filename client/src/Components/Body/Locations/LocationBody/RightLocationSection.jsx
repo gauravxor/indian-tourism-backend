@@ -1,58 +1,66 @@
-import axios from 'axios';
 import React, {useContext} from 'react'
+import axios from 'axios';
+
 import {AppContext} from '../../../../AppContext.js';
 import PaymentModal from '../../../Modals/PaymentModal/PaymentModal.jsx';
 
+/** This function takes in a date in ISO format and converts it into in DD-MM-YYYY format */
 const formattedDate = (visitDate) => {
 	const date = new Date(visitDate);
 	const day = date.getDate();
 	const month = date.getMonth() + 1;
 	const year = date.getFullYear();
 	const formattedDate = day + "-" + month + "-" + year;
+
 	return formattedDate;
 }
 
+const RightLocationSection = (props) => {
 
-function RightLocationSection(props) {
-	// const locationData = props.locationData;
-
-
+	/** To store the number of adults in tickets */
 	const [adultCount, setAdultCount] = React.useState(1);
+
+	/** To store the number of children in tickets */
 	const [childrenCount, setChildrenCount] = React.useState(0);
+
+	/** To store the visit date */
 	const [visitDate, setVisitDate] = React.useState("");
+
+	/** React state to store the booking message that is to be displayed to user */
+	const [bookingMessage, setBookingMessage] = React.useState("");
 
 	const {context, setContext} = useContext(AppContext);
 	const {isPaymentModalOpen} = context;
 
-	const [bookingMessage, setBookingMessage] = React.useState("");
-
-
+	/** Function to handle the thing when user submits a booking requesr */
 	const handleBookingFormSubmit = async (event) => {
 		event.preventDefault();
-		console.log("Booking submit button clicked");
+		console.log("Booking request was submitted");
 
+		/** Calculating the total number of visitors */
 		const visitorCount = parseInt(adultCount) + parseInt(childrenCount);
+
 		const data = {
 			locationId : context.locationId,
 			noOfTickets : visitorCount.toString(),
 			bookingDate : formattedDate(visitDate),
 		}
-		console.log(data);
-		const url = "http://localhost:4000/api/book/lock/";
+
 		try{
+			const url = "http://localhost:4000/api/book/lock/";
 			const response = await axios.post(url, data, {withCredentials: true});
+
 			if(response.data.status === "success"){
-				console.log("Booking locked successfully");
-				console.log("The temporary booking id is : " + response.data.lockId);
+				console.log("Booking lock ID is : " + response.data.lockId);
 				setBookingMessage("Booking locked successfully, proceeding to payment.....");
 
+				/** Open the payment modal after 4 seconds */
 				setTimeout(() => {
 					setContext({...context, tempBookingId: response.data.lockId, isPaymentModalOpen: true});
-				}, 5000);
+				}, 4000);
 			}
 		}
 		catch(error){
-			console.log(error);
 			setBookingMessage("Booking failed, please try again later");
 		}
 	}
@@ -60,6 +68,7 @@ function RightLocationSection(props) {
 	return (
 		<div className="right-section">
 			<h2>Location Booking</h2>
+
 			<form onSubmit={handleBookingFormSubmit}>
 				<label htmlFor="adults">Adult:</label>
 				<input
@@ -99,6 +108,8 @@ function RightLocationSection(props) {
 				<input type="submit" value="Book Now" />
 				<p> {bookingMessage}</p>
 			</form>
+
+			{/* If booking lock is successfull, then render the payment modal */}
 			{isPaymentModalOpen && (<PaymentModal />)}
 		</div>
 	);

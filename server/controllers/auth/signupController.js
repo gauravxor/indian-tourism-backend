@@ -39,6 +39,7 @@ const signUpController = async (req, res) => {
 				pincode: req.body.address.pincode,
 			},
 			dob: req.body.dob,
+			gender: req.body.gender,
 			createdAt: req.body.createdAt,
 			updatedAt: req.body.updatedAt
 		});

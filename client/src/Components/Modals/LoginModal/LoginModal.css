@@ -1,54 +1,52 @@
-.modal {
-
-}
-
 .modal_content {
 	width: 100%;
-    height: 470px;
-    margin: 5px;
-    padding: 5px;
-    top: 70px;
-    left: 30%;
-    background:  linear-gradient(to right, #dcd7e6, #baffea);
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
-    border-radius: 15px;
-    position: fixed;
-    margin: auto;
-    display: block;
-    text-align: center;
-    overflow: hidden;
-    z-index: 100;
-    transform: scale(1.1);
-    transition: visibility 1s linear 0.3s, opacity 0.3s 0.5s, transform 0.3s;
+	height: 470px;
+	margin: 5px;
+	padding: 5px;
+	top: 70px;
+	left: 30%;
+	background: linear-gradient(to right, #dcd7e6, #baffea);
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+	border-radius: 15px;
+	position: fixed;
+	margin: auto;
+	display: block;
+	text-align: center;
+	overflow: hidden;
+	z-index: 100;
+	transform: scale(1.1);
+	transition: visibility 1s linear 0.3s, opacity 0.3s 0.5s, transform 0.3s;
 
 }
-.actions{
+
+.actions {
 	margin: 50px;
 	margin-bottom: 20px;
-	
-	
 }
-.header{
+
+.header {
 	height: 32px;
-    width: 100%;
-    margin-left: -20px;
-    background-color: black;
-    position: fixed;
-    top: 0;
+	width: 100%;
+	margin-left: -20px;
+	background-color: black;
+	position: fixed;
+	top: 0;
 }
-.footer{
-    height: 10px;
-    width: 150%;
-    background-color: black;
-    position: fixed;
-    bottom: 0; 
-    margin-left: -80px;
+
+.footer {
+	height: 10px;
+	width: 150%;
+	background-color: black;
+	position: fixed;
+	bottom: 0;
+	margin-left: -80px;
 }
+
 .close {
 	width: 30px;
-    position: fixed;
-   top: 0;
-   right: 0;
+	position: fixed;
+	top: 0;
+	right: 0;
 }
 
 .close:hover,
@@ -70,135 +68,149 @@
 
 
 @media screen and (max-width:600px) {
-    .modal_content{
-        width: 75%;
-        height: 460px;
-        left: 10%;
-    }
+	.modal_content {
+		width: 75%;
+		height: 460px;
+		left: 10%;
+	}
 }
 
 @media only screen and (min-width: 601px) and (max-width:1000px) {
-    .modal_content{
-        width: 60%;
-        left: 18%;
-    }
+	.modal_content {
+		width: 60%;
+		left: 18%;
+	}
 }
+
 @media only screen and (min-width: 1001px) and (max-width:1220px) {
-    .modal_content{
-        width: 50%;
-      
-    }
+	.modal_content {
+		width: 50%;
+
+	}
 }
+
 @media only screen and (min-width: 1221px) and (max-width:1920px) {
-    .modal_content{
-        width: 40%;
-      
-    }
+	.modal_content {
+		width: 40%;
+
+	}
 }
-.image{
-    height: 80px;
-    display: block;
-    margin: auto;
-    background:none;
+
+.image {
+	height: 80px;
+	display: block;
+	margin: auto;
+	background: none;
 }
 
 .login {
-    background-color: rgba(196, 246, 255, 0.618);
-    padding: 0.8rem;
+	background-color: rgba(196, 246, 255, 0.618);
+	padding: 0.8rem;
 	margin-left: 80px;
 	margin-top: 50px;
 	border-radius: 10px;
-	box-shadow: 0 2px 8px rgba(0,0,0,0.26);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 
- }
-  
- .checkbox{
- margin-top: 15px;
- }
- .isadmin{
+}
+
+.checkbox {
+	margin-top: 15px;
+}
+
+.isadmin {
 	position: relative;
 	left: -25%;
-	
- }
-.control{
-    padding: 0;
-    margin: 0;
-    margin-bottom: 20px;
+
 }
-  .control label,
-  .control input {
-    display: block;
-    margin: auto;
-    align-items: left;
-  }
-  
-  .control label {
-    font-size: 17px;
-    font-weight: bold;
-    color: #464646;
-  display: flex;
-  flex-direction: row;
- margin-left: 8%;
- left: -30px;
-  }
-  
-  .control input {
-    width: 80%;
-    font: inherit;
-    padding: 0.35rem 0.35rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-  
-  .control input:focus {
-    outline: none;
-    border-color: #4f005f;
-    background: #f6dbfc;
-  }
-  
-  .control.invalid input {
-    border-color: red;
-    background: #fbdada;
-  }
-  
-  .actions {
-    text-align: center;
-  }
-  .message{
+
+.control {
+	padding: 0;
+	margin: 0;
+	margin-bottom: 20px;
+}
+
+.control label,
+.control input {
+	display: block;
+	margin: auto;
+	align-items: left;
+}
+
+.control label {
+	font-size: 17px;
+	font-weight: bold;
+	color: #464646;
+	display: flex;
+	flex-direction: row;
+	margin-left: 8%;
+	left: -30px;
+}
+
+.control input {
+	width: 80%;
+	font: inherit;
+	padding: 0.35rem 0.35rem;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+}
+
+.control input:focus {
+	outline: none;
+	border-color: #4f005f;
+	background: #f6dbfc;
+}
+
+.control.invalid input {
+	border-color: red;
+	background: #fbdada;
+}
+
+.actions {
+	text-align: center;
+}
+
+.message {
 	margin-top: 8px;
 	color: red;
-  }
-  
+}
+
 @media screen and (max-width:600px) {
- .login{ width: 80%;
-	margin-left: 5px;
- }    
- .control label,
-  .control input {
-    font-size: 12px;
-    height: 15px;
-    width: 100%;
-	
-  }
-  .control label{
-    margin-left: 10%;
-  }
+	.login {
+		width: 80%;
+		margin-left: 5px;
+	}
+
+	.control label,
+	.control input {
+		font-size: 12px;
+		height: 15px;
+		width: 100%;
+	}
+
+	.control label {
+		margin-left: 10%;
+	}
 }
-@media screen and (min-width: 600px) and  (max-width:700px) {
- .login{ width: 80%;
-	margin-left: 0px;
- }    
- .control label{
-  margin-left: 10%;
- }
+
+@media screen and (min-width: 600px) and (max-width:700px) {
+	.login {
+		width: 80%;
+		margin-left: 0px;
+	}
+
+	.control label {
+		margin-left: 10%;
+	}
 }
-@media screen and (min-width: 700px) and  (max-width:1920px) {
- .login{ width: 70%;
-	margin-left: 50px;
- }   
- .control label,
-  .control input {
-    font-size: 14px;
-    
-  } 
+
+@media screen and (min-width: 700px) and (max-width:1920px) {
+	.login {
+		width: 70%;
+		margin-left: 50px;
+	}
+
+	.control label,
+	.control input {
+		font-size: 14px;
+	}
 }

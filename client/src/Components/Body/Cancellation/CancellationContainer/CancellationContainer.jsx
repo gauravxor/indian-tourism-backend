@@ -1,20 +1,22 @@
 import React, {useState, useEffect, useContext} from 'react'
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import CancellationCard from '../CancellationCard/CancellationCard.jsx';
 
-
-import { AppContext } from '../../../../AppContext.js';
+import CancellationCard	from '../CancellationCard/CancellationCard.jsx';
+import { AppContext }	from '../../../../AppContext.js';
 
 const CancellationContainer = () => {
 
 	//eslint-disable-next-line
 	const { context, setContext } = useContext(AppContext);
+
+	/** React state to store the array of cancellation data objects */
 	const [cancellation, setCancellation] = useState([]);
 
+	/** Fetch the cancellation data as soon as the component is mounted */
 	useEffect(() => {
-
 		const url = `http://localhost:4000/api/book/cancellations/` + context.userId;
+
 		axios
 		.get(url, {withCredentials: true})
 		.then((response) => {
@@ -23,10 +25,12 @@ const CancellationContainer = () => {
 				setCancellation(response.data.data);
 			}
 			else{
-				console.log("Cancellation data fetch failed");
+				console.log("Failed to fetch cancellation data");
 			}
 		})
-		.catch(error => console.log(error));
+		.catch((error) => {
+			console.log("Failed ot fetch cancellation data");
+		});
 	}, []);  // eslint-disable-line
 
 	return (<>

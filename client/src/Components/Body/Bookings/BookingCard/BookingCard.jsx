@@ -1,15 +1,34 @@
 import React from 'react'
+import axios from 'axios';
 
 const BookingCard = (props) => {
 
 	const { bookingData } = props;
 
 	const bookingId = bookingData.bookingId;
-	const cancelBookingHandler = () => {
-		console.log("Booking tried to cancel");
-		console.log("This will trigger a cancellation request for booking id = " + bookingId);
-	}
+	const cancelBookingHandler = async () => {
+		console.log("Submitting a cancellation request for booking ID: " + bookingId);
 
+		try{
+			const url = "http://localhost:4000/api/book/cancel";
+			const data = {
+				bookingId : bookingId,
+				userId : bookingData.userId,
+			}
+
+			const response = await axios.post(url, data, {withCredentials: true});
+			if(response.data.status === "success"){
+				alert("Cancellation Request Submitted Successfully");
+				window.location.reload();
+			}
+			else{
+				alert("Cancellation Request Failed");
+			}
+		}
+		catch(err){
+			console.log(err);
+		}
+	}
 
 	return (
 		<div className="booking-card">

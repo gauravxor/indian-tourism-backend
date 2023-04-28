@@ -1,19 +1,21 @@
-import "./SignUpModal.css";
-
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import { AppContext } from '../../../AppContext.js'
-import Button from "../../UI/Buttons/Button";
 
+import Button 			from "../../UI/Buttons/Button";
+import { AppContext }	from '../../../AppContext.js'
+
+import "./SignUpModal.css";
 
 const SignUpModal = () => {
 
 	const { context, setContext } = useContext(AppContext);
 
+	/** React states to store the user input data */
 	const [firstName, setFirstName] 	= useState("");
 	const [middleName, setMiddleName] 	= useState("");
 	const [lastName, setLastName] 		= useState("");
 	const [dob, setDob] 				= useState("");
+	const [gender, setGender] 			= useState("");
 
 	const [email, setEmail] 			= useState("");
 	const [phone, setPhone] 			= useState("");
@@ -25,10 +27,10 @@ const SignUpModal = () => {
 	const [city, setCity] 				= useState("");
 	const [pincode, setPincode] 		= useState("");
 
-
+	/** To store the user sign up status message */
 	const [signUpMessage, setSignUpMessage] = useState("");
 
-
+	/** Function to handle modal close click */
 	const handleModalClose = () => {
 		console.log("Sign Up Modal Closed")
 		setContext({ ...context, isSignUpModalOpen: false});
@@ -37,21 +39,19 @@ const SignUpModal = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("Form Submitted");
-
+		console.log("Form submit button clicked");
 
 		const data = {
-
 			name: {
 				firstName: firstName,
 				middleName: middleName,
 				lastName: lastName,
 			},
-
 			contact: {
 				email: email,
 				phone: phone
 			},
+			gender: gender,
 			password: password,
 			address: {
 				addressMain: address,
@@ -63,13 +63,13 @@ const SignUpModal = () => {
 			dob: dob,
 		};
 
-		console.log(data);
-
 		try{
-			const response = await axios.post("http://localhost:4000/api/auth/signup", data);
-			console.log(response.data);
+			const url = "http://localhost:4000/api/auth/signup";
+			const response = await axios.post(url, data);
 			if(response.data.status === "success"){
 				setSignUpMessage("Sign Up Successful");
+
+				/** Wait for 2 seconds and then close the signup modal and show OTP modal */
 				setTimeout(() => {
 					setContext({...context, isLoggenIn: true, isSignUpModalOpen: false,
 						isOtpModalOpen: true, userEmail: email, userId: response.data.userId});
@@ -90,9 +90,10 @@ const SignUpModal = () => {
 	return (
 		<div className="modal">
 			<div className="modal__content">
-				<div className="header"></div>
+				{/* Modal Close Button */}
 				<Button className="close" onClick={() => handleModalClose()}>&times;</Button>
 
+				{/* Modal Content */}
 				<h2>Sign Up here</h2>
 				<form onSubmit={handleSubmit}>
 
@@ -113,7 +114,6 @@ const SignUpModal = () => {
 					name="middleName"
 					value={middleName}
 					onChange={(e) => setMiddleName(e.target.value)}
-					required
 					/> <br/><br/>
 
 					<label htmlFor="LastName" placeholder="Enter your last name">Last Name:</label><br/>
@@ -125,16 +125,35 @@ const SignUpModal = () => {
 						onChange={(e) => setLastName(e.target.value)}
 						required
 					/> <br/><br/>
-                   
-                    <label htmlFor="gender">Gender : </label>
-                    <div className='gender'>
-                        <input type="radio"/>
-                        <label htmlFor="male">Male</label>
-                        <input type="radio" />
-                        <label htmlFor="female">Female</label>
-                        <input type="radio"/>
-                        <label htmlFor="others">Others</label>
-                    </div><br/>
+
+					<label htmlFor="gender">Gender : </label>
+					<div className='gender'>
+						<label htmlFor="male">Male</label>
+						<input
+							type="radio"
+							id="male"
+							name="gender"
+							value={gender}
+							onChange={(e) => setGender("male")}
+						/>
+						<label htmlFor="female">Female</label>
+						<input
+							type="radio"
+							id="female"
+							name="gender"
+							value={gender}
+							onChange={(e) => setGender("female")}
+						/>
+						<label htmlFor="others">Others</label>
+						<input
+							type="radio"
+							id="others"
+							name="gender"
+							value={gender}
+							onChange={(e) => setGender("others")}
+						/>
+					</div><br/>
+
 					<label htmlFor="dob">Date of Birth:</label><br/>
 					<input
 						type="date"
@@ -144,7 +163,6 @@ const SignUpModal = () => {
 						onChange={(e) => setDob(e.target.value)}
 						required
 					/> <br/><br/>
-
 
 					<label htmlFor="email" placeholder="xyz@gmail.com">Email:</label><br/>
 					<input
@@ -165,7 +183,6 @@ const SignUpModal = () => {
 						onChange={(e) => setPhone(e.target.value)}
 						required
 					/> <br/><br/>
-
 
 					<label htmlFor="password">Password:</label><br/>
 					<input
@@ -228,7 +245,10 @@ const SignUpModal = () => {
 					/> <br/><br/>
 					<Button type="submit">Submit</Button>
 				</form>
-				<div> <h1>{signUpMessage}</h1> </div>
+
+				<div>
+					<h1>{signUpMessage}</h1>
+				</div>
 			</div>
 		</div>
 	);

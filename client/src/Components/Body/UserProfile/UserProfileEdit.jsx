@@ -3,18 +3,18 @@ import React, { useState } from 'react';
 import './UserProfileEdit.css';
 import {cloneDeep } from 'lodash';
 
-
-
 const UserProfileEdit = (props) => {
 
 	const userDetails = cloneDeep(props.userDetails);
 
-	const [userImage, setUserImage] 		= useState(null);
+	const [userImage, setUserImage] 	= useState(null);
 
+	/** React states to store the updated user data. They are initialized with old data for ease of user */
 	const [firstName, setFirstName] 	= useState(userDetails.name.firstName);
 	const [middleName, setMiddleName] 	= useState(userDetails.name.middleName);
 	const [lastName, setLastName] 		= useState(userDetails.name.lastName);
 	const [dob, setDob] 				= useState(userDetails.dob);
+	const [gender, setGender]			= useState(userDetails.gender);
 	const [email, setEmail] 			= useState(userDetails.contact.email);
 	const [phone, setPhone] 			= useState(userDetails.contact.phone)
 	const [country, setCountry] 		= useState(userDetails.address.country);
@@ -24,14 +24,18 @@ const UserProfileEdit = (props) => {
 	const [pincode, setPincode] 		= useState(userDetails.address.pincode);
 
 
+	/** Function to handle the saving of updated user data */
 	const handleSave = async (event) => {
 		event.preventDefault();
+
+		/** Since the API post request will contain multipart form data, we are using FormApi to save data */
 		const data = new FormData();
 		data.append("userImage", userImage);
 		data.append("firstName", firstName);
 		data.append("middleName", middleName);
 		data.append("lastName", lastName);
 		data.append("dob", dob);
+		data.append("gender", gender);
 		data.append("phone", phone);
 		data.append("email", email);
 		data.append("addressMain", address);
@@ -45,17 +49,20 @@ const UserProfileEdit = (props) => {
 
 		try{
 			const url = "http://localhost:4000/api/update/user";
+
+			/** Calling the Update API with proper headers for multipart data */
 			const response = await axios.post(url, data, {
 				headers: {
 					"Content-Type": "multipart/form-data"
-				}, withCredentials: true });
+				}, withCredentials: true
+			});
 
-			console.log("Data type of response object = ", + typeof(response));
-			console.log(response);
 			if (response.data.status === "success") {
+				console.log("User details updated successfully");
 				alert("User details updated successfully");
 			}
 			else {
+				console.log("Error updating user details");
 				alert("Error updating user details");
 			}
 		}
@@ -63,10 +70,7 @@ const UserProfileEdit = (props) => {
 			console.log(error);
 			alert("Error updating user details");
 		}
-
 	}
-
-
 
 	return (
 		<div>
@@ -108,6 +112,32 @@ const UserProfileEdit = (props) => {
 					value= {lastName}
 					onChange={(e) => setLastName(e.target.value)}
 				/> <br/>
+
+				<label htmlFor="male">Male</label>
+				<input
+					type="radio"
+					id="male"
+					name="gender"
+					value={gender}
+					onChange={(e) => setGender("male")}
+				/>
+				<label htmlFor="female">Female</label>
+				<input
+					type="radio"
+					id="female"
+					name="gender"
+					value={gender}
+					onChange={(e) => setGender("female")}
+				/>
+				<label htmlFor="others">Others</label>
+				<input
+					type="radio"
+					id="others"
+					name="gender"
+					value={gender}
+					onChange={(e) => setGender("others")}
+				/>
+
 
 
 				<label htmlFor='phone'>Phone</label>
@@ -190,9 +220,13 @@ const UserProfileEdit = (props) => {
 					onChange={(e) => setDob(e.target.value)}
 				/> <br/>
 			</div>
+
+			{/* Back button to allow user go back one step, in case if they don't want to save the changes */}
 			<div className="back-button">
 				<button onClick={() => props.setInEditableMode(false)}>Back</button>
 			</div>
+
+			{/* Save button to save the changes made by the user */}
 			<div className="save-button">
 				<button onClick={(event) => handleSave(event)}>Save</button>
 			</div>

@@ -1,48 +1,51 @@
 import axios from 'axios';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
-const UserProfileEdit = ( props ) => {
+const UserProfileEdit = (props) => {
 
+	/** Saving the location id received from props */
 	const locationId = props.locationId;
-
-	console.log("Location id: " + locationId);
-	const url = `http://localhost:4000/api/location/` + locationId;
 
 	const [locationData, setLocationData] = useState({});
 
 	useEffect(() => {
-		console.log("Fetching location details");
+		const url = `http://localhost:4000/api/location/` + locationId;
+
 		axios.get(url, { withCredentials: true })
 		.then((response) => {
 			if (response.data.status === "success") {
+				console.log("Fetched location details");
 				setLocationData(response.data.location);
 			}
 		})
 		.catch((error) => {
-			console.log(error);
 			console.log("Error fetching location details");
 		})
-	}, []);
+	}, []);  // eslint-disable-line
 
-	const [locationName, setLocationName] = useState(locationData.name);
-	const [locationAddress, setLocationAddress] = useState(locationData.address);
-	const [locationDescription, setLocationDescription] = useState(locationData.description);
-	const [locationCity, setLocationCity] = useState(locationData.city);
-	const [locationState, setLocationState] = useState(locationData.state);
-	const [locationCountry, setLocationCountry] = useState(locationData.country);
-	const [locationPincode, setLocationPincode] = useState(locationData.pincode);
-	const [locationLongitude, setLocationLongitude] = useState(locationData.longitude);
-	const [locationLatitude, setLocationLatitude] = useState(locationData.latitude);
-	const [locationCapacity, setLocationCapacity] = useState(locationData.capacity);
-	const [locationPrice, setLocationPrice] = useState(locationData.ticketPrice);
+	/** React states to store the location details */
+	const [locationName, setLocationName] = useState("");
+	const [locationAddress, setLocationAddress] = useState("");
+	const [locationDescription, setLocationDescription] = useState("");
+	const [locationCity, setLocationCity] = useState("");
+	const [locationState, setLocationState] = useState("");
+	const [locationCountry, setLocationCountry] = useState("");
+	const [locationPincode, setLocationPincode] = useState("");
+	const [locationLongitude, setLocationLongitude] = useState("");
+	const [locationLatitude, setLocationLatitude] = useState("");
+	const [locationCapacity, setLocationCapacity] = useState("");
+	const [locationPrice, setLocationPrice] = useState("");
+
 	const [locationCoverImage1, setLocationCoverImage1]   = useState(null);
 	const [locationCoverImage2, setLocationCoverImage2]   = useState(null);
 	const [locationCoverImage3, setLocationCoverImage3]   = useState(null);
+
 	const [locationSliderImage1, setLocationSliderImage1] = useState(null);
 	const [locationSliderImage2, setLocationSliderImage2] = useState(null);
 	const [locationSliderImage3, setLocationSliderImage3] = useState(null);
 
+	/** As soon as location data is fetched, they are initialized with old values for user's ease */
 	useEffect(() => {
 		setLocationName(locationData.name);
 		setLocationAddress(locationData.address);
@@ -58,9 +61,13 @@ const UserProfileEdit = ( props ) => {
 	}, [locationData]);
 
 
+	/** Function to handle operation if user clicks the save button to save the updated location data */
 	const handleSave = async (event) => {
 		event.preventDefault();
+
 		console.log("Save Location Clicked");
+
+		/** As we are dealing with multipart form data, FormApi is used to create object of data */
 		const data = new FormData();
 		data.append("name", locationName);
 		data.append("description", locationDescription);
@@ -80,27 +87,26 @@ const UserProfileEdit = ( props ) => {
 		data.append("sliderImage2", locationSliderImage2);
 		data.append("sliderImage3", locationSliderImage3);
 
-
 		console.log(data);
 
 		try{
 			const url = `http://localhost:4000/api/location/update-location/` + locationId;
+
+			/** Sending out request with appropriate multipart headers */
 			const response = await axios.post(url, data, {
 				headers: {
 					"Content-Type": "multipart/form-data"
-				}, withCredentials: true });
+				}, withCredentials: true
+			});
 
 			if (response.data.status === "success") {
 				alert("Location Updated Successfully");
-				console.log(response.data);
 			}
 			else{
 				alert("Location Update Failed");
-				console.log(response.data);
 			}
 		}
 		catch(error){
-			console.log(error);
 			alert("Location Update Failed");
 		}
 	}
@@ -257,6 +263,8 @@ const UserProfileEdit = ( props ) => {
 				/><br/>
 			</div>
 
+			{/* If user clicks the edit button, the inEditableMode state will be changed in parent component and
+				location edit form component will be rendered */}
 			<div className="back-button">
 				<button onClick={() => props.setInEditableMode(false)}>Back</button>
 			</div>
