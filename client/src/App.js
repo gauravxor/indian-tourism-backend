@@ -13,6 +13,7 @@ import BookingsContainer 	from './Components/Body/Bookings/BookingsContainer/Boo
 import LocationsContainer 	from './Components/Body/Locations/LocationsContainer/LocationsContainer.jsx';
 import {AppContext}  from './AppContext';
 import AddLocationContainer from './Components/Body/Locations/AddLocationContainer/AddLocationContainer.jsx';
+import CancellationContainer from './Components/Body/Cancellation/CancellationContainer/CancellationContainer.jsx';
 
 function App() {
 	   // eslint-disable-next-line
@@ -36,6 +37,7 @@ function App() {
           <Route path="/locations" Component={LocationsContainer} />
           <Route path="/locations/:locationId" Component={LocationBody} />
 		  <Route path="/add-location/" Component={AddLocationContainer} />
+		  <Route path="/cancellations" Component={CancellationContainer} />
         </Routes>
       </div>
       <Footer className={classes.footer} />

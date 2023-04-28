@@ -101,6 +101,7 @@ const Header = ( ) => {
 						<a href="/profile">Profile</a>
 						<a href="/locations">Locations</a>
 						<a href="/add-location">Add Location</a>
+						<a href="/cancellations">Cancellations</a>
 						<a href="/about">About</a>
 						</>
 					)}

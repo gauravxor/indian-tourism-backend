@@ -62,6 +62,8 @@ const cancelRequestController = async (req, res, next) => {
 				dateOfVisit: bookingData.dateOfVisit,
 				noOfTickets: bookingData.noOfTickets,
 				bookingPrice: bookingData.bookingPrice,
+				locationName: bookingData.locationName,
+				userName: bookingData.userName
 			});
 
 			/** Save the cancellation data */

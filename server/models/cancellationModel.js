@@ -16,12 +16,21 @@ const cancellationSchema = new mongoose.Schema({
 		required: true,
 		ref: 'locations'
 	},
+	locationName: {
+		type: String,
+		required: true,
+	},
 
 	userId: {
 		type: String,
 		required: true,
 		ref: 'users'
 	},
+	userName: {
+		type: String,
+		required: true,
+	},
+
 	dateOfVisit: {
 		type: Date,
 		required: true,

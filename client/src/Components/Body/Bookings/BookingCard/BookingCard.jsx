@@ -21,17 +21,12 @@ const BookingCard = (props) => {
 				<div className="booking-card-details-row">
 					<p><strong>Booking ID:</strong> {bookingData.bookingId}</p>
 					<p><strong>Date of Visit:</strong> {new Date(bookingData.dateOfVisit).toLocaleDateString()}</p>
-				</div>
-				<div className="booking-card-details-row">
 					<p><strong>Number of Tickets:</strong> {bookingData.noOfTickets}</p>
 					<p><strong>Booking Price:</strong> {bookingData.bookingPrice}</p>
-				</div>
-				<div className="booking-card-details-row">
 					<p><strong>User ID:</strong> {bookingData.userId}</p>
 					<p><strong>User Name:</strong> {bookingData.userName}</p>
-				</div>
-				<div className="booking-card-details-row">
 					<p><strong>Location Address:</strong> {bookingData.locationAddress.address}, {bookingData.locationAddress.city}, {bookingData.locationAddress.state} {bookingData.locationAddress.pincode}, {bookingData.locationAddress.country}</p>
+					<p><strong>Cancellation Status</strong> {bookingData.cancellationStatus}</p>
 				</div>
 			</div>
 			<button type='submit' onClick={cancelBookingHandler}> Cancel Booking </button>
