@@ -8,6 +8,8 @@ const passwordController    = require('../controllers/auth/passwordController');
 const verifyToken 	 		= require('../middlewares/verifyToken');
 const { resendOtp } 		= require('../helper/otpHelper');
 
+/** This route is just for testing purpose */
+const addAdminController	= require('../controllers/auth/addAdminController');
 
 const authRoutes = express.Router();
 
@@ -22,6 +24,10 @@ authRoutes.post('/resend-otp', verifyToken, resendOtp);
 
 authRoutes.post('/forgot-password', passwordController.forgotPassword);
 authRoutes.post('/change-password', verifyToken, passwordController.changePassword);
+
+/** Temporary route */
+authRoutes.post('/add-admin', addAdminController);
+
 
 
 module.exports = authRoutes;

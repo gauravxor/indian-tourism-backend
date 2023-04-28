@@ -12,6 +12,7 @@ import './LocationBody.css';
 
 function LocationBody() {
 
+	// eslint-disable-next-line
 	const { context, setContext } = useContext(AppContext);
 
 	const [locationData, setLocationData] = useState({});
@@ -35,7 +36,9 @@ function LocationBody() {
 		<div>
 			<TopImageSlider imageData = {locationData.images}/>
 			<LeftLocationSection locationData={locationData}/>
-			<RightLocationSection locationId = {context.locationId}/>
+			{context.isUserAdmin === false && (
+				<RightLocationSection locationId = {context.locationId}/>
+			)}
 		</div>
 	);
 };

@@ -14,14 +14,14 @@ const signUpController = async (req, res) => {
 
 	const searchUserResult = await AUTH.searchUser(requestEmail);
 	if(searchUserResult != null){
-		res.status(200).send({
+		return res.status(200).send({
 			status: "failure",
 			msg: "User already exists"
 		});
 	}
 	else{
 		const User = new UserModel({
-			userImageURL: "/public/images/user/default.png",
+			userImageURL: "/public/images/users/default.png",
 			name: {
 				firstName: req.body.name.firstName,
 				middleName: req.body.name.middleName,

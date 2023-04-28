@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import axios from 'axios';
 
+import LocationDataEdit from './LocationDataEdit.jsx';
 import LocationCard from '../LocationCard/LocationCard.jsx';
 import './LocationsContainer.css';
 
@@ -15,6 +16,10 @@ function LocationsContainer() {
 	const { context, setContext } = useContext(AppContext);
 
 	const [locations, setLocations] = useState([]);
+
+	/** If Admin want to edit the location */
+	const [inEditableMode, setInEditableMode] = useState(false);
+	const [editLocationId, setEditLocationId] = useState("");
 
 	useEffect(() => {
 		console.log("Use effect search text is = " + context.searchText);
@@ -34,10 +39,8 @@ function LocationsContainer() {
 		axios.get(apiUrl, {withCredentials: false})
 		.then((response) => {
 			console.log("The response object is = " + response.data)
-			// check if the response is empty
 			if(response.data.length === 0) {
 				console.log("The response is empty");
-				// setLocations([]);
 				setContext({ ...context, showMainBody: true});
 			}
 			else {
@@ -50,7 +53,7 @@ function LocationsContainer() {
 	}, [context.searchText]);
 
 
-	return (
+	return (<>
 		<div className='location-card-container'>
 			{locations.map(location => (
 				<LocationCard
@@ -60,10 +63,22 @@ function LocationsContainer() {
 					description={location.description}
 					images={location.images}
 					price={location.ticketPrice}
+					inEditableMode={inEditableMode}
+					setInEditableMode={setInEditableMode}
+					setEditLocationId={setEditLocationId}
 				/>
 				))
 			}
 		</div>
+		{inEditableMode && (
+			<div className="location-edit-container">
+				<LocationDataEdit
+					locationId={editLocationId}
+					setInEditableMode={setInEditableMode}
+				/>
+			</div>
+		)}
+	</>
 	)
 }
 

@@ -1,12 +1,15 @@
 const UserModel = require("../../models/userModel");
+const AdminModel = require("../../models/adminModel");
 const BookingsModel = require("../../models/bookingsModel");
 
 const _ = require("lodash");
+const adminModel = require("../../models/adminModel");
 
 const getUserDataController = async (req, res) => {
 
 	const userId = (req.params.userId).toString();
-	console.log(userId);
+	console.log("User data controller " + userId);
+	console.log("User data controller " + req.userType);
 	if(userId === undefined || userId === null || userId === ""){
 		return res.status(400).json({
 			status: "failure",
@@ -14,7 +17,13 @@ const getUserDataController = async (req, res) => {
 		});
 	}
 
-	const userData = await UserModel.findOne({_id: userId});
+	let userData;
+	if(req.userType === "local")
+		userData = await UserModel.findOne({_id: userId});
+	else
+	if(req.userType === "admin")
+		userData = await AdminModel.findOne({_id: userId});
+
 	if(userData === null){
 
 		return res.status(400).json({

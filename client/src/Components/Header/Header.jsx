@@ -100,7 +100,7 @@ const Header = ( ) => {
 						<a href="/">Home</a>
 						<a href="/profile">Profile</a>
 						<a href="/locations">Locations</a>
-						<a href="/add-location">Add Location</a> {/* Implement a modal */}
+						<a href="/add-location">Add Location</a>
 						<a href="/about">About</a>
 						</>
 					)}

@@ -1,4 +1,4 @@
-import React, {Fragment, useContext} from 'react';
+import React, {useContext} from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 import classes from './App.module.css'
@@ -12,13 +12,15 @@ import LocationBody 		from './Components/Body/Locations/LocationBody/LocationBod
 import BookingsContainer 	from './Components/Body/Bookings/BookingsContainer/BookingsContainer.jsx';
 import LocationsContainer 	from './Components/Body/Locations/LocationsContainer/LocationsContainer.jsx';
 import {AppContext}  from './AppContext';
+import AddLocationContainer from './Components/Body/Locations/AddLocationContainer/AddLocationContainer.jsx';
 
 function App() {
+	   // eslint-disable-next-line
        const {context, setContext} = useContext(AppContext);
-	    const {isSlideShow} = context; 
+	    const {isSlideShow} = context;
 		console.log(typeof(context.isSlideShow));
 	   console.log(typeof(isSlideShow));
-	   
+
 	return (
     <React.Fragment className={classes.App}>
       <Header />
@@ -33,6 +35,7 @@ function App() {
           <Route path="/bookings" Component={BookingsContainer} />
           <Route path="/locations" Component={LocationsContainer} />
           <Route path="/locations/:locationId" Component={LocationBody} />
+		  <Route path="/add-location/" Component={AddLocationContainer} />
         </Routes>
       </div>
       <Footer className={classes.footer} />

@@ -42,7 +42,7 @@ const updateLocationController = async (req, res, next) => {
 				return;
 			}
 
-			const { name, description, address, city, state, country, pincode, capacity } = req.body;
+			const { name, description, address, city, state, country, pincode, capacity, ticketPrice } = req.body;
 
 			const updatedLocation = {
 				name: name ? name : location.name,
@@ -53,6 +53,7 @@ const updateLocationController = async (req, res, next) => {
 				country: country ? country : location.country,
 				pincode: pincode ? pincode : location.pincode,
 				capacity: capacity ? capacity : location.capacity,
+				ticketPrice: ticketPrice ? ticketPrice : location.ticketPrice
 			};
 
 			const locationFolderPath = path.join(__dirname, `../../public/images/location/${locationId}`);
@@ -64,7 +65,7 @@ const updateLocationController = async (req, res, next) => {
 			if(imageFiles && imageFiles.length > 0) {
 				imageFiles.forEach((file) => {
 					const fileExtension = path.extname(file.originalname);
-					const newFilename = `${uuidv4()}${fileExtension}`;
+					const newFilename = `${uuidv4()}-${fileExtension}`;
 					const imageUrl = `/public/images/location/${locationId}/${newFilename}`;
 					const filePath = path.join(locationFolderPath, newFilename);
 

@@ -18,7 +18,6 @@ const Title ={
     top: '86%',
     left: '90px',
     transform: 'translate(30%, -40%)',
-    left: '10px',
     color: 'white',
     fontSize: '18px',
      zIndex: 0,
@@ -56,7 +55,6 @@ const title ={
     top: '86%',
     left: '90px',
     transform: 'translate(30%, -40%)',
-    left: '10px',
     color: 'white',
     fontSize: '18px',
      zIndex: 1,
@@ -97,12 +95,12 @@ const slidesContainerOverflowStyles = {
 const ImageSlider = ({slides, parentWidth})=>{
     const [currIndex, setcurrIndex] = useState(0);
     const timerRef = useRef(null);
-   
-   
+
+
  const sliderStyles ={
      height: '100%',
      position: 'relative',
-     
+
 };
 const slideStyles ={
     width: '100%',
@@ -114,16 +112,19 @@ const slideStyles ={
     backgroundImage: `url(${slides[currIndex].url})`,
     cursor: 'pointer',
 };
+
+// eslint-disable-next-line
 const gotoNext = ()=>{
     const islastSlide = currIndex === slides.length-1;
-    const newIndex = islastSlide ? 0 : currIndex+1; 
+    const newIndex = islastSlide ? 0 : currIndex+1;
     setcurrIndex(newIndex);
+
 }
 const gotoPrevious = ()=>{
     const isFirstSlide = currIndex === 0;
     const newIndex = isFirstSlide ? slides.length -1 : currIndex - 1;
     setcurrIndex(newIndex);
-    
+
 }
 const getSlideStylesWithBackground = (slideIndex)=>({
     ...slideStyles,
@@ -147,7 +148,9 @@ useEffect(()=>{
 },2000);
 return ()=> clearTimeout(timerRef.current);
  },[gotoNext]);
-         
+
+
+ 		// eslint-disable-next-line
        const {context, setContext} = useContext(AppContext);
       const {isLoginModalOpen,
         isSignUpModalOpen,

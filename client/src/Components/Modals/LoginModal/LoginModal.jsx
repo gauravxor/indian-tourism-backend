@@ -63,8 +63,8 @@ const LoginModal = () => {
 			<div className="modal_content">
 			<div className="header"></div>
 				<Button className="close" onClick={() => handleModalClose()}>&times;</Button>
-			  <div className="login">	
-				<img src={logo} alt="Login Image here" className="image"/>
+			  <div className="login">
+				<img src={logo} alt="dummy img" className="image"/>
 
 				<form onSubmit={handleLoginSubmit}>
 					<div className="control">

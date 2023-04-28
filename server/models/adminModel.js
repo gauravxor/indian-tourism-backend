@@ -6,7 +6,7 @@ const adminSchema = new mongoose.Schema({
 	userImageURL: {
 		type: String,
 		required: true,
-		default: '/public/images/user/default.png',
+		default: '/public/images/users/default.png',
 	},
 
 	name:{

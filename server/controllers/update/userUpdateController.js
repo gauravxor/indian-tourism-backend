@@ -1,4 +1,5 @@
-const UserModel = require('../../models/userModel')
+const UserModel = require('../../models/userModel');
+const AdminModel = require('../../models/adminModel');
 const AUTH		= require('../../helper/authHelper');
 const TOKENIZER	= require('../../helper/jwtHelper');
 const fs 	= require('fs');
@@ -11,17 +12,21 @@ const multer 	= require('multer');
 const userImageStorage = multer.diskStorage({
 
 	destination: function (req, file, cb){
-	  cb(null, 'public/images/user');
+	  cb(null, 'public/images/users');
 	},
 
 	filename: async function (req, file, cb)
 	{
 		/** Getting the old user image file */
-		userSearchResult = await UserModel.findById(req.userId);
+		let userSearchResult;
+		if(req.userType === "user")
+			userSearchResult = await UserModel.findById(req.userId);
+		else
+			userSearchResult = await AdminModel.findById(req.userId);
 		const imageUrl = userSearchResult.userImageURL;
 
 		/** Deleting the old user image file */
-		if(imageUrl !== "/public/images/user/default.png")
+		if(imageUrl !== "/public/images/users/default.png")
 		{
 			try{
 				const filePath = path.join(__dirname, '..', '..', imageUrl);
@@ -48,7 +53,12 @@ const userUpdateController = async (req, res, next) => {
 	console.log("Inside userUpdateController".bgYellow);
 
 	const userId = req.userId;
-	const oldUserData = await AUTH.searchUserById(userId);
+	let oldUserData;
+
+	if(req.userType === "user")
+		oldUserData = await AUTH.searchUserById(userId);
+	else
+		oldUserData = await AUTH.searchAdminUserById(userId);
 
 	/** If email is updated then we have to regenerate the acccess tokens
 	 * and update the refresh token in the database
@@ -64,7 +74,7 @@ const userUpdateController = async (req, res, next) => {
 	}
 
 	/** If user image is not updated then we have to use the old image */
-	var fileName = "/public/images/user/";
+	var fileName = "/public/images/users/";
 	fileName += (req.file === undefined)? "default.png" : req.newFileName;
 
 	const updatedUserData = ({
@@ -94,7 +104,12 @@ const userUpdateController = async (req, res, next) => {
 	});
 
 	/** Updating the user data */
-	const saveUserResult = await UserModel.findByIdAndUpdate(userId, updatedUserData, { new: true});
+	let saveUserResult;
+	if (req.userType === "user")
+		saveUserResult = await UserModel.findByIdAndUpdate(userId, updatedUserData, { new: true});
+	else
+	if(req.userType === "admin")
+		saveUserResult = await AdminModel.findByIdAndUpdate(userId, updatedUserData, { new: true});
 
 	/** Sending the appropriate response */
 	if(saveUserResult === null){
