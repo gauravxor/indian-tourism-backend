@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import ForgotPasswordModal 	from "../Modals/ForgotPasswordModal/ForgotPasswordModal";
 import LoginModal			from "../Modals/LoginModal/LoginModal";
@@ -86,7 +86,9 @@ const Header = ( ) => {
 			<nav className="navbar">
 				{/* The site logo container */}
 				<div className="site-logo">
+					<Link to="/">
 					<img src={process.env.PUBLIC_URL + "/res/icons/site-icon.png"} href="/" alt="Site Logo" />
+					</Link>
 				</div>
 
 				{/* The navbar links container */}
