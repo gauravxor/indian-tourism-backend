@@ -10,7 +10,7 @@ const locationImageSchema = new mongoose.Schema({
 		type : String,
 		required: false,
 	},
-  });
+});
 
 const locationSchema = new mongoose.Schema({
 
@@ -86,6 +86,18 @@ const locationSchema = new mongoose.Schema({
 		default: Date.now,
 	},
 });
+
+
+locationSchema.index({
+	name: 'text',
+	description: 'text',
+	address: 'text',
+	city: 'text',
+	state: 'text',
+	country: 'text',
+	pincode: 'text',
+});
+
 
 const locationModel = mongoose.model('locations', locationSchema);
 

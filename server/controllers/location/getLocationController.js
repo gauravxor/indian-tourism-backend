@@ -4,7 +4,7 @@ const getRandomLocationsController = async (req, res, next) => {
 	const locations = await LocationModel.aggregate([
 		{ $sample: { size: 4 } }
 	]);
-    res.status(200).json(locations);
+	res.status(200).json(locations);
 }
 
 const getLocationController = async (req, res, next) => {
@@ -28,38 +28,23 @@ const getLocationController = async (req, res, next) => {
 }
 
 
-const getLocationByStateController = async (req, res, next) => {
-	state = req.params.state;
-	const locations = await LocationModel.find({ state: state }).exec();
+const getLocationByQueryController = async (req, res, next) => {
+	query = req.params.query;
+	const locations = await LocationModel.find({ $text: { $search: query } }).exec();
 	if(locations === null) {
 		return res.status(500).json({
 			status: "failure",
-			message: 'Error getting locations by state'
+			message: 'Error querying database'
 		});
 	}
 	else {
-    	res.status(200).json(locations);
+		res.status(200).json(locations);
 	}
 }
 
-
-const getLocationByCityController = async (req, res, next) => {
-	city = req.params.city;
-	const locations = await LocationModel.find({ city: city }).exec();
-	if(locations === null) {
-		return res.status(500).json({
-			status: "failure",
-			message: 'Error getting locations by city'
-		});
-	}
-	else {
-    	res.status(200).json(locations);
-	}
-}
 
 module.exports = {
 	getLocationController,
 	getRandomLocationsController,
-	getLocationByStateController,
-	getLocationByCityController
+	getLocationByQueryController,
 }

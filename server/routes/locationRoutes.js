@@ -7,8 +7,7 @@ const verifyToken 	= require('../middlewares/verifyToken');
 const {
 	getLocationController,
 	getRandomLocationsController,
-	getLocationByStateController,
-	getLocationByCityController
+	getLocationByQueryController
 } = require('../controllers/location/getLocationController');
 
 
@@ -25,11 +24,8 @@ locationRoutes.get('', getRandomLocationsController);
 /** Route to get location by ID */
 locationRoutes.get('/:locationId', getLocationController);
 
-/** Route to get locations by state */
-locationRoutes.get('/state/:state', getLocationByStateController);
-
-/** Route to get locations by city */
-locationRoutes.get('/city/:city', getLocationByCityController);
+/** Route to get locations by specific query string */
+locationRoutes.get('/search/:query', getLocationByQueryController);
 
 
 const multerConfig = {
