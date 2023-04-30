@@ -8,6 +8,7 @@ import './UserProfile.css';
 
 const UserProfile = () => {
 
+	console.log("Component UserProfile rendered");
 	//eslint-disable-next-line
 	const { context, setContext } = useContext(AppContext);
 

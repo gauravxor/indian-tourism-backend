@@ -31,7 +31,7 @@ function LocationsContainer() {
 		}
 		else {
 			console.log("Calling the city function");
-			url = 'http://localhost:4000/api/location/city/' + context.searchText;
+			url = 'http://localhost:4000/api/location/search/' + context.searchText;
 		}
 
 		axios.get(url, {withCredentials: false})

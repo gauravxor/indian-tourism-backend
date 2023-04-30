@@ -36,6 +36,7 @@ const LoginModal = () => {
 		try {
 			const url = "http://localhost:4000/api/auth/login";
 			const response = await axios.post(url, data);
+			console.log(response.data);
 			if(response.data.status === "success"){
 				setLoginMessage("Login Successful");
 
@@ -44,6 +45,16 @@ const LoginModal = () => {
 					setContext({...context, isLoggedIn: true, isLoginModalOpen: false,
 						isUserAdmin: isAdmin, userEmail: email, userId: response.data.userId})
 				}, 2000);
+			}
+			else
+			if(response.data.msg === "Existing session found. Please Logout to continue."){
+				setLoginMessage("Existing session found. Please Logout to continue.");
+
+				setTimeout(() => {
+					setContext({...context, isLoggedIn: true, isLoginModalOpen: false,
+						isUserAdmin: isAdmin, userEmail: email, userId: response.data.userId})
+				}, 2000);
+
 			}
 			else{
 				setLoginMessage("Invalid Credentials or user does not exist");
