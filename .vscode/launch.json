@@ -1,0 +1,17 @@
+{
+	"configurations":
+	[
+		{
+			"type": "firefox",
+			"request": "launch",
+			"name": "Launch my cool app",
+			"url": "http://localhost:3000",
+			"pathMappings": [
+				{
+					"url": "file:///home/chiku/indian-tourism/client/src",
+					"path": "${workspaceFolder}/client/src"
+				}
+			]
+		}
+	]
+}
