@@ -50,12 +50,10 @@ const userMulterConfig = userUpload.single('userImage');
 
 const userUpdateController = async (req, res, next) => {
 
-	console.log("Inside userUpdateController".bgYellow);
-
 	const userId = req.userId;
 	let oldUserData;
 
-	if(req.userType === "user")
+	if(req.userType === "local")
 		oldUserData = await AUTH.searchUserById(userId);
 	else
 		oldUserData = await AUTH.searchAdminUserById(userId);
@@ -65,7 +63,7 @@ const userUpdateController = async (req, res, next) => {
 	**/
 	if(oldUserData.contact.email !== req.body.email)
 	{
-		console.log("Email changed".bgRed);
+		console.log("Update Controller : Email changed generating new tokens...".yellow);
 		const accessToken = await TOKENIZER.generateAccessToken(userId, req.body.email);
 		const refreshToken = await TOKENIZER.generateRefreshToken(userId, req.body.email);
 		await AUTH.updateLoginStatusByUserId(userId, refreshToken);
@@ -105,7 +103,7 @@ const userUpdateController = async (req, res, next) => {
 
 	/** Updating the user data */
 	let saveUserResult;
-	if (req.userType === "user")
+	if (req.userType === "local")
 		saveUserResult = await UserModel.findByIdAndUpdate(userId, updatedUserData, { new: true});
 	else
 	if(req.userType === "admin")

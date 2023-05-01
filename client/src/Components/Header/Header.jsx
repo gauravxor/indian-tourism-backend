@@ -47,6 +47,7 @@ const Header = ( ) => {
 				isUserAdmin: false,
 				showMainBody: true,
 				userEmail: "",
+				isVerified: false,
 			});
 		}
 		catch (error) {

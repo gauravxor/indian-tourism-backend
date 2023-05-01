@@ -23,7 +23,7 @@ const AppContextProvider = ({ children }) => {
 
 			// user state variables
 			isLoggedIn: false,
-			isVerfied: false,
+			isVerified: false,
 
 			//Slideshow state
             isSlideShow: false,

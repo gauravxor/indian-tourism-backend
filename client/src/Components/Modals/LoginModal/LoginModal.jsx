@@ -3,9 +3,27 @@ import axios from "axios";
 
 import Button		from "../../UI/Buttons/Button";
 import logo			from '../../UI/Images/profile.png'
-import {AppContext}	from '../../../AppContext.js'
 
+import {AppContext}	from '../../../AppContext.js'
 import "./LoginModal.css";
+
+const resentOtp = async (userEmail) => {
+
+	const data = {
+		email: userEmail,
+		otpType: "emailVerification"
+	};
+
+	try {
+		const response = await axios.post("http://localhost:4000/api/auth/resend-otp", data);
+		console.log(response.data);
+		return response.data.status
+	}
+	catch (error) {
+		console.log(error);
+	}
+};
+
 
 const LoginModal = () => {
 
@@ -46,8 +64,8 @@ const LoginModal = () => {
 						isUserAdmin: isAdmin, userEmail: email, userId: response.data.userId})
 				}, 2000);
 			}
-			else
-			if(response.data.msg === "Existing session found. Please Logout to continue."){
+			else  /** If the user is having a duplicate session */
+			if(response.data.msg === "Duplicate Session"){
 				setLoginMessage("Existing session found. Please Logout to continue.");
 
 				setTimeout(() => {
@@ -55,6 +73,16 @@ const LoginModal = () => {
 						isUserAdmin: isAdmin, userEmail: email, userId: response.data.userId})
 				}, 2000);
 
+			}
+			else /** If the user has not verified the email yet */
+			if(response.data.msg === "Email not verified"){
+				setLoginMessage("Email not verified. Please verify your email to continue.");
+				const isOtpResent = await resentOtp(email);
+				if(isOtpResent === "success"){
+					console.log("OTP resent successfully");
+					setContext({ ...context, isLoggedIn: true, isUserAdmin: isAdmin, userEmail: email,
+						userId: response.data.userId, isOtpModalOpen: true, isLoginModalOpen: false});
+				}
 			}
 			else{
 				setLoginMessage("Invalid Credentials or user does not exist");

@@ -76,11 +76,11 @@ const loginController = async (req, res, next) => {
 				{
 					res
 					.status(200)
-					.cookie('accessToken', 	accessToken,	{ httpOnly: true, SameSite: true, secure: true})
-					.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: true, secure: true})
+					.cookie('accessToken', 	accessToken,	{ httpOnly: true, SameSite: false, secure: true})
+					.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: false, secure: true})
 					.send({
 						status: "failure",
-						msg: "Existing session found. Please Logout to continue.",
+						msg: "Duplicate Session",
 					});
 				}
 				else
@@ -90,19 +90,19 @@ const loginController = async (req, res, next) => {
 					refreshToken = await TOKENIZER.generateRefreshToken(userId, userEmail, userType);
 					await AUTH.updateLoginStatus(searchCredentialsResult._id, refreshToken);
 					res
-					.cookie('accessToken', 	accessToken,	{ httpOnly: true, SameSite: true, secure: true})
-					.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: true, secure: true})
+					.cookie('accessToken', 	accessToken,	{ httpOnly: true, SameSite: false, secure: true})
+					.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: false, secure: true})
 					.status(200)
 
 					/** If email is verified continue or else move to verification */
 					if(searchUserResult.isEmailVerified === false){
-						return res.send({
+						return res.status(200).send({
 							status: "failure",
-							msg: "Email not verified, please verify your email to processed further",
+							msg: "Email not verified",
 						});
 					}
 					else{
-						res.send({
+						return res.status(200).send({
 							status: "success",
 							msg: "Logged in successfully",
 							userId: userId,
@@ -111,7 +111,7 @@ const loginController = async (req, res, next) => {
 				}
 			}
 			else{ /** If password has does not match */
-				res.status(401).send({
+				return res.status(401).send({
 					status: "failure",
 					msg: "Incorrect Password"})
 			}

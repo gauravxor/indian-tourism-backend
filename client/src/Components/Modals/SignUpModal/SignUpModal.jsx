@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 
 import Button 			from "../../UI/Buttons/Button";
@@ -39,8 +39,9 @@ const SignUpModal = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("Form submit button clicked");
 
+		console.log("Sign up form submitted");
+		setSignUpMessage("Signing Up...");
 		const data = {
 			name: {
 				firstName: firstName,
@@ -85,6 +86,12 @@ const SignUpModal = () => {
 			setSignUpMessage("Error in signup");
 		}
 	};
+
+	useEffect(() => {
+		setTimeout(() => {
+			setSignUpMessage("");
+		}, 3000);
+	}, [signUpMessage]);
 
 
 	return (

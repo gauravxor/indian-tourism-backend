@@ -6,9 +6,9 @@ const AUTH 		= require('../helper/authHelper');
 const { ObjectId } = require('mongodb');
 
 async function verifyToken(req, res, next) {
-	console.log("In token verification middleware".bgYellow);
 
 	if(JSON.stringify(req.cookies) === '{}') {
+		console.log("VerifyToken : No cookies were provided".red);
 		return res.status(401).send({
 			msg: "Unauthorized access"
 		});
@@ -20,6 +20,7 @@ async function verifyToken(req, res, next) {
 
 	/** Checking if the request has proper Access and Refresh Tokens */
 	if(requestAccessToken === "" || requestRefreshToken === ""){
+		console.log("VerifyToken : Received cookies does not contain any tokes".bgRed);
 		return res.status(401).send({
 			msg: "Unauthorized access"
 		});
@@ -34,12 +35,13 @@ async function verifyToken(req, res, next) {
 
 	/** Getting userType from access token payload */
 	const userType = accessTokenPayload.userType;
-	console.log("VT -> " + userType);
+	console.log("VerifyToken : User Type: ".yellow + userType);
 
 	const credentialsSearchResult = await AUTH.searchCredentials(accessTokenPayloadUserId);
 
 	/** Checking if  a MITM is trying to modify the credentials */
 	if(credentialsSearchResult === null){
+		console.log("VerifyToken : Malicious request. Received a modified payload".red)
 		return res.status(404).send({
 			msg: "Malicious request. Received a modified payload"
 		});
@@ -51,6 +53,7 @@ async function verifyToken(req, res, next) {
 
 		/** Checking if the user is logged in or not */
 		if(existingRefreshToken === ""){
+			console.log("VerifyToken : User Not Logged In".yellow)
 			return res.status(401).send({
 				status: "failure",
 				msg: "User Not Loggen In. Please Login to continue"
@@ -59,6 +62,7 @@ async function verifyToken(req, res, next) {
 		else
 		/** Checking if the user is logged in from another device or not */
 		if(existingRefreshToken !== "" && existingRefreshToken !== requestRefreshToken){
+			console.log("VerifyToken : Logged in from other device".yellow)
 			return res.status(401).send({
 				status: "failure",
 				msg: "User logged in from another device."
@@ -69,8 +73,6 @@ async function verifyToken(req, res, next) {
 			const accessTokenPayloadEmail = accessTokenPayload.userEmail;
 			const refreshTokenPayloadEmail = refreshTokenPayload.userEmail;
 			var requestEmail = req.body.email;
-
-
 
 			/** Temporary fix for multer (how to use multer here for request processing) */
 			if(requestEmail === undefined){
@@ -91,19 +93,19 @@ async function verifyToken(req, res, next) {
 			}
 			else  /** If request email matches the token payload emails */
 			{
-				console.log("Token Payload email matched".bgYellow);
+				console.log("VerifyToken : Token Payload email matched".yellow);
 
 				/** Checking if Access Token is valid */
 				jwt.verify(requestAccessToken, process.env.JWT_ACCESS_SECRET , (err, user) => {
 					if(err) /** If Access Token is Expired */
 					{
-						console.log("Access token expired".bgYellow);
+						console.log("VerifyToken : Access token expired".yellow);
 
 						/** Checking if Refresh Token is valid */
 						jwt.verify(requestRefreshToken, process.env.JWT_REFRESH_SECRET, async (err, user) => {
 							if(err) /** If Refresh Token is also expired */
 							{
-								console.log("Refresh token expired".bgYellow);
+								console.log("VerifyToken : Refresh token expired".yellow);
 								/** Since both tokens are expired, logout the user by clearing the cookies */
 								res
 								.clearCookie('accessToken')
@@ -113,7 +115,7 @@ async function verifyToken(req, res, next) {
 								const credentialDocumentId = credentialsSearchResult._id;
 								const updateLoginStatus = await AUTH.updateLoginStatus(credentialDocumentId, "");
 								if(updateLoginStatus !== null){
-									console.log("Tokens expired, logging out...".yellow);
+									console.log("VerifyToken : All tokens expired, logging out...".yellow);
 									return res.status(201).send({
 										status: "failure",
 										msg: "Token expired, logging out, please login again to continue"
@@ -123,7 +125,7 @@ async function verifyToken(req, res, next) {
 							else /** If Refresh Token is not expired */
 							{
 								/** Use the Refresh Token to generate a new Access Token */
-								console.log("Generating new access token".bgYellow);
+								console.log("VerifyToken : Generating new access token".yellow);
 
 								/** Getting the user's id and email from Tokens */
 								const refreshTokenPayloadUserId = refreshTokenPayload.userId;
@@ -139,10 +141,9 @@ async function verifyToken(req, res, next) {
 								if(next === undefined)
 									return true;
 
-								/** Sending userId to next middleware */
+								/** Sending user data to next middleware */
 								req.userId = credentialsSearchResult.userId;
 								req.userEmail = credentialsSearchResult.userEmail;
-
 								req.userType = userType;
 
 								next();
@@ -151,7 +152,7 @@ async function verifyToken(req, res, next) {
 					}
 					else /** If Access Token is not expired */
 					{
-						console.log("Access token not expired".bgYellow);
+						console.log("VerifyToken : Access token not expired. Continuing...".yellow);
 
 						/** Sending userId to next middleware */
 						req.userId = credentialsSearchResult.userId;

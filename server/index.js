@@ -11,6 +11,8 @@ const updateRoutes	 = require('./routes/updateRoutes');
 const locationRoutes = require('./routes/locationRoutes');
 const bookingRoutes  =  require('./routes/bookingRoutes');
 const userRoutes 	 = require('./routes/userRoutes');
+
+const otpCleaner 	 = require('./services/otpCleaner');
 const lockCleaner = require('./services/bookingLockCleaner');
 
 dotenv.config();
@@ -55,4 +57,8 @@ app.listen(process.env.PORT, () => {
 });
 
 
+/** Invoke bookingLockCleaner in every 5 seconds */
 // setInterval(lockCleaner, 5 * 1000);
+
+/** Invoke OtpCleaner in every 15 seconds */
+setInterval(otpCleaner, 15 * 1000);

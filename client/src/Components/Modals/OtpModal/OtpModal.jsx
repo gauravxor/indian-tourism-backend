@@ -19,9 +19,6 @@ const OtpModal = () => {
 	/** To store the verification message to be displayed to user */
 	const [verificationMsg, setVerificationMsg] = useState("");
 
-	/** To store if the user has clicked the modal close button */
-	const [modalCloseClicked, setModalCloseClicked] = useState(false);
-
 	/** Function to handle things when user clicks the SUBMIT button in OTP form */
 	const handleLoginSubmit = async (e)	 => {
 		e.preventDefault();
@@ -63,7 +60,7 @@ const OtpModal = () => {
 		}
 		else{
 			console.log("First verify the email id");
-			setModalCloseClicked(true);
+			setVerificationMsg("First verify the email id");
 		}
 	};
 
@@ -101,6 +98,16 @@ const OtpModal = () => {
 		handleCountdown();
 	}, [timer]); // eslint-disable-line
 
+	/** Clear the verification message after 2 seconds */
+	useEffect(() => {
+		if(verificationMsg !== ""){
+			setTimeout(() => {
+				setVerificationMsg("");
+			}, 2000);
+		}
+	}, [verificationMsg]);
+
+
 	return (
 		<div className="modal">
 			<div className="modal-content">
@@ -118,7 +125,7 @@ const OtpModal = () => {
 						required
 					/>
 					<br/>
-					<button type="submit">Login</button>
+					<button type="submit">Verify</button>
 				</form>
 
 				{/* Enable OTP resend button when OTP timer expires*/}
@@ -128,11 +135,6 @@ const OtpModal = () => {
 					) : (
 						<p>Resend OTP in {timer} seconds</p>
 					)}
-				</div>
-
-				{/* Prevent User from closing the OTP modal without verifying the OTP */}
-				<div>
-					<h1> {modalCloseClicked ? "First verify the email id" : ""} </h1>
 				</div>
 
 				<div>
