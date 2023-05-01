@@ -125,7 +125,7 @@ const Header = ( ) => {
 				<form className="navbar-search">
 					<input type="text" placeholder={searchPlaceholder}
 						value={searchText} onChange={(e) => setSearchText(e.target.value)} />
-					<Button onClick = {handleSearchClicked}> Search </Button>
+					<Button type='submit' onClick = {handleSearchClicked}> Search </Button>
 				</form>
 
 				<div className="navbar-buttons">
