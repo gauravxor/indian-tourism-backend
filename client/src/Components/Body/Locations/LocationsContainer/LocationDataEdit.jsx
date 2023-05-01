@@ -80,12 +80,12 @@ const UserProfileEdit = (props) => {
 		data.append("latitude", locationLatitude);
 		data.append("capacity", locationCapacity);
 		data.append("ticketPrice", locationPrice);
-		data.append("coverImage1", locationCoverImage1);
-		data.append("coverImage2", locationCoverImage2);
-		data.append("coverImage3", locationCoverImage3);
-		data.append("sliderImage1", locationSliderImage1);
-		data.append("sliderImage2", locationSliderImage2);
-		data.append("sliderImage3", locationSliderImage3);
+		data.append("cover-image1", locationCoverImage1);
+		data.append("cover-image2", locationCoverImage2);
+		data.append("cover-image3", locationCoverImage3);
+		data.append("slider-image1", locationSliderImage1);
+		data.append("slider-image2", locationSliderImage2);
+		data.append("slider-image3", locationSliderImage3);
 
 		console.log(data);
 

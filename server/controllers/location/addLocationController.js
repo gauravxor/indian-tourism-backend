@@ -57,7 +57,7 @@ const addLocationController = async (req, res, next) => {
 	const images = [];
 	req.files.forEach(file => {
 		const fileExtension = path.extname(file.originalname);
-		const newFilename = `${uuidv4()}${fileExtension}`;
+		const newFilename = `${uuidv4()}-${file.fieldname}${fileExtension}`;
 		const imageUrl = `/public/images/location/${locationId}/${newFilename}`;
 		const filePath = path.join(locationFolderPath, newFilename);
 		images.push({
