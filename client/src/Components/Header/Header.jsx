@@ -95,27 +95,27 @@ const Header = ( ) => {
 				<div className="navbar-links">
 
 					{isLoggedIn && !isUserAdmin && (<>
-						<a href="/">Home</a>
-						<a href="/profile">Profile</a>
-						<a href="/bookings">Bookings</a>
-						<a href="/about">About</a>
+						<Link to="/">Home</Link>
+						<Link to="/profile">Profile</Link>
+						<Link to="/bookings">Bookings</Link>
+						<Link to="/about">About</Link>
 						</>
 					)}
 
 					{isLoggedIn && isUserAdmin && (<>
-						<a href="/">Home</a>
-						<a href="/profile">Profile</a>
-						<a href="/locations">Locations</a>
-						<a href="/add-location">Add Location</a>
-						<a href="/cancellations">Cancellations</a>
-						<a href="/about">About</a>
+						<Link to="/">Home</Link>
+						<Link to="/profile">Profile</Link>
+						<Link to="/locations">Locations</Link>
+						<Link to="/add-location">Add Location</Link>
+						<Link to="/cancellations">Cancellations</Link>
+						<Link to="/about">About</Link>
 						</>
 					)}
 
 					{!isLoggedIn && (<>
-						<a href="/">Home</a>
-						<a href="/locations">Locations</a>
-						<a href="/about">About</a>
+						<Link to="/">Home</Link>
+						<Link to="/locations">Locations</Link>
+						<Link to="/about">About</Link>
 						</>
 					)}
 				</div>
