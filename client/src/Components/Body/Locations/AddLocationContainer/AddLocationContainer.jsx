@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 import axios from 'axios';
+import classes from './AdddLocationContainer.module.css';
+import Button from '../../../UI/Buttons/Button';
 const AddLocationContainer = () => {
 
 	/** React states to store location data */
@@ -78,9 +80,11 @@ const AddLocationContainer = () => {
 
 
 	return (
-		<div>
+		<div className={classes.main_container}>
 			<h1>Add Location To Database</h1>
-			<form onSubmit={handleAddLocation}>
+			 <form onSubmit={handleAddLocation}>
+            
+				<div>
 				<label htmlFor="location-name">Location Name</label>
 				<input
 					type="text"
@@ -89,9 +93,11 @@ const AddLocationContainer = () => {
 					placeholder="Location Name"
 					value = {locationName}
 					onChange = {(e) => setLocationName(e.target.value)}
-				/> <br/>
-
-				<label htmlFor="location-address">Location Address</label>
+				/><br /><br/>
+				</div>
+				
+                <div> 
+			    <label htmlFor="location-address">Location Address</label>
 				<input
 					type="text"
 					id="location-address"
@@ -99,9 +105,10 @@ const AddLocationContainer = () => {
 					placeholder="Location Address"
 					value = {locationAddress}
 					onChange = {(e) => setLocationAddress(e.target.value)}
-				/> <br/>
-
-				<label htmlFor="location-description">Location Description</label>
+				/> <br /><br />
+				</div>
+                 <span>
+				 <label htmlFor="location-description">Location Description</label>
 				<input
 					type="text"
 					id="location-description"
@@ -109,8 +116,9 @@ const AddLocationContainer = () => {
 					placeholder="Location Description"
 					value = {locationDescription}
 					onChange = {(e) => setLocationDescription(e.target.value)}
-				/> <br/>
-
+				/> <br /><br />
+				</span>
+				<span>
 				<label htmlFor="location-city" >Location City</label>
 				<input
 					type="text"
@@ -119,8 +127,9 @@ const AddLocationContainer = () => {
 					placeholder="Location City"
 					value = {locationCity}
 					onChange = {(e) => setLocationCity(e.target.value)}
-				/> <br/>
-
+				/> <br /><br />
+				</span>
+				<span>
 				<label htmlFor="location-state">Location State</label>
 				<input
 					type="text"
@@ -129,8 +138,9 @@ const AddLocationContainer = () => {
 					placeholder="Location State"
 					value = {locationState}
 					onChange = {(e) => setLocationState(e.target.value)}
-				/> <br/>
-
+				/> <br /><br />
+				</span>
+				<span>
 				<label htmlFor="location-country">Location Country</label>
 				<input
 					type="text"
@@ -139,8 +149,9 @@ const AddLocationContainer = () => {
 					placeholder="Location Country"
 					value = {locationCountry}
 					onChange = {(e) => setLocationCountry(e.target.value)}
-				/> <br/>
-
+				/> <br /><br />
+				</span>
+				<span>
 				<label htmlFor="location-pincode">Location Pincode</label>
 				<input
 					type="text"
@@ -149,8 +160,9 @@ const AddLocationContainer = () => {
 					placeholder="Location Pincode"
 					value = {locationPincode}
 					onChange = {(e) => setLocationPincode(e.target.value)}
-				/> <br/>
-
+				/> <br /><br />
+				</span>
+                <span>
 				<label htmlFor="location-longitude">Location Longitude</label>
 				<input
 					type="text"
@@ -159,8 +171,8 @@ const AddLocationContainer = () => {
 					placeholder="Location Longitude"
 					value = {locationLongitude}
 					onChange = {(e) => setLocationLongitude(e.target.value)}
-				/> <br/>
-
+				/> <br /> <br /></span>
+                <span>
 				<label htmlFor="location-latitude">Location Latitude</label>
 				<input
 					type="text"
@@ -169,8 +181,8 @@ const AddLocationContainer = () => {
 					placeholder="Location Latitude"
 					value = {locationLatitude}
 					onChange = {(e) => setLocationLatitude(e.target.value)}
-				/> <br/>
-
+				/> <br /><br /></span>
+                <span>
 				<label htmlFor="location-capacity">Location Capacity</label>
 				<input
 					type="number"
@@ -179,8 +191,10 @@ const AddLocationContainer = () => {
 					placeholder="Location Capacity"
 					value = {locationCapacity}
 					onChange = {(e) => setLocationCapacity(e.target.value)}
-				/> <br/>
+				/> <br /><br />
+				</span>
 
+                <span>
 				<label htmlFor="location-price">Location Price</label>
 				<input
 					type="number"
@@ -189,8 +203,9 @@ const AddLocationContainer = () => {
 					placeholder="Location Price"
 					value = {locationPrice}
 					onChange = {(e) => setLocationPrice(e.target.value)}
-				/> <br/>
-
+				/> <br /><br />
+				</span>
+                <span>
 				<label htmlFor="location-cover-image1">Location Cover Image 1</label>
 				<input
 					type="file"
@@ -198,8 +213,9 @@ const AddLocationContainer = () => {
 					name="location-cover-image1"
 					placeholder="Location Cover Image 1"
 					onChange = {(e) => setLocationCoverImage1(e.target.files[0])}
-				/> <br/>
-
+				/> <br /><br />
+				</span>
+                 <span>
 				<label htmlFor="location-cover-image2">Location Cover Image 2</label>
 				<input
 					type="file"
@@ -207,8 +223,9 @@ const AddLocationContainer = () => {
 					name="location-cover-image2"
 					placeholder="Location Cover Image 2"
 					onChange = {(e) => setLocationCoverImage2(e.target.files[0])}
-				/> <br/>
-
+				/> <br /><br />
+				</span>
+                <span>
 				<label htmlFor="location-cover-image3">Location Cover Image 3</label>
 				<input
 					type="file"
@@ -216,8 +233,9 @@ const AddLocationContainer = () => {
 					name="location-cover-image3"
 					placeholder="Location Cover Image 3"
 					onChange = {(e) => setLocationCoverImage3(e.target.files[0])}
-				/> <br/>
-
+				/> <br /><br />
+				</span>
+                <span>
 				<label htmlFor="location-slider-image1">Location Slider Image 1</label>
 				<input
 					type="file"
@@ -225,9 +243,9 @@ const AddLocationContainer = () => {
 					name="location-slider-image1"
 					placeholder="Location Slider Image 1"
 					onChange = {(e) => setLocationSliderImage1(e.target.files[0])}
-				/> <br/>
-
-
+				/> <br /><br />
+				</span>
+				<span>
 				<label htmlFor="location-slider-image2">Location Slider Image 2</label>
 				<input
 					type="file"
@@ -235,8 +253,9 @@ const AddLocationContainer = () => {
 					name="location-slider-image2"
 					placeholder="Location Slider Image 2"
 					onChange = {(e) => setLocationSliderImage2(e.target.files[0])}
-				/> <br/>
-
+				/> <br /><br />
+				</span>
+				<span>
 				<label htmlFor="location-slider-image3">Location Slider Image 3</label>
 				<input
 					type="file"
@@ -244,9 +263,12 @@ const AddLocationContainer = () => {
 					name="location-slider-image3"
 					placeholder="Location Slider Image 3"
 					onChange = {(e) => setLocationSliderImage3(e.target.files[0])}
-				/> <br/> <br/>
-
-				<button type="submit">Add Location</button>
+				/> <br /><br />
+				</span>
+                 <span>
+				<Button type="submit">Add Location</Button>
+				</span>
+			
 			</form>
 		</div>
 	)

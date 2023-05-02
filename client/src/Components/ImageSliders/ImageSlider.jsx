@@ -194,7 +194,7 @@ const ImageSlider = ({ slides, parentWidth }) => {
 				<div
 					style={isActive ? RightArrowStyles : rightArrowStyles}
 					onClick={gotoNext}
-					>	⮜
+					>⮞ 
 				</div>
 
 			</div>
