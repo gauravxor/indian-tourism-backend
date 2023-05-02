@@ -24,7 +24,7 @@ function App() {
 	console.log(typeof(isSlideShow));
 
 	return (
-	<React.Fragment className={classes.App}>
+	<div className={classes.App}>
 		<Header />
 
 		{!isSlideShow &&(<div className={classes.container}>
@@ -44,7 +44,7 @@ function App() {
 		</div>
 
 		<Footer className={classes.footer} />
-	</React.Fragment>
+	</div>
 	);
 }
 
