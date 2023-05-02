@@ -37,17 +37,18 @@ function LocationBody() {
 	}, [locationId]); // eslint-disable-line
 
 	return (
-		<div>
+		<div className="location-body">
 			{/* Passing the image data to the TopImageSlider */}
 			<TopImageSlider imageData = {locationData.images}/>
 
-			{/* Passing the location data to the LeftLocationSection */}
-			<LeftLocationSection locationData={locationData}/>
-
-			{/* If user is an admin, they will not be allowed to access booking section */}
-			{context.isUserAdmin === false && (
+			<div className='booking-details'>
+				{/* Passing the location data to the LeftLocationSection */}
+				<LeftLocationSection locationData={locationData}/>
+				{/* If user is an admin, they will not be allowed to access booking section */}
+				{context.isUserAdmin === false && (
 				<RightLocationSection locationId = {context.locationId}/>
-			)}
+					)}
+			</div>
 		</div>
 	);
 };

@@ -40,6 +40,7 @@ const Card = (props) => {
 	}
 
 	return (<>
+	<div className="cards">
 		{!props.inEditableMode && (
 			<div className="location-card">
 
@@ -79,6 +80,7 @@ const Card = (props) => {
 				</div>
 			</div>
 		)}
+		</div>
 	</>);
 };
 

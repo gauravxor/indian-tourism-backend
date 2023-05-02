@@ -81,8 +81,8 @@ const RightLocationSection = (props) => {
 					onChange={(e) => setAdultCount(e.target.value)}
 					required
 				/>
-				<br />
-
+				<br/>
+				<br/>
 				<label htmlFor="children">Children:</label>
 				<input
 					type="number"
@@ -94,7 +94,7 @@ const RightLocationSection = (props) => {
 					onChange={(e) => setChildrenCount(e.target.value)}
 				/>
 				<br />
-
+				<br />
 				<label htmlFor="date">Visit date:</label>
 				<input
 					type="date"

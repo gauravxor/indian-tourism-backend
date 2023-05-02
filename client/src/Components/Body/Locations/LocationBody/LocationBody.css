@@ -1,63 +1,115 @@
+.location-body {
+	display: flex;
+	justify-content: space-around;
+	width: 95%;
+	height: 42rem;
+	margin: 15px;
+	padding: 25px;
+	margin-bottom: 105px;
+}
+
 /* Style for the left section */
 .left-section {
-	background-color: #f2f2f2;
-	float: left;
-	width: 50%;
-	height: 500px;
+	background-color: transparent ;
+	float: center; 
+	font-size: large;
+	width: ;
+	height: 60%;
 	text-align: center;
-	padding-top: 50px;
+	margin-top: 0;
+	border-radius: 8px;
+}
+
+span ,p{
+	font-size: larger;
+}
+.address {
+	font-size: larger;
+	font-weight: bold;
+}
+.location-type {
+	padding: 10px;
+	border-radius: 5px;
+	
 }
 
 /* Style for the right section */
 .right-section {
-	background-color: #e6e6e6;
-	float: right;
-	width: 50%;
+	width: 60rem;
 	height: 100%;
 	text-align: center;
 	padding-top: 50px;
+	margin: auto;
+	align-items: center;
 }
 
-.details {
-	width: 45%;
+.booking-details {
+	display: flex;
+	flex-direction: column;
+	border-radius: 5px;
+	width: 50%;
+	height: 100%;
+	margin: 10px;
+	margin-left: 25px;
+	background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+	box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+/* css for top Image Slider in booking  */
+.slider-container {
+	width: 52rem;
+	height: 45rem;
+	align-items: center;
+}
+.slider-container >img {
+	width: 52rem;
+	height: 98%;
+	margin-top: 0;
+	border-radius: 8px;
+	box-shadow: 0px 25px 20px -20px rgba(0, 0, 0, 0.45), 25px 0 20px -20px rgba(0, 0, 0, 0.45);
 }
 
-.details h2 {
-	font-size: 24px;
-	margin-bottom: 10px;
+/* css for slider button */
+.slider-btn {
+	position: absolute;
+	top: 55%;
+	background-color: transparent;
+	border-color: transparent;
+	height: 40px;
 }
-
-.details p {
-	font-size: 18px;
-	margin-bottom: 10px;
+.next-btn {
+	/* position: absolute; */
+	left: 40%;
 }
-
-.details form {
-	margin-top: 20px;
+.btn_img {
+	height: 40px;
 }
-
-.details label {
-	display: block;
-	font-size: 18px;
-	margin-bottom: 5px;
+label{
+	font-size: 80px;
+	font-weight: bold;
+	color: red;
+	width: 100px;
+	text-align: start;
 }
-
-.details input[type="number"],
-.details input[type="date"],
-.details input[type="submit"] {
-	display: block;
-	margin-bottom: 10px;
-	font-size: 18px;
-	padding: 5px;
-}
-
-.details input[type="submit"] {
-	background-color: #4CAF50;
-	color: white;
-	border: none;
-	cursor: pointer;
-}
-
-.details input[type="submit"]:hover {
-	background-color: #45a049;
-}
+/* css for inputs */
+input[type=number][type=date] {
+	width: 20px;
+	height: 10rem ;
+	padding: 12px 20px;
+	margin: 0px 0;
+	margin-left: 25px;
+	display: inline-block;
+	border: 1px solid #5b5858;
+	border-radius: 4px;
+	box-sizing: border-box;
+  }
+  input[type=submit] {
+	position: absolute;
+	width: 7rem;
+	height: 3rem;
+	right: 10%;
+	border-radius: 15px;
+	border: 2px solid white;
+	font-size: medium;
+	color: aliceblue;
+	background-color: #f94463;
+  }

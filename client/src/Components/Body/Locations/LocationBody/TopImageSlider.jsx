@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './LocationBody.css';
-
+import left_btn from "./image/left_arrow.png"
+import right_btn from "./image/right_arrow.png"
 function TopImageSlider(props) {
 
 	const imageData = props.imageData;
@@ -29,13 +30,13 @@ function TopImageSlider(props) {
 		return (
 
 			<div className="slider-container">
-			<img src={`http://localhost:4000${imageData[currentIndex].urls}`} alt={imageData[currentIndex].imageType} className="slider-image" />
-			<button className="slider-btn prev-btn" onClick={handlePrevClick}>
-				&#8249;
-			</button>
-			<button className="slider-btn next-btn" onClick={handleNextClick}>
-				&#8250;
-			</button>
+				<button className="slider-btn prev-btn" onClick={handlePrevClick}>
+				<img className="btn_img" src={right_btn}></img>
+				</button>
+				<img src={`http://localhost:4000${imageData[currentIndex].urls}`} alt={imageData[currentIndex].imageType} className="slider-image" />
+				<button className="slider-btn next-btn" onClick={handleNextClick}>
+				<img className="btn_img" src={left_btn}></img>
+				</button>
 			</div>
 		);
 	}
