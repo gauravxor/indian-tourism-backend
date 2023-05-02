@@ -72,7 +72,7 @@ const SignUpModal = () => {
 
 				/** Wait for 2 seconds and then close the signup modal and show OTP modal */
 				setTimeout(() => {
-					setContext({...context, isLoggenIn: true, isSignUpModalOpen: false,
+					setContext({...context, isLoggenIn: false, isSignUpModalOpen: false,
 						isOtpModalOpen: true, userEmail: email, userId: response.data.userId});
 				}, 2000);
 			}
@@ -142,6 +142,7 @@ const SignUpModal = () => {
 							name="gender"
 							value={gender}
 							onChange={(e) => setGender("male")}
+							required
 						/>
 						<label htmlFor="female">Female</label>
 						<input
@@ -150,6 +151,7 @@ const SignUpModal = () => {
 							name="gender"
 							value={gender}
 							onChange={(e) => setGender("female")}
+							required
 						/>
 						<label htmlFor="others">Others</label>
 						<input

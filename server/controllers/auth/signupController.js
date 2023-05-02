@@ -3,7 +3,6 @@ const color 	= require('colors');
 
 const AUTH 		= require('../../helper/authHelper');
 const OTP  		= require('../../helper/otpHelper');
-const TOKENIZER = require('../../helper/jwtHelper');
 
 const UserModel 		= require('../../models/userModel');
 const CredentialModel	= require('../../models/credentialModel');
@@ -44,36 +43,46 @@ const signUpController = async (req, res) => {
 			updatedAt: req.body.updatedAt
 		});
 		const saveUserResult = await User.save();
+		if(saveUserResult === null){
+			return res.status(500).send({
+				status: "failure",
+				msg: "Something went wrong, user not created"
+			});
+		}
+		console.log("SignUp Controller : User Saved in DB".green);
 
 		/** Generating the password hash */
 		const userPassword = (req.body.password).toString();
 		const userPasswordHash = await bcrypt.hash(userPassword, 10);
-		console.log("generated the password".green);
-
-		const userDocumentId = saveUserResult._id;
-		const userEmail = saveUserResult.contact.email;
-
-		/** Generating Tokens */
-		const accessToken = await TOKENIZER.generateAccessToken(userDocumentId, userEmail);
-		const refreshToken = await TOKENIZER.generateRefreshToken(userDocumentId, userEmail);
-		console.log("generated the token".green);
+		console.log("SignUp Controller : Password hash created".green);
 
 		/** Creating the Credentials Document for the new user */
 		const Credentials = new CredentialModel({
 			userId: User._id,
 			password: userPasswordHash,
-			refreshToken: refreshToken,
+			refreshToken: "",
 		});
-		await Credentials.save();
+		const credentialsSaveResult = await Credentials.save();
+		if(credentialsSaveResult === null){
+			return res.status(500).json({
+				status: "failure",
+				msg: "Something went wrong, user credentials not created"
+			});
+		}
+		console.log("SignUp Controller : Credentials Saved in DB".green);
 
-		// sending the OTP via email
-		await OTP.emailOtp(User.contact.email, User._id);
-
-		res
-		.cookie('accessToken', 	accessToken,	{ httpOnly: true, SameSite: true, secure: true})
-		.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: true, secure: true})
-		.status(200)
-		.send({
+		/** Sending OTP for email verification */
+		const sendOtpResult = await OTP.emailOtp(User.contact.email, User._id);
+		if(sendOtpResult === null){
+			console.log("SignUp Controller : Email verificatino OTP not sent".red);
+			return res.status(500).json({
+				status: "failure",
+				msg: "Something went wrong, OTP not sent"
+			});
+		}
+		console.log("SignUp Controller : Email verification OTP sent".green);
+		res.status(200)
+		.json({
 			status: "success",
 			msg: "User Created",
 			userId: User._id

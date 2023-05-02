@@ -23,7 +23,7 @@ const AUTH		= require('../../helper/authHelper');
 const TOKENIZER = require('../../helper/jwtHelper');
 
 const loginController = async (req, res, next) => {
-	console.log("here");
+
 	const requestEmail = req.body.email;
 	const requestPassword = req.body.password;
 	let isUserAdmin = req.body.isAdmin;
@@ -57,9 +57,11 @@ const loginController = async (req, res, next) => {
 		// local and admin user credentials are saved in the same collection
 		searchCredentialsResult = await AUTH.searchCredentials(userId);
 
-		if(searchCredentialsResult === null)
-			res.status(401).send({
-				msg: "Credentials not found, invalid user"});
+		if(searchCredentialsResult === null){
+			res.status(401).json({
+				status: "failure",
+				msg: "User credentials not found"});
+			}
 		else
 		{
 			const userPasswordHash = searchCredentialsResult.password;
@@ -76,32 +78,34 @@ const loginController = async (req, res, next) => {
 				{
 					res
 					.status(200)
-					.cookie('accessToken', 	accessToken,	{ httpOnly: true, SameSite: false, secure: true})
-					.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: false, secure: true})
+					.cookie('accessToken', 	accessToken,	{ httpOnly: true, sameSite: "strict", secure: true})
+					.cookie('refreshToken', refreshToken,	{ httpOnly: true, sameSite: "strict", secure: true})
 					.send({
 						status: "failure",
 						msg: "Duplicate Session",
+						userId: userId,
 					});
 				}
 				else
 				{
-					/** For a fresh login, generate a new refresh token. */
-					console.log("Clean login".yellow);
-					refreshToken = await TOKENIZER.generateRefreshToken(userId, userEmail, userType);
-					await AUTH.updateLoginStatus(searchCredentialsResult._id, refreshToken);
-					res
-					.cookie('accessToken', 	accessToken,	{ httpOnly: true, SameSite: false, secure: true})
-					.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: false, secure: true})
-					.status(200)
 
 					/** If email is verified continue or else move to verification */
 					if(searchUserResult.isEmailVerified === false){
 						return res.status(200).send({
 							status: "failure",
 							msg: "Email not verified",
+							userId: userId,
 						});
 					}
 					else{
+						/** For a fresh login, generate a new refresh token. */
+						console.log("Clean login".yellow);
+						refreshToken = await TOKENIZER.generateRefreshToken(userId, userEmail, userType);
+						await AUTH.updateLoginStatus(searchCredentialsResult._id, refreshToken);
+						res
+						.cookie('accessToken', 	accessToken,	{ httpOnly: true, sameSite: "strict", secure: true})
+						.cookie('refreshToken', refreshToken,	{ httpOnly: true, sameSite: "strict", secure: true})
+						.status(200)
 						return res.status(200).send({
 							status: "success",
 							msg: "Logged in successfully",

@@ -13,7 +13,6 @@ async function searchUser(email){
 	return searchResult;
 }
 
-
 /** Function to search Admin using email in ADMIN collection */
 async function searchAdmin(email){
 	const searchResult = await AdminModel.findOne({
@@ -21,7 +20,6 @@ async function searchAdmin(email){
 	});
 	return searchResult;
 }
-
 
 /** Function to search User using User Document ID in USER collection */
 async function searchUserById(userId){
@@ -43,7 +41,6 @@ async function searchCredentials(userId){
 	return searchResult;
 }
 
-
 /** Function to update User's refresh Token in CREDENTIALS collection using it's Document Id*/
 async function updateLoginStatus(documentId, refreshToken)
 {
@@ -52,7 +49,6 @@ async function updateLoginStatus(documentId, refreshToken)
 	});
 	return updateResult;
 }
-
 
 /** Function to update User's refresh Token in CREDENTIALS collection using USER's document ID */
 async function updateLoginStatusByUserId(userId, refreshToken)

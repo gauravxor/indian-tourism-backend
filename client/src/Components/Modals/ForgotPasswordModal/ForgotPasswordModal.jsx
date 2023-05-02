@@ -10,35 +10,28 @@ const ForgotPasswordModal = () => {
 
 	const { context, setContext } = useContext(AppContext);
 
-	/** State to store the email during password reset */
 	const [email, setEmail] = useState("");
-
-	/** State to store the OTP during password reset */
 	const [otp, setOtp] = useState("");
+	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
+	const [resetMessage, setResetMessage] = useState("");
 
 	/** To store the state, if reset email is sent */
 	const [isMailSent, setIsMailSent] = useState(false);
 
 	/** To store the OTP expiry timer */
-	const [timer, setTimer] = useState(120);
+	const [otpTimer, setOtpTimer] = useState(0);
+
+	/** To store the reset window expiry timer */
+	const [resetWindowTimer, setResetWindowTimer] = useState(0);
 
 	/** To store the state if the user has validated the OTP */
 	const [isOtpValidated, setIsOtpValidated] = useState(false);
-
-	/** To store the new password */
-	const [password, setPassword] = useState("");
-
-	/** To store the confirm password */
-	const [confirmPassword, setConfirmPassword] = useState("");
-
-	/** To store the action message to be displayed to user */
-	const [resetMessage, setResetMessage] = useState("");
 
 
 	/** Function to handle things when user clicks FORGOT PASSWORD button */
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
 		const data = {
 			email: email,
 		};
@@ -51,26 +44,30 @@ const ForgotPasswordModal = () => {
 
 				/** Setting the appropriate message to user's click action */
 				setResetMessage("OTP sent to registered email");
-
 				/** Wait for 2 seconds before rendering the other component */
 				setTimeout(() => {
 					setIsMailSent(true);
+					setOtpTimer(120);
 				}, 2000);
 			}
-			else{
-				setResetMessage("Invalid details provided");
+			if(response.data.status === "failure" && response.data.msg === "Invalid request body"){
+				console.log("Clearing old access tokens....");
+				setResetMessage("Exisiting tokens cleared. Please try again");
+			}
+			else
+			if(response.data.status === "failure" && response.data.msg === "Invalid details"){
+				setResetMessage("Invalid email or user does not exist");
 			}
 		}
 		catch (error) {
-			console.log("Error sending OTP");
 			setResetMessage("Invalid email or user does not exist");
 		}
 	};
 
-	/** Function to handle things when user submits an OTP */
+
+	/** Function to be executed when user submits an OTP */
 	const handleOtpSubmit = async (e) => {
 		e.preventDefault();
-
 		const data = {
 			email: email,
 			otp: otp,
@@ -88,6 +85,8 @@ const ForgotPasswordModal = () => {
 
 				/** Wait for 2 seconds before rendering the other component */
 				setTimeout(() => {
+					setOtpTimer(0);
+					setResetWindowTimer(120);
 					setIsOtpValidated(true);
 				}, 2000);
 			}
@@ -111,7 +110,7 @@ const ForgotPasswordModal = () => {
 		}
 
 		try{
-			const url = "http://localhost:4000/api/auth/reset-password";
+			const url = "http://localhost:4000/api/auth/forgot-password";
 			const response = await axios.post(url, data);
 
 			if(response.data.status === "success"){
@@ -145,7 +144,8 @@ const ForgotPasswordModal = () => {
 				setResetMessage("New OTP sent. Please check your email");
 
 				/** Reset the OTP expiry timer to 2 minutes */
-				setTimer(120);
+				setOtpTimer(120);
+				setResetWindowTimer(0);
 			}
 		}
 		catch (error) {
@@ -154,27 +154,88 @@ const ForgotPasswordModal = () => {
 		}
 	};
 
+	const executeLogout = async () => {
+		const data = {
+			email: email
+		}
+		try{
+			const url = "http://localhost:4000/api/auth/logout";
+			const response = await axios.post(url, data, {withCredentials: true});
+
+			return response.data.status;
+		}
+		catch(error){
+			console.log(error)
+			console.log("Error logging out");
+		}
+	}
+
+	/** Function to handle things when user clicks the CLOSE button in forgot password modal */
+	const handleModalClose = async () => {
+		console.log("Forgot password Modal Closed")
+		if(isOtpValidated === true){
+			const logoutResult = await executeLogout();
+			if(logoutResult === "success")
+				setContext({...context, isForgotPasswordModalOpen: false, isLoginModalOpen: false});
+			else{
+				console.log(logoutResult);
+				setResetMessage("Error logging out");
+			}
+		}
+		else
+			setContext({...context, isForgotPasswordModalOpen: false, isLoginModalOpen: false});
+	};
+
+	/** Function to clear reset message in 2 seconds after it is displayed */
+	useEffect(() => {
+		if(resetMessage !== ""){
+			setTimeout(() => {
+				setResetMessage("");
+			}, 2000);
+		}
+	}, [resetMessage]);
+
+
 	/** Function to handle the expiry timer */
 	const handleCountdown = () => {
 		/** Decrease timer count by 1, each second */
-		if (timer > 0) {
+		console.log("OTP Timer: ", otpTimer);
+		if (otpTimer > 0) {
 			setTimeout(() => {
-				setTimer(timer - 1);
+				console.log("reducing....");
+				setOtpTimer(otpTimer - 1);
 			}, 1000);
 		}
 	};
 
 	useEffect(() => {
 		handleCountdown();
-	}, [timer]);		// eslint-disable-line
+	}, [otpTimer]);		// eslint-disable-line
 
 
-
-	/** Function to handle things when user clicks the CLOSE button in forgot password modal */
-	const handleModalClose = () => {
-		console.log("Forgot password Modal Closed")
-		setContext({...context, isForgotPasswordModalOpen: false, isLoginModalOpen: false});
+	const handleResetWindowCountdown = () => {
+		/** Decrease timer count by 1, each second */
+		if (resetWindowTimer > 0) {
+			setTimeout(() => {
+				setResetWindowTimer(resetWindowTimer - 1);
+			}, 1000);
+		}
 	};
+
+	useEffect(() => {
+		handleResetWindowCountdown();
+	}, [resetWindowTimer]);		// eslint-disable-line
+
+
+	const handleRestartClick = () => {
+		const logoutResult = executeLogout();
+		if(logoutResult === "success")
+			console.log("User logged out successfully");
+		else
+			console.log("Error logging out");
+		setIsOtpValidated(false);
+		setIsMailSent(false);
+	}
 
 	return (
 		<div className="modal">
@@ -182,7 +243,7 @@ const ForgotPasswordModal = () => {
 				<div className="head"></div>
 				<Button className="close__" onClick={() => handleModalClose()}>&times;</Button>
 
-				<h2>Passowrd Reset</h2>
+				<h2>Password Reset</h2>
 
 				{/* Render email field for the first time */}
 				{!isMailSent && !isOtpValidated && ( <>
@@ -216,13 +277,13 @@ const ForgotPasswordModal = () => {
 								required
 							/>
 							<br/>
-							<button type="submit">Validate OTP</button>
+							{otpTimer !== 0 && (<button type="submit">Validate OTP</button>)}
 						</form>
 						<div>
-							{timer === 0 ? (
+							{otpTimer === 0 ? (
 								<button type="submit" onClick={handleResendOtp}>Resend OTP</button>
 							) : (
-								<p>Resend OTP in {timer} seconds</p>
+								<p>Resend OTP in {otpTimer} seconds</p>
 							)}
 						</div>
 					</>
@@ -252,8 +313,17 @@ const ForgotPasswordModal = () => {
 						/>
 						<br/>
 						<button type="submit">Reset Password</button>
-					</form></>
+					</form>
+					<div>
+						{resetWindowTimer === 0 ? (<>
+							<p> Password change window expired. Please restart the process</p>
+							<button type="button" onClick={handleRestartClick}>Restart</button></>
+						) : (
+							<p>Password change window will become invalid in {resetWindowTimer} seconds</p>
+						)}
+					</div></>
 				)}
+
 
 				{/* Render the action messages to user */}
 				<div>

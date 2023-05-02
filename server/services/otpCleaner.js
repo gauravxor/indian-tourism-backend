@@ -15,7 +15,7 @@ const otpCleaner = async () => {
 			const diff = currentTime - otpTime;
 			const diffInMinutes = diff / 1000;
 			console.log("The time difference " + diffInMinutes);
-			if(diffInMinutes > 150) {
+			if((diffInMinutes > 150 && otp.otpType === "emailVerification") || (diffInMinutes > 300 && otp.otpType === "passwordReset")) {
 				console.log("OTP Cleaner : Deleting expired OTP".yellow);
 				const deleteOtpResult = await OtpModel.deleteOne({ email: otp.email });
 				if(deleteOtpResult === null) {

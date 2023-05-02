@@ -18,8 +18,8 @@ const logoutController = async (req, res) => {
 		if(updateLoginStatusResult !== null)
 		{
 			res
-			.clearCookie('accessToken')
-			.clearCookie('refreshToken')
+			.clearCookie('accessToken', { httpOnly: true, sameSite: "strict", secure: true})
+			.clearCookie('refreshToken' , { httpOnly: true, sameSite: "strict", secure: true})
 			.status(200).send({
 				status: "success",
 				msg: "Logged out successfully",

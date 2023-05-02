@@ -19,6 +19,7 @@ const UserProfile = () => {
 
 	/** Fetch the user details as soon as the component is mounted */
 	useEffect(() => {
+		console.log("The context user id is " + context.userId);
 		const url = `http://localhost:4000/api/user/details/${context.userId}`;
 
 		/** Calling the API to fetch the user data */
@@ -27,7 +28,9 @@ const UserProfile = () => {
 		.then((response) => {
 			if (response.data.status === "success") {
 				console.log("User details fetched successfully");
+				console.log("The response data is: " + JSON.stringify(response.data));
 				setUserDetails(response.data.userData);
+				console.log("User details are: " + JSON.stringify(userDetails));
 			}
 			else {
 				console.log("Error fetching user details");
@@ -37,6 +40,11 @@ const UserProfile = () => {
 			console.log("Error fetching user details");
 		})
 	},[context.userId]);  //eslint-disable-line
+
+
+	useEffect(() => {
+		console.log("The user details are: " + JSON.stringify(userDetails));
+	}, [userDetails]);
 
 	/** If userId is emptry in context, then the user is not logged in, hence display appropriate message */
 	if (context.userId === "") {

@@ -20,7 +20,7 @@ const OtpModal = () => {
 	const [verificationMsg, setVerificationMsg] = useState("");
 
 	/** Function to handle things when user clicks the SUBMIT button in OTP form */
-	const handleLoginSubmit = async (e)	 => {
+	const handleVerifySubmit = async (e)	 => {
 		e.preventDefault();
 
 		const data = {
@@ -114,7 +114,7 @@ const OtpModal = () => {
 				<Button className="close-btn" onClick={() => handleModalClose()}>&times;</Button>
 				<h2>Verify Email Address</h2>
 
-				<form onSubmit={handleLoginSubmit}>
+				<form onSubmit={handleVerifySubmit}>
 					<label>OTP : </label>
 					<input
 						type="text"

@@ -1,12 +1,14 @@
 const UserModel = require("../../models/userModel");
 const AdminModel = require("../../models/adminModel");
 const BookingsModel = require("../../models/bookingsModel");
+const color = require("colors");
 
 const _ = require("lodash");
 const adminModel = require("../../models/adminModel");
 
 const getUserDataController = async (req, res) => {
 
+	console.log(`UserData Controller : User type ->`.yellow + `${req.userType}`.cyan);
 	const userId = (req.params.userId).toString();
 	console.log("User data controller " + userId);
 	console.log("User data controller " + req.userType);

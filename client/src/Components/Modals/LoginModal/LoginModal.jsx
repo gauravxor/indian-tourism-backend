@@ -7,12 +7,13 @@ import logo			from '../../UI/Images/profile.png'
 import {AppContext}	from '../../../AppContext.js'
 import "./LoginModal.css";
 
-const resentOtp = async (userEmail) => {
+const resendOtp = async (userEmail) => {
 
 	const data = {
 		email: userEmail,
 		otpType: "emailVerification"
 	};
+	console.log(data);
 
 	try {
 		const response = await axios.post("http://localhost:4000/api/auth/resend-otp", data);
@@ -77,10 +78,11 @@ const LoginModal = () => {
 			else /** If the user has not verified the email yet */
 			if(response.data.msg === "Email not verified"){
 				setLoginMessage("Email not verified. Please verify your email to continue.");
-				const isOtpResent = await resentOtp(email);
+				const isOtpResent = await resendOtp(email);
 				if(isOtpResent === "success"){
 					console.log("OTP resent successfully");
-					setContext({ ...context, isLoggedIn: true, isUserAdmin: isAdmin, userEmail: email,
+					console.log("User id is: " + JSON.stringify(response.data));
+					setContext({ ...context, isLoggedIn: false, isUserAdmin: isAdmin, userEmail: email,
 						userId: response.data.userId, isOtpModalOpen: true, isLoginModalOpen: false});
 				}
 			}

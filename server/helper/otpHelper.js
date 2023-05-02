@@ -1,8 +1,10 @@
 const nodemailer = require('nodemailer');
 const jwt 	     = require('jsonwebtoken');
 
+const AUTH = require('./authHelper');
 const OtpModel	= require('../models/otpModel');
 const UserModel	= require('../models/userModel');
+const { Console } = require('console');
 
 /** Function to generate OTP */
 function generateOtp(length)
@@ -19,7 +21,7 @@ async function saveOtp(generatedOtp, userEmail, userDocumentId, otpType)
 {
 	/** If any old OTP exists in the database, delete it */
 	await OtpModel.deleteOne({emailId: userEmail, userId: userDocumentId});
-
+	console.log("Document is = " + 	userDocumentId);
 	console.log("Starting to save otp".green);
 	const OtpDocument = new OtpModel({
 		userId: userDocumentId,
@@ -28,6 +30,7 @@ async function saveOtp(generatedOtp, userEmail, userDocumentId, otpType)
 		otpType: otpType,
 		createdAt: Date.now(),
 	});
+	console.log(OtpDocument);
 
 	const saveOtpResult = await OtpDocument.save();
 	console.log(saveOtpResult);
@@ -170,31 +173,19 @@ async function verifyOtp(userEmail, otp, otpType)
 
 /** Function to resend OTP. It handles both email verification and password reset */
 async function resendOtp(req, res){
-	console.log(req.cookies);
-	/** If cookies are not present, return error */
-	if(req.cookies === undefined){
-		console.log("Cookies not sent with request".red);
-
-		res.status(401).send({
-			status: "failure",
-			msg: "Unauthorized"
-		});
-	}
-
-	const accessToken = req.cookies.accessToken;
-	const payloadUserId = (jwt.decode(accessToken)).userId;
 
 	const requestEmail = req.body.email;
+	const userData = await AUTH.searchUser(requestEmail)
+	const userId = userData._id;
 	const requestOtpType = req.body.otpType;
 
-	console.log("The OTP type is: ".green + `${requestOtpType}`.blue);
+	console.log(`OTP Helper : Resending ${requestOtpType} OTP`.green)
 
 	var otp = 0;
 	if(requestOtpType === "emailVerification"){
-		otp = await emailOtp(requestEmail, payloadUserId);
-		res
-		.status(200)
-		.send({
+		otp = await emailOtp(requestEmail, userId);
+		return res.status(200)
+		.json({
 			status: "success",
 			msg: "Otp for sent for email verification",
 			otp: otp
@@ -202,10 +193,9 @@ async function resendOtp(req, res){
 	}
 	else
 	if(requestOtpType === "passwordReset"){
-		otp = await sendPasswordResetEmail(requestEmail, payloadUserId);
-		res
-		.status(200)
-		.send({
+		otp = await sendPasswordResetEmail(requestEmail, userId);
+		return res.status(200)
+		.json({
 			status: "success",
 			msg: "Otp for sent for password reset",
 			otp: otp

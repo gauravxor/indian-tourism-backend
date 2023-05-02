@@ -18,9 +18,9 @@ authRoutes.post('/signup', signUpController);
 authRoutes.post('/login', loginController);
 
 authRoutes.post('/logout', verifyToken, logoutController);
-authRoutes.post('/verify-otp', verifyToken, otpController);
+authRoutes.post('/verify-otp', otpController);
 
-authRoutes.post('/resend-otp', verifyToken, resendOtp);
+authRoutes.post('/resend-otp', resendOtp);
 
 authRoutes.post('/forgot-password', passwordController.forgotPassword);
 authRoutes.post('/change-password', verifyToken, passwordController.changePassword);
