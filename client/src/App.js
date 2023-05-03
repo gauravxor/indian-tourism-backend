@@ -43,7 +43,7 @@ function App() {
 			</Routes>
 		</div>
 
-		<Footer className={classes.footer} />
+		{/* <Footer className={classes.footer} /> */}
 	</div>
 	);
 }
