@@ -7,7 +7,6 @@ import { AppContext }	from '../../../../AppContext.js';
 
 const CancellationContainer = () => {
 
-	//eslint-disable-next-line
 	const { context, setContext } = useContext(AppContext);
 
 	/** React state to store the array of cancellation data objects */
@@ -20,6 +19,11 @@ const CancellationContainer = () => {
 		axios
 		.get(url, {withCredentials: true})
 		.then((response) => {
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			if(response.data.status === "success"){
 				console.log("Cancellation data fetched successfully");
 				setCancellation(response.data.data);

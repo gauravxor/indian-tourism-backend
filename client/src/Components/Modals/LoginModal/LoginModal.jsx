@@ -55,7 +55,11 @@ const LoginModal = () => {
 		try {
 			const url = "http://localhost:4000/api/auth/login";
 			const response = await axios.post(url, data);
-			console.log(response.data);
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			if(response.data.status === "success"){
 				setLoginMessage("Login Successful");
 

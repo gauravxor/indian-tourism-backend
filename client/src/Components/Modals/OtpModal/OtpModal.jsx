@@ -32,7 +32,11 @@ const OtpModal = () => {
 		try {
 			const url = "http://localhost:4000/api/auth/verify-otp";
 			const response = await axios.post(url, data)
-
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			if(response.data.status === "success"){
 				setVerificationMsg("Email verified successfully");
 
@@ -72,7 +76,11 @@ const OtpModal = () => {
 
 		try {
 			const response = await axios.post("http://localhost:4000/api/auth/resend-otp", data);
-			console.log(response.data);
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			if (response.data.status === "success") {
 				setVerificationMsg("New OTP sent");
 				setTimer(120); // Set the timer to 2 minutes

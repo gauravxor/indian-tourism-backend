@@ -1,8 +1,13 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import axios from 'axios';
 import classes from './AdddLocationContainer.module.css';
 import Button from '../../../UI/Buttons/Button';
+
+import { AppContext } from '../../../../AppContext';
+
 const AddLocationContainer = () => {
+
+	const { context, setContext } = useContext(AppContext);
 
 	/** React states to store location data */
 	const [locationName, setLocationName] = useState("");
@@ -63,6 +68,11 @@ const AddLocationContainer = () => {
 					"Content-Type": "multipart/form-data"
 				}, withCredentials: true });
 
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Your session has expired. Please login again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			if (response.data.status === "success") {
 				alert("Location successfully added to the database");
 				console.log("Location successfully added to the database");
@@ -78,12 +88,11 @@ const AddLocationContainer = () => {
 	}
 
 
-
 	return (
 		<div className={classes.main_container}>
 			<h1>Add Location To Database</h1>
 			 <form onSubmit={handleAddLocation}>
-            
+
 				<div>
 				<label htmlFor="location-name">Location Name</label>
 				<input
@@ -95,8 +104,8 @@ const AddLocationContainer = () => {
 					onChange = {(e) => setLocationName(e.target.value)}
 				/><br /><br/>
 				</div>
-				
-                <div> 
+
+                <div>
 			    <label htmlFor="location-address">Location Address</label>
 				<input
 					type="text"
@@ -268,7 +277,7 @@ const AddLocationContainer = () => {
                  <span>
 				<Button type="submit">Add Location</Button>
 				</span>
-			
+
 			</form>
 		</div>
 	)

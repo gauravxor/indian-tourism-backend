@@ -34,6 +34,11 @@ function LocationsContainer() {
 		axios.get(url, {withCredentials: false})
 		.then((response) => {
 
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			/** The response will contain an array of objects. If the array is empty, we will render the main body
 			 *  or else we will render the fetched location data for search query.
 			*/

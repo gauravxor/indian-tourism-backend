@@ -1,7 +1,8 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './LocationDataEdit.css';
 import Button from '../../../UI/Buttons/Button';
+import { AppContext } from '../../../../AppContext';
 const UserProfileEdit = (props) => {
 
 	/** Saving the location id received from props */
@@ -9,11 +10,18 @@ const UserProfileEdit = (props) => {
 
 	const [locationData, setLocationData] = useState({});
 
+	const { context, setContext } = useContext(AppContext);
+
 	useEffect(() => {
 		const url = `http://localhost:4000/api/location/` + locationId;
 
 		axios.get(url, { withCredentials: true })
 		.then((response) => {
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			if (response.data.status === "success") {
 				console.log("Fetched location details");
 				setLocationData(response.data.location);
@@ -275,7 +283,7 @@ const UserProfileEdit = (props) => {
 
 			{/* If user clicks the edit button, the inEditableMode state will be changed in parent component and
 				location edit form component will be rendered */}
-			
+
 		</>
 	)
 }

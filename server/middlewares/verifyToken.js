@@ -118,7 +118,7 @@ async function verifyToken(req, res, next) {
 									console.log("VerifyToken : All tokens expired, logging out...".yellow);
 									return res.status(201).send({
 										status: "failure",
-										msg: "Tokens expired"
+										msg: "Tokens Expired"
 									});
 								}
 							}

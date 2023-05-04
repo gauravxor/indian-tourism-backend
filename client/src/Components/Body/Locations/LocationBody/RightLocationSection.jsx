@@ -51,6 +51,11 @@ const RightLocationSection = (props) => {
 			const url = "http://localhost:4000/api/book/lock/";
 			const response = await axios.post(url, data, {withCredentials: true});
 
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			if(response.data.status === "success"){
 				console.log("Booking lock ID is : " + response.data.lockId);
 				setBookingMessage("Booking locked successfully, proceeding to payment.....");
@@ -83,7 +88,7 @@ const RightLocationSection = (props) => {
 					required
 				/>
 				<br/>
-				
+
 				<label htmlFor="children">Children:</label>
 				<input
 					type="number"
@@ -95,7 +100,7 @@ const RightLocationSection = (props) => {
 					onChange={(e) => setChildrenCount(e.target.value)}
 				/>
 				<br />
-				
+
 				<label htmlFor="date">Visit date:</label>
 				<input
 					type="date"

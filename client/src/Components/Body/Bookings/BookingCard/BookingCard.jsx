@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import axios from 'axios';
-
+import {AppContext} from '../../../../AppContext';
 const BookingCard = (props) => {
 
 	const { bookingData } = props;
+	const {context, setContext} = useContext(AppContext);
 
 	const bookingId = bookingData.bookingId;
 	const cancelBookingHandler = async () => {
@@ -15,8 +16,13 @@ const BookingCard = (props) => {
 				bookingId : bookingId,
 				userId : bookingData.userId,
 			}
-
 			const response = await axios.post(url, data, {withCredentials: true});
+
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			if(response.data.status === "success"){
 				alert("Cancellation Request Submitted Successfully");
 				window.location.reload();
@@ -26,7 +32,7 @@ const BookingCard = (props) => {
 			}
 		}
 		catch(err){
-			console.log(err);
+			alert("Cancellation Request Failed");
 		}
 	}
 

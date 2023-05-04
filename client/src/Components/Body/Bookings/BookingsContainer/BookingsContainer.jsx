@@ -10,7 +10,6 @@ import { AppContext } from '../../../../AppContext.js';
 
 function BookingsContainer() {
 
-	// eslint-disable-next-line
 	const { context, setContext } = useContext(AppContext);
 
 	const [bookings, setBookings] = useState([]);
@@ -25,7 +24,12 @@ function BookingsContainer() {
 		axios.get(url, {withCredentials: true})
 		.then((response) => {
 
-			/** Check if we received a valid response */
+			/** Check if token is expired */
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else /** Check if we received a valid response */
 			if(response.data.status === "success"){
 				console.log("Successfully fetched bookings");
 				setBookings(response.data.userBookings);
@@ -35,9 +39,9 @@ function BookingsContainer() {
 			}
 		})
 		.catch((error) => {
-			console.log("");
+			console.log("Faild to fetch bookings");
 		})
-	}, [context.userId]);
+	}, [context.userId]);  // eslint-disable-line
 
 
 	return (

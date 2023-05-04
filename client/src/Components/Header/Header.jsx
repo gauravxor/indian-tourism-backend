@@ -39,19 +39,28 @@ const Header = ( ) => {
 
 			/** Calling the Logout API */
 			const response = await axios.post(url, data, { withCredentials: true });
-			console.log(response.data);
 
-			/** Since user is logging out, so reset the context variables */
-			setContext({ ...context,
-				isLoggedIn: false,
-				isUserAdmin: false,
-				showMainBody: true,
-				userEmail: "",
-				isVerified: false,
-			});
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
+			if(response.data.status === "success"){
+				/** Since user is logging out, so reset the context variables */
+				setContext({ ...context,
+					isLoggedIn: false,
+					isUserAdmin: false,
+					showMainBody: true,
+					userEmail: "",
+					isVerified: false,
+				});
+			}
+			else{
+				console.log("Error logging out");
+			}
 		}
 		catch (error) {
-			console.error(error);
+			console.log("Error logging out");
 		}
 	}
 
