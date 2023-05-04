@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import {AppContext} from '../../../../AppContext.js';
 import PaymentModal from '../../../Modals/PaymentModal/PaymentModal.jsx';
+import Button from '../../../UI/Buttons/Button.jsx';
 
 /** This function takes in a date in ISO format and converts it into in DD-MM-YYYY format */
 const formattedDate = (visitDate) => {
@@ -67,7 +68,7 @@ const RightLocationSection = (props) => {
 
 	return (
 		<div className="right-section">
-			<h2>Location Booking</h2>
+			<h4>Location Booking</h4>
 
 			<form onSubmit={handleBookingFormSubmit}>
 				<label htmlFor="adults">Adult:</label>
@@ -82,7 +83,7 @@ const RightLocationSection = (props) => {
 					required
 				/>
 				<br/>
-				<br/>
+				
 				<label htmlFor="children">Children:</label>
 				<input
 					type="number"
@@ -94,7 +95,7 @@ const RightLocationSection = (props) => {
 					onChange={(e) => setChildrenCount(e.target.value)}
 				/>
 				<br />
-				<br />
+				
 				<label htmlFor="date">Visit date:</label>
 				<input
 					type="date"
@@ -104,8 +105,8 @@ const RightLocationSection = (props) => {
 					onChange={(e) => setVisitDate(e.target.value)}
 					required
 				/>
-				<br/>
-				<input type="submit" value="Book Now" />
+				<br /><br />
+				<Button type="submit" className='submit-btn' >Book Now</Button>
 				<p> {bookingMessage}</p>
 			</form>
 
