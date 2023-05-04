@@ -3,6 +3,7 @@ import "./LocationCard.css";
 import { BsArrowRightCircle, BsArrowLeftCircle } from "react-icons/bs";
 import { AppContext } from "../../../../AppContext";
 import { useNavigate } from 'react-router-dom';
+import Button from '../../../UI/Buttons/Button';
 
 const Card = (props) => {
 
@@ -38,6 +39,7 @@ const Card = (props) => {
 		props.setEditLocationId(locationId);
 		props.setInEditableMode(true);
 	}
+	const btnClass = (context.isUserAdmin?'btn-1':'');
 
 	return (<>
 	<div className="cards">
@@ -59,23 +61,21 @@ const Card = (props) => {
 				</div>
 
 				<div className="name-section">
-					<p>Name = {name}</p>
+				 {name}
 				</div>
 
 				<div className="description-section">
-					<p>Desc = {description}</p>
+					<b>Desc : </b> {description}
 				</div>
 
 				<div className="price-section">
-					<h4>Price = {price}</h4>
+				₹{price}
 				</div>
 
 				<div className="button-section">
-					<button onClick={() => handleKnowMoreClick()}> Know More </button>
+					<Button className={btnClass} onClick={() => handleKnowMoreClick()}> Know More </Button>
 					{context.isUserAdmin === true && (
-						<div className="button-section">
-							<button onClick={(event) => handleEditClick(event)}> Edit </button>
-						</div>
+							<Button className='btn-2' onClick={(event) => handleEditClick(event)}> Edit </Button>
 					)}
 				</div>
 			</div>

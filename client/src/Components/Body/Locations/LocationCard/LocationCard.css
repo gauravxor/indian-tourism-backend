@@ -4,7 +4,7 @@
 }
 
 .location-card {
-	border-radius: 5px;
+	border-radius: 12px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
 	height: 34rem;
@@ -14,6 +14,7 @@
 	background: #C9D6FF;  /* fallback for old browsers */
 background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
 background: linear-gradient(to right, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+font-family: 'Roboto Slab', serif;
 
 }
 
@@ -92,7 +93,12 @@ border: 0px;
 	padding: 10px;
 	text-align: center;
 }
-
+.btn-1{
+	float: left;
+}
+.btn-2{
+	float: right;
+}
 .button-section a {
 	border-radius: 5px;
 	color: #764141;
@@ -105,4 +111,28 @@ border: 0px;
 
 .button-section a:hover {
 	background-color: #005ab5;
+}
+
+.name-section{
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin: 5px;
+}
+.description-section{
+	font-size: 14px;
+	text-align: left;
+	margin: 5px;
+}
+.price-section{
+	width: 100px;
+	background-color: #242b4e;
+	color: white;
+	border-radius: 10px;
+	display: block;
+	margin: auto;
+	font-size: 30px;
+	font-weight: 500;
+    padding: 5px;
+	text-align: center;
 }

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-
-
+import './LocationDataEdit.css';
+import Button from '../../../UI/Buttons/Button';
 const UserProfileEdit = (props) => {
 
 	/** Saving the location id received from props */
@@ -112,9 +112,9 @@ const UserProfileEdit = (props) => {
 	}
 
 	return (
-		<div>
+		<>
 			<div className="location-edit-info">
-
+               <div>
 				<label htmlFor="location-name">Location Name</label>
 				<input
 					type="text"
@@ -122,17 +122,20 @@ const UserProfileEdit = (props) => {
 					name="location-name"
 					value={locationName}
 					onChange={(event) => setLocationName(event.target.value)}
-				/><br/>
-
+				/>
+                </div>
+				<div>
 				<label htmlFor="location-description">Location Description</label>
 				<textarea
+				   className='loc-desc'
 					type="text"
 					id="location-description"
 					name="location-description"
 					value={locationDescription}
 					onChange={(event) => setLocationDescription(event.target.value)}
-				/><br/>
-
+				/>
+                </div>
+				<div>
 				<label htmlFor="location-address">Location Address</label>
 				<input
 					type="text"
@@ -140,8 +143,9 @@ const UserProfileEdit = (props) => {
 					name="location-address"
 					value={locationAddress}
 					onChange={(event) => setLocationAddress(event.target.value)}
-				/><br/>
-
+				/>
+                </div>
+				<div>
 				<label htmlFor="location-city">Location City</label>
 				<input
 					type="text"
@@ -149,8 +153,9 @@ const UserProfileEdit = (props) => {
 					name="location-city"
 					value={locationCity}
 					onChange={(event) => setLocationCity(event.target.value)}
-				/><br/>
-
+				/>
+				</div>
+                 <div>
 				<label htmlFor="location-state">Location State</label>
 				<input
 					type="text"
@@ -158,8 +163,9 @@ const UserProfileEdit = (props) => {
 					name="location-state"
 					value={locationState}
 					onChange={(event) => setLocationState(event.target.value)}
-				/><br/>
-
+				/>
+				</div>
+				<div>
 				<label htmlFor="location-country">Location Country</label>
 				<input
 					type="text"
@@ -167,8 +173,8 @@ const UserProfileEdit = (props) => {
 					name="location-country"
 					value={locationCountry}
 					onChange={(event) => setLocationCountry(event.target.value)}
-				/><br/>
-
+				/></div>
+                 <div>
 				<label htmlFor="location-pincode">Location Pincode</label>
 				<input
 					type="text"
@@ -176,8 +182,8 @@ const UserProfileEdit = (props) => {
 					name="location-pincode"
 					value={locationPincode}
 					onChange={(event) => setLocationPincode(event.target.value)}
-				/><br/>
-
+				/></div>
+                 <div>
 				<label htmlFor="location-longitude">Location Longitude</label>
 				<input
 					type="text"
@@ -185,8 +191,8 @@ const UserProfileEdit = (props) => {
 					name="location-longitude"
 					value={locationLongitude}
 					onChange={(event) => setLocationLongitude(event.target.value)}
-				/><br/>
-
+				/></div>
+                <div>
 				<label htmlFor="location-latitude">Location Latitude</label>
 				<input
 					type="text"
@@ -194,8 +200,8 @@ const UserProfileEdit = (props) => {
 					name="location-latitude"
 					value={locationLatitude}
 					onChange={(event) => setLocationLatitude(event.target.value)}
-				/><br/>
-
+				/></div>
+                 <div>
 				<label htmlFor="location-capacity">Location Capacity</label>
 				<input
 					type="text"
@@ -203,8 +209,8 @@ const UserProfileEdit = (props) => {
 					name="location-capacity"
 					value={locationCapacity}
 					onChange={(event) => setLocationCapacity(event.target.value)}
-				/><br/>
-
+				/></div>
+                  <div>
 				<label htmlFor="location-price">Location Price</label>
 				<input
 					type="text"
@@ -212,68 +218,65 @@ const UserProfileEdit = (props) => {
 					name="location-price"
 					value={locationPrice}
 					onChange={(event) => setLocationPrice(event.target.value)}
-				/><br/>
-
+				/></div>
+                 <div>
 				<label htmlFor="location-cover-image-1">Location Cover Image 1</label>
 				<input
 					type="file"
 					id="location-cover-image-1"
 					name="location-cover-image-1"
 					onChange={(event) => setLocationCoverImage1(event.target.files[0])}
-				/><br/>
-
+				/></div>
+                  <div>
 				<label htmlFor="location-cover-image-2">Location Cover Image 2</label>
 				<input
 					type="file"
 					id="location-cover-image-2"
 					name="location-cover-image-2"
 					onChange={(event) => setLocationCoverImage2(event.target.files[0])}
-				/><br/>
-
+				/></div>
+                 <div>
 				<label htmlFor="location-cover-image-3">Location Cover Image 3</label>
 				<input
 					type="file"
 					id="location-cover-image-3"
 					name="location-cover-image-3"
 					onChange={(event) => setLocationCoverImage3(event.target.files[0])}
-				/><br/>
-
+				/></div>
+                 <div>
 				<label htmlFor="location-slider-image-1">Location Slider Image 1</label>
 				<input
 					type="file"
 					id="location-slider-image-1"
 					name="location-slider-image-1"
 					onChange={(event) => setLocationSliderImage1(event.target.files[0])}
-				/><br/>
-
+				/></div>
+                 <div>
 				<label htmlFor="location-slider-image-2">Location Slider Image 2</label>
 				<input
 					type="file"
 					id="location-slider-image-2"
 					name="location-slider-image-2"
 					onChange={(event) => setLocationSliderImage2(event.target.files[0])}
-				/><br/>
-
+				/></div>
+                <div>
 				<label htmlFor="location-slider-image-3">Location Slider Image 3</label>
 				<input
 					type="file"
 					id="location-slider-image-3"
 					name="location-slider-image-3"
 					onChange={(event) => setLocationSliderImage3(event.target.files[0])}
-				/><br/>
+				/></div>
+				<div className="buttons">
+				    <Button className='btn1' onClick={() => props.setInEditableMode(false)}>Back</Button>
+				    <Button className='btn2' onClick={(event) => handleSave(event)}>Save</Button>
+			    </div>
 			</div>
 
 			{/* If user clicks the edit button, the inEditableMode state will be changed in parent component and
 				location edit form component will be rendered */}
-			<div className="back-button">
-				<button onClick={() => props.setInEditableMode(false)}>Back</button>
-			</div>
-
-			<div className="save-button">
-				<button onClick={(event) => handleSave(event)}>Save</button>
-			</div>
-
-		</div>
+			
+		</>
 	)
 }
 
