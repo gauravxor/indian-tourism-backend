@@ -31,6 +31,7 @@ const BookingCard = (props) => {
 	}
 
 	return (
+		<div className='main'>
 		<div className="booking-card">
 			<div className="booking-card-header">
 				<h2>{bookingData.locationName}</h2>
@@ -49,6 +50,7 @@ const BookingCard = (props) => {
 				</div>
 			</div>
 			<button type='submit' onClick={cancelBookingHandler}> Cancel Booking </button>
+		</div>
 		</div>
 	)
 }

@@ -133,7 +133,7 @@ const SignUpModal = () => {
 						required
 					/> <br/><br/>
 
-					<label htmlFor="gender">Gender : </label>
+					<label htmlFor="gender">Gender : </label><br/>
 					<div className='gender'>
 						<label htmlFor="male">Male</label>
 						<input
