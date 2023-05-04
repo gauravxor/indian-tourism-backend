@@ -39,6 +39,7 @@ const Card = (props) => {
 		props.setEditLocationId(locationId);
 		props.setInEditableMode(true);
 	}
+	const btnClass = (context.isUserAdmin?'btn-1':'');
 
 	return (<>
 	<div className="cards">
@@ -72,11 +73,9 @@ const Card = (props) => {
 				</div>
 
 				<div className="button-section">
-					<Button onClick={() => handleKnowMoreClick()}> Know More </Button>
+					<Button className={btnClass} onClick={() => handleKnowMoreClick()}> Know More </Button>
 					{context.isUserAdmin === true && (
-						<div className="button-section">
-							<Button onClick={(event) => handleEditClick(event)}> Edit </Button>
-						</div>
+							<Button className='btn-2' onClick={(event) => handleEditClick(event)}> Edit </Button>
 					)}
 				</div>
 			</div>

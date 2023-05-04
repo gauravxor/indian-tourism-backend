@@ -1,0 +1,65 @@
+.location-edit-info{
+    display: flex;
+    width: 80%;
+    background-color: aliceblue;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 15px;
+    margin: auto;
+
+}
+.location-edit-info div label{
+    font-size: 16px;
+    width:200px;
+    padding: 20px;
+}
+.loc-desc{
+    width: 70%;
+    height: auto;
+}
+.location-edit-info div input{
+    width: 60%;
+    margin: 5px;
+}
+.buttons{
+display: flex;
+flex-direction: row;
+
+}
+.btn1{
+  
+}
+.btn2{
+    position:absolute;
+    right: 20%;
+}
+@media screen and (max-width: 600) {
+	.location-edit-info input{
+        width: 80%;
+    }
+    .loc-desc{
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1320px) {
+	.location-edit-info input{
+        width: 60%;
+    }
+    .loc-desc{
+        width: 60%;
+    }
+}
+
+@media only screen and (min-width: 1321px) and (max-width: 1920px) {
+	.location-edit-info input{
+        width: 40%;
+    }
+    /* .location-edit-info label{
+        font-size: 16px;
+        width: 25%;
+    } */
+    .loc-desc{
+        width: 40%;
+    }
+}
