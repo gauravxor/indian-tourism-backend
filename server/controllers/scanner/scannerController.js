@@ -12,6 +12,15 @@ const scannerFetchController = async(req, res) => {
 		});
 	}
 
+	const searchResult = await AdminModel.findOne({accessKey: accessKey});
+	if(searchResult === null)
+	{
+		return res.status(200).json({
+			status: "failure",
+			message: "Invalid access key"
+		});
+	}
+
 	const bookingData = await BookingModel.findOne({bookingId: bookingId});
 	if(bookingData === null){
 		return res.status(400).json({
@@ -37,6 +46,15 @@ const scannerAllowController = async(req, res) => {
 		return res.status(400).json({
 			status: "failure",
 			message: "Access key not provided"
+		});
+	}
+
+	const searchResult = await AdminModel.findOne({accessKey: accessKey});
+	if(searchResult === null)
+	{
+		return res.status(200).json({
+			status: "failure",
+			message: "Invalid access key"
 		});
 	}
 
