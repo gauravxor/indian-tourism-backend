@@ -37,11 +37,11 @@ const Scanner = () => {
 			const bookingId = data.text;
 			const url = "http://localhost:4000/scanner/";
 			data = {
-				accessKey: "1234567890",
+				accessKey: accessKey,
 				bookingId: bookingId
 			}
 			setResult(" ");
-			console.log("data: ", data);
+			console.log("data : ", data);
 			try {
 				const response = await axios.post(url, data);
 				if (response.data.status === "success") {
