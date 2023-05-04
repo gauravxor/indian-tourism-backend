@@ -2,11 +2,10 @@ const express = require('express');
 const homeRoutes = express.Router();
 
 
-homeRoutes.get('/', (req, res, next) => {
-	res.json({
-		message: "Welcome to the home page"
+homeRoutes.get('/', (req, res) => {
+	return res.status(200).json({
+		message: "Welcome to Indian Tourism!!"
 	});
-	next();
 });
 
 module.exports = homeRoutes;

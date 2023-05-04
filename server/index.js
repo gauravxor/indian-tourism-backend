@@ -11,6 +11,7 @@ const updateRoutes	 = require('./routes/updateRoutes');
 const locationRoutes = require('./routes/locationRoutes');
 const bookingRoutes  =  require('./routes/bookingRoutes');
 const userRoutes 	 = require('./routes/userRoutes');
+const scannerRoutes  = require('./routes/scannerRoutes');
 
 const otpCleaner 	 = require('./services/otpCleaner');
 const lockCleaner = require('./services/bookingLockCleaner');
@@ -51,6 +52,7 @@ app.use('/api/update/', updateRoutes);
 app.use('/api/location/', locationRoutes);
 app.use('/api/book/', bookingRoutes);
 app.use('/api/user/', userRoutes);
+app.use('/scanner', scannerRoutes);
 
 app.listen(process.env.PORT, () => {
 	console.log("Server started on port " + process.env.PORT + ".");

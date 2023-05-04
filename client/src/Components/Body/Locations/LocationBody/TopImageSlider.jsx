@@ -31,11 +31,11 @@ function TopImageSlider(props) {
 
 			<div className="slider-container">
 				<button className="slider-btn prev-btn" onClick={handlePrevClick}>
-				<img className="btn_img" src={right_btn}></img>
+				<img className="btn_img" src={right_btn} alt="right-btn-img"></img>
 				</button>
 				<img src={`http://localhost:4000${imageData[currentIndex].urls}`} alt={imageData[currentIndex].imageType} className="slider-image" />
 				<button className="slider-btn next-btn" onClick={handleNextClick}>
-				<img className="btn_img" src={left_btn}></img>
+				<img className="btn_img" src={left_btn} alt="left-btn-img"></img>
 				</button>
 			</div>
 		);

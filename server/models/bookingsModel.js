@@ -53,7 +53,13 @@ const bookingSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		default: "na"
+	},
+	isVisited: {
+		type: Boolean,
+		required: true,
+		default: false
 	}
+
 });
 
 
