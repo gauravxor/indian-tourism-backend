@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import './UserProfileEdit.css';
 import {cloneDeep } from 'lodash';
-
+import classes from '../../UI/Buttons/Button.module.css';
 const UserProfileEdit = (props) => {
 
 	const userDetails = cloneDeep(props.userDetails);
@@ -73,8 +73,8 @@ const UserProfileEdit = (props) => {
 	}
 
 	return (
-		<div>
-			<div className="user-info">
+		<div className='main'>
+			<form className="user-info-edit">
 				<label htmlFor='userImage'>User Image</label>
 				<input
 					type="file"
@@ -112,32 +112,35 @@ const UserProfileEdit = (props) => {
 					value= {lastName}
 					onChange={(e) => setLastName(e.target.value)}
 				/> <br/>
-
-				<label htmlFor="male">Male</label>
-				<input
+				<label htmlfor="Gender">Gender</label>
+				<div className='gender'>
+					<label htmlFor="male">Male</label>
+				    <input
 					type="radio"
 					id="male"
 					name="gender"
 					value={gender}
 					onChange={(e) => setGender("male")}
-				/>
-				<label htmlFor="female">Female</label>
-				<input
+				    />
+				    <label htmlFor="female">Female</label>
+				    <input
 					type="radio"
 					id="female"
 					name="gender"
 					value={gender}
 					onChange={(e) => setGender("female")}
-				/>
-				<label htmlFor="others">Others</label>
-				<input
+				    />
+				    <label htmlFor="others">Others</label>
+				    <input
 					type="radio"
 					id="others"
 					name="gender"
 					value={gender}
 					onChange={(e) => setGender("others")}
-				/>
+				    />
+					<br/>
 
+				</div>
 
 
 				<label htmlFor='phone'>Phone</label>
@@ -219,16 +222,18 @@ const UserProfileEdit = (props) => {
 					value= {dob}
 					onChange={(e) => setDob(e.target.value)}
 				/> <br/>
-			</div>
+			</form>
 
 			{/* Back button to allow user go back one step, in case if they don't want to save the changes */}
+			<div className='btn'>
 			<div className="back-button">
-				<button onClick={() => props.setInEditableMode(false)}>Back</button>
+				<button className={`${props.className} ${classes.button} `} onClick={() => props.setInEditableMode(false)}>Back</button>
 			</div>
 
 			{/* Save button to save the changes made by the user */}
 			<div className="save-button">
-				<button onClick={(event) => handleSave(event)}>Save</button>
+				<button className={`${props.className} ${classes.button} `} onClick={(event) => handleSave(event)}>Save</button>
+			</div>
 			</div>
 		</div>
 	);
