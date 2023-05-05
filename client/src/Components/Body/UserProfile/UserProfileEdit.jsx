@@ -121,7 +121,7 @@ const UserProfileEdit = (props) => {
 					value= {lastName}
 					onChange={(e) => setLastName(e.target.value)}
 				/> <br/>
-				<label htmlfor="Gender">Gender</label>
+				<label htmlFor="Gender">Gender</label>
 				<div className='gender'>
 					<label htmlFor="male">Male</label>
 				    <input

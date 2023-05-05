@@ -5,6 +5,30 @@ import UserProfileEdit	from './UserProfileEdit.jsx';
 import { AppContext }	from '../../../AppContext.js'
 import './UserProfile.css';
 
+const getDayOfMonthSuffix = (dayOfMonth) => {
+
+	if(dayOfMonth >= 11 && dayOfMonth <= 13) {
+		return 'th';
+	}
+	switch (dayOfMonth % 10) {
+		case 1: return 'st';
+		case 2: return 'nd';
+		case 3: return 'rd';
+		default: return 'th';
+	}
+}
+
+const formatDate = (dateStr) => {
+
+	const date = new Date(dateStr);
+	const options = {month: 'long', year: 'numeric' };
+	const formattedDate = date.toLocaleDateString('en-US', options);
+	const dayOfMonth = date.getDate();
+	const suffix = getDayOfMonthSuffix(dayOfMonth);
+	const finalResult = `${dayOfMonth}${suffix} ${formattedDate}`;
+	return finalResult;
+}
+
 
 const UserProfile = () => {
 
@@ -73,26 +97,21 @@ const UserProfile = () => {
 							{userDetails.name.firstName} {userDetails.name.middleName} {userDetails.name.lastName}
 						</div>
 						<div className="contact">
-							📱Phone: {userDetails.contact.phone} <br />
-							📧Email: {userDetails.contact.email}
+							📱 <b>Phone :</b>	 {userDetails.contact.phone} <br />
+							📧 <b>Email :</b>	 {userDetails.contact.email}
 						</div>
 						<div className="address">
-							🏠{userDetails.address.addressMain}, {userDetails.address.city}, {userDetails.address.state},{" "}
+							🏠 <b>Address :</b> {userDetails.address.addressMain}, {userDetails.address.city}, {userDetails.address.state},{" "}
 							{userDetails.address.country} - {userDetails.address.pincode}
 						</div>
 						<div className="additional-info">
-							<div>Email Verified: {userDetails.isEmailVerified ? "Yes ✔️" : "No ❎"}</div>
-							<div>🪙Wallet Balance: {userDetails.walletBalance}</div>
-							<div>🎂Date of Birth: {userDetails.dob}</div>
-							<div>📅Created At: {userDetails.createdAt}</div>
-							<div>✅Updated At: {userDetails.updatedAt}</div>
-
+							<div>📫 <b>Email Verified :</b> {userDetails.isEmailVerified ? "Yes ✅" : "No ❌"}</div>
+							<div>💰 <b>Wallet Balance :</b> Rs. {userDetails.walletBalance}</div>
+							<div>🎂 <b>Date of Birth :</b> {formatDate(userDetails.dob)}</div>
 
 							{!(context.isUserAdmin) && (<>
-								<div>🔖Booking Count: {userDetails.bookingCount}</div>
 								<div>
-									🎫Bookings: {userDetails.bookings.map((booking) => (
-										<span key={booking.bookingId}>{booking.bookingId}, </span>))}
+									🔖 <b>Total Bookings </b>: {userDetails.bookingCount}
 								</div>
 								</>
 							)}

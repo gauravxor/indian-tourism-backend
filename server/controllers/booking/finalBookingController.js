@@ -18,13 +18,6 @@ const finalBookingController = async (req, res, next) => {
 	const paymentId = req.body.paymentId;
 	const userId = req.userId;
 
-	// check the payment Id for payment status
-	// if payment is successful, then create a permanent booking id
-	// and send it to the user. Also delete the temp booking id (lockId)
-
-	// validate the payment id
-	// isPaymentDone(paymentId)
-
 	const bookingData = await LockBookingModel.findOne({ lockId: lockId });
 	if(bookingData === null) {
 		res.status(400).json({
