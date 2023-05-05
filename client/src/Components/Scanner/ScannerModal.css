@@ -1,4 +1,4 @@
-.modal {
+.modal___{
 	position: fixed;
 	z-index: 1;
 	left: 0;
@@ -12,7 +12,7 @@
 	align-items: center;
 }
 
-.modal-content {
+.modal-content___ {
 	background-color: #fefefe;
 	padding: 20px;
 	border: 1px solid #888;
@@ -36,7 +36,7 @@
 }
 
 
-.modal button[type="submit"] {
+.modal___ button[type="submit"] {
 	padding: 10px 20px;
 	border-radius: 5px;
 	border: none;

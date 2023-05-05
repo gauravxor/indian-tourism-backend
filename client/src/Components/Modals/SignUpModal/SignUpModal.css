@@ -106,7 +106,7 @@ form input {
 
 @media screen and (max-width:600px) {
 	form input {
-		width: 80%;
+		width: 90%;
 	}
 
 	.modal__content {

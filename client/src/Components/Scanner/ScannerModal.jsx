@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import axios from 'axios'
 
 import './ScannerModal.css'
+import Button from '../UI/Buttons/Button'
 
 const ScannerModal = (props) => {
 
@@ -47,16 +48,16 @@ const ScannerModal = (props) => {
 
 
 	return (
-		<div className="modal">
-			<div className="modal-content">
+		<div className="modal___">
+			<div className="modal-content___">
 				<p>Location Name : {props.result.locationName}</p>
 				<p>Booking Id : {props.result.bookingId}</p>
 				<p>User Name : {props.result.userName}</p>
 				<p>Date of Visit : {props.result.dateOfVisit}</p>
 				<p>No of Tickets : {props.result.noOfTickets}</p>
 				{actionMessage !== "" && (<p>{actionMessage}</p>)}
-				<button onClick={handleButtonSubmit}>Allow Entry</button>
-				<button onClick={handleButtonClose}>Close</button>
+				<Button onClick={handleButtonSubmit}>Allow Entry</Button>
+				<Button onClick={handleButtonClose}>Close</Button>
 
 			</div>
 		</div>
