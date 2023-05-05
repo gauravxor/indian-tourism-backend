@@ -50,7 +50,9 @@ const Scanner = () => {
 				}
 			}
 			catch (err) {
-				console.log(err);
+				const response = err.response.data;
+				alert(response.message);
+				setResult("");
 			}
 		}
 	};
@@ -62,12 +64,16 @@ const Scanner = () => {
 
 	return (
 		<div>
-			{result === "" && (<QrReader
-				delay={1000}
-				onError={handleError}
-				onScan={handleScan}
-				style={{ width: '50%' }}
-			/>)}
+			{result === "" && (
+				<div className="scanner-component">
+					<QrReader
+						delay={1000}
+						onError={handleError}
+						onScan={handleScan}
+						style={{ height: "100%", width: "100%"}}
+					/>
+				</div>
+			)}
 
 			{result !== "" && showEntryModal && (
 				<ScannerModal
