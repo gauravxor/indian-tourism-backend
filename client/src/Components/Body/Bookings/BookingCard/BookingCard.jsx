@@ -60,7 +60,6 @@ const BookingCard = (props) => {
 			<button  className={`${props.className} ${classes.button} `} type='submit' onClick={cancelBookingHandler}> Cancel Booking </button>
 		</div>
 		</div>
-		</div>
 	)
 }
 

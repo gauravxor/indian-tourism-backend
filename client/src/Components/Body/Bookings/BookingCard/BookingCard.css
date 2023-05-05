@@ -2,6 +2,7 @@
 	background-color: aquamarine;
 	display: flex;
 	justify-content: space-between;
+}
 .booking-card {
 	width: 450px;
 	height: 700px;
@@ -46,5 +47,5 @@
 
 button{
 	float: right;
-	
+
 }
