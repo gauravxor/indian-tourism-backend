@@ -105,16 +105,11 @@ const UserProfile = () => {
 							{userDetails.address.country} - {userDetails.address.pincode}
 						</div>
 						<div className="additional-info">
-							<div>📫 <b>Email Verified :</b> {userDetails.isEmailVerified ? "Yes ✅" : "No ❌"}</div>
-							<div>💰 <b>Wallet Balance :</b> Rs. {userDetails.walletBalance}</div>
+							{!(context.isUserAdmin) && (<div>📫 <b>Email Verified :</b> {userDetails.isEmailVerified ? "Yes ✅" : "No ❌"}</div>)}
+							{!(context.isUserAdmin) && (<div>💰 <b>Wallet Balance :</b> Rs. {userDetails.walletBalance}</div>)}
 							<div>🎂 <b>Date of Birth :</b> {formatDate(userDetails.dob)}</div>
-
-							{!(context.isUserAdmin) && (<>
-								<div>
-									🔖 <b>Total Bookings </b>: {userDetails.bookingCount}
-								</div>
-								</>
-							)}
+							{!(context.isUserAdmin) && (<div>🔖 <b>Total Bookings :</b> {userDetails.bookingCount}</div>)}
+							{!(context.isuserAdmin) && (<div>🌏 <b>Total Locations :</b> {userDetails.locationCount} </div>)}
 						</div>
 						<div className="edit-button">
 							<button onClick={() => setInEditableMode(true)}>Edit</button>

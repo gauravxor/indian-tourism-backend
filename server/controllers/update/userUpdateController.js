@@ -11,10 +11,12 @@ const multer 	= require('multer');
 /** Multer storage configuration */
 const userImageStorage = multer.diskStorage({
 
+	/** Setting the detination where the incoming image is to be saved */
 	destination: function (req, file, cb){
 	  cb(null, 'public/images/users');
 	},
 
+	/** Generating a file name */
 	filename: async function (req, file, cb)
 	{
 		/** Getting the old user image file */
@@ -24,10 +26,12 @@ const userImageStorage = multer.diskStorage({
 		else
 			userSearchResult = await AdminModel.findById(req.userId);
 		const imageUrl = userSearchResult.userImageURL;
+		console.log("The old image url is : " + imageUrl);
 
-		/** Deleting the old user image file */
+		/** If user does not have the default image, then delete the old one */
 		if(imageUrl !== "/public/images/users/default.png")
 		{
+			console.log("User Update Controller : Deleting old user image...".yellow);
 			try{
 				const filePath = path.join(__dirname, '..', '..', imageUrl);
 				fs.unlinkSync(filePath);
@@ -37,7 +41,7 @@ const userImageStorage = multer.diskStorage({
 			}
 		}
 		const newFileName = req.userId + '-' + file.originalname;
-
+		console.log("The new file name is : " + newFileName);
 		/** Saving the new file name in the request object */
 		req.newFileName = newFileName;
 		cb(null, newFileName);
@@ -72,8 +76,14 @@ const userUpdateController = async (req, res, next) => {
 	}
 
 	/** If user image is not updated then we have to use the old image */
+	/** Root path to old image */
 	var fileName = "/public/images/users/";
-	fileName += (req.file === undefined)? "default.png" : req.newFileName;
+
+	/** Getting the exact file name from old image URL in DB */
+	var oldFileName = oldUserData.userImageURL;
+	oldFileName = oldFileName.substring(oldFileName.lastIndexOf('/') + 1);
+
+	fileName += (req.file === undefined)? oldFileName : req.newFileName;
 
 	const updatedUserData = ({
 

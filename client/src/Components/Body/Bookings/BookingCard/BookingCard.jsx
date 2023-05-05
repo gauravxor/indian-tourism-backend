@@ -3,6 +3,32 @@ import axios from 'axios';
 import './BookingCard.css';
 import classes from '../../../UI/Buttons/Button.module.css';
 import {AppContext} from '../../../../AppContext';
+
+
+const getDayOfMonthSuffix = (dayOfMonth) => {
+
+	if(dayOfMonth >= 11 && dayOfMonth <= 13) {
+		return 'th';
+	}
+	switch (dayOfMonth % 10) {
+		case 1: return 'st';
+		case 2: return 'nd';
+		case 3: return 'rd';
+		default: return 'th';
+	}
+}
+
+const formatDate = (dateStr) => {
+
+	const date = new Date(dateStr);
+	const options = {month: 'long', year: 'numeric' };
+	const formattedDate = date.toLocaleDateString('en-US', options);
+	const dayOfMonth = date.getDate();
+	const suffix = getDayOfMonthSuffix(dayOfMonth);
+	const finalResult = `${dayOfMonth}${suffix} ${formattedDate}`;
+	return finalResult;
+}
+
 const BookingCard = (props) => {
 
 	const { bookingData } = props;
@@ -43,16 +69,15 @@ const BookingCard = (props) => {
 		<div className="booking-card">
 			<div className="booking-card-header">
 				<h2>{bookingData.locationName}</h2>
-				<p>{bookingData.locationDesc}</p>
+				<p><b>{bookingData.locationDesc}</b></p>
 			</div>
 			<div className="booking-card-details">
 				<div className="booking-card-details-row">
 					<p><strong>Booking ID:</strong> {bookingData.bookingId}</p>
-					<p><strong>Date of Visit:</strong> {new Date(bookingData.dateOfVisit).toLocaleDateString()}</p>
-					<p><strong>Number of Tickets:</strong> {bookingData.noOfTickets}</p>
-					<p><strong>Booking Price:</strong> {bookingData.bookingPrice}</p>
-					<p><strong>User ID:</strong> {bookingData.userId}</p>
 					<p><strong>User Name:</strong> {bookingData.userName}</p>
+					<p><strong>Number of Tickets:</strong> {bookingData.noOfTickets}</p>
+					<p><strong>Date of Visit:</strong> {formatDate(bookingData.dateOfVisit)}</p>
+					<p><strong>Booking Price: Rs. </strong> {bookingData.bookingPrice}</p>
 					<p><strong>Location Address:</strong> {bookingData.locationAddress.address}, {bookingData.locationAddress.city}, {bookingData.locationAddress.state} {bookingData.locationAddress.pincode}, {bookingData.locationAddress.country}</p>
 					<p><strong>Cancellation Status</strong> {bookingData.cancellationStatus}</p>
 				</div>
