@@ -4,7 +4,7 @@ const LockBookingModel = require('../../models/lockBookingModel');
 
 const getTempBookingDetailsController = async (req, res, next) => {
 
-	const lockId = req.body.lockId;
+	const lockId = req.params.lockId;
 	// query the lock booking model to get the booking details
 	const bookingData = await LockBookingModel.findOne({ lockId: lockId });
 	if(bookingData === null) {

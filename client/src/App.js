@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import {AppContext} 			from './AppContext';
 
 import classes from './App.module.css'
@@ -19,17 +19,21 @@ import CancellationContainer from './Components/Body/Cancellation/CancellationCo
 function App() {
 	// eslint-disable-next-line
 	const {context, setContext} = useContext(AppContext);
+
 	const {isSlideShow} = context;
-	console.log(typeof(context.isSlideShow));
-	console.log(typeof(isSlideShow));
+
+	/** Using useLocation hook to determine the current route/path and render components accordingly */
+	const location = useLocation();
+	const isScannerRoute = location.pathname === '/scanner';
 
 	return (
 	<div className={classes.App}>
-		<Header />
-
-		{!isSlideShow &&(<div className={classes.container}>
-			<ImageSlider slides={slides} parentWidth={700} />
-		</div>)}
+		{!isScannerRoute && <Header />}
+		{!isScannerRoute && !isSlideShow && (
+			<div className={classes.container}>
+				<ImageSlider slides={slides} parentWidth={700} />
+			</div>
+		)}
 
 		<div className={classes.body}>
 			<Routes>
@@ -43,6 +47,7 @@ function App() {
 				<Route path="/scanner" Component={Scanner} />
 			</Routes>
 		</div>
+
 	</div>
 	);
 }

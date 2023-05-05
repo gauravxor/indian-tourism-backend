@@ -1,6 +1,6 @@
 .slider-image{
 	width: 100%;
-	
+
 	margin-left: -40px;
 	border-radius: 15px 15px 0 0;
 	/* height: max-content; */
@@ -94,6 +94,7 @@ height: fit-content;
   color: black;
   margin-top: -8px;
 }
+
 .submit-btn{
 	position: relative;
 	float: left;

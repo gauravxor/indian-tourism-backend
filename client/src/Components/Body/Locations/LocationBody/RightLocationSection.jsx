@@ -4,6 +4,8 @@ import axios from 'axios';
 import {AppContext} from '../../../../AppContext.js';
 import PaymentModal from '../../../Modals/PaymentModal/PaymentModal.jsx';
 import Button from '../../../UI/Buttons/Button.jsx';
+import DateSelector from './DateSelector.jsx'
+
 
 /** This function takes in a date in ISO format and converts it into in DD-MM-YYYY format */
 const formattedDate = (visitDate) => {
@@ -26,7 +28,7 @@ const RightLocationSection = (props) => {
 
 	/** To store the visit date */
 	const [visitDate, setVisitDate] = React.useState("");
-
+	console.log("The visit date is : " + visitDate);
 	/** React state to store the booking message that is to be displayed to user */
 	const [bookingMessage, setBookingMessage] = React.useState("");
 
@@ -102,13 +104,10 @@ const RightLocationSection = (props) => {
 				<br />
 
 				<label htmlFor="date">Visit date:</label>
-				<input
-					type="date"
-					id="date"
-					name="date"
-					value={visitDate}
-					onChange={(e) => setVisitDate(e.target.value)}
-					required
+				<DateSelector
+					visitDate={visitDate}
+					setVisitDate={setVisitDate}
+					locationId={context.locationId}
 				/>
 				<br /><br />
 				<Button type="submit" className='submit-btn' >Book Now</Button>

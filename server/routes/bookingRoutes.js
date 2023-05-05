@@ -14,7 +14,7 @@ const bookingCancellationController = require('../controllers/location/bookingCa
 
 
 bookingRoutes.post('/lock', verifyToken, bookingLockController);
-bookingRoutes.get('/lock/details', verifyToken, getTempBookingDetailsController);
+bookingRoutes.get('/lock/details/:lockId', verifyToken, getTempBookingDetailsController);
 
 bookingRoutes.post('/final', verifyToken, finalBookingController);
 bookingRoutes.get('/final/details', verifyToken, getBookingDetailsController);
