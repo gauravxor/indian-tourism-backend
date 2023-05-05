@@ -39,17 +39,14 @@ function LocationBody() {
 	return (
 		<div className="location-body">
 			{/* Passing the image data to the TopImageSlider */}
-		    <div className="loc-image">
-			   <TopImageSlider imageData = {locationData.images}/>
-            </div>
+			<div className="loc-image"> <TopImageSlider imageData = {locationData.images}/> </div>
+
 			<div className='booking-details'>
 				{/* Passing the location data to the LeftLocationSection */}
-				<LeftLocationSection locationData={locationData}/>
+				<LeftLocationSection locationData={locationData}/><hr/>
+
 				{/* If user is an admin, they will not be allowed to access booking section */}
-				<hr />
-				{context.isUserAdmin === false && (
-				<RightLocationSection locationId = {context.locationId}/>
-					)}
+				{context.isUserAdmin === false && (<RightLocationSection locationId = {context.locationId}/>)}
 			</div>
 		</div>
 	);

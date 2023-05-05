@@ -28,7 +28,7 @@ const RightLocationSection = (props) => {
 
 	/** To store the visit date */
 	const [visitDate, setVisitDate] = React.useState("");
-	console.log("The visit date is : " + visitDate);
+
 	/** React state to store the booking message that is to be displayed to user */
 	const [bookingMessage, setBookingMessage] = React.useState("");
 
@@ -64,20 +64,29 @@ const RightLocationSection = (props) => {
 
 				/** Open the payment modal after 4 seconds */
 				setTimeout(() => {
+					setBookingMessage("");
 					setContext({...context, tempBookingId: response.data.lockId, isPaymentModalOpen: true});
 				}, 4000);
 			}
 		}
 		catch(error){
-			setBookingMessage("Booking failed, please try again later");
+			const response = error.response.data;
+			if(response.status === "failure")
+			{
+				console.log("Not enough tickets available");
+				setBookingMessage(response.message);
+				setTimeout(() => {
+					setBookingMessage("");
+				}, 3000);
+			}
 		}
 	}
 
 	return (
 		<div className="right-section">
-			<h4>Location Booking</h4>
+			<h4>Booking</h4>
 
-			<form onSubmit={handleBookingFormSubmit}>
+			<form onSubmit={handleBookingFormSubmit} className="booking-form">
 				<label htmlFor="adults">Adult:</label>
 				<input
 					type="number"
@@ -101,20 +110,21 @@ const RightLocationSection = (props) => {
 					value={childrenCount}
 					onChange={(e) => setChildrenCount(e.target.value)}
 				/>
-				<br />
-
+				<br/>
 				<label htmlFor="date">Visit date:</label>
-				<DateSelector
-					visitDate={visitDate}
-					setVisitDate={setVisitDate}
-					locationId={context.locationId}
-				/>
+				<div className="date-selector">
+					<DateSelector
+						visitDate={visitDate}
+						setVisitDate={setVisitDate}
+						locationId={context.locationId}
+					/>
+				</div>
 				<br /><br />
 				<Button type="submit" className='submit-btn' >Book Now</Button>
 				<p> {bookingMessage}</p>
 			</form>
 
-			{/* If booking lock is successfull, then render the payment modal */}
+			{/* If booking lock is successful, then render the payment modal */}
 			{isPaymentModalOpen && (<PaymentModal />)}
 		</div>
 	);

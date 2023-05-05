@@ -7,15 +7,13 @@ function LeftLocationSection(props) {
 	return (
 		<div className="left-section">
 			<div >
-				{/* <h2>Location Details</h2> */}
 				<h2> {locationData.name} </h2>
-				<p><b> Type: </b>{locationData.description} </p>
+				<p><b> Description: </b>{locationData.description} </p>
 				<p className="address"> <b> Address: </b>{locationData.address} </p>
 				<p> <b> City: </b>{locationData.city} </p>
 				<p><b> State: </b>{locationData.state} </p>
 				<p><b> Pincode: </b>{locationData.pincode} </p>
-				<p><b> Entry Fee: Rs.</b> {locationData.ticketPrice} </p>
-				<p><b> Max Capacity: Rs. </b>{locationData.capacity} </p>
+				<p><b> Entry Fee:</b> Rs. {locationData.ticketPrice} per person</p>
 			</div>
 		</div>
 	);

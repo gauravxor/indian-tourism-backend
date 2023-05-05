@@ -47,7 +47,7 @@ const Card = (props) => {
 			<div className="location-card">
 
 				<div className="image-section">
-					<img src={'http://localhost:4000' + images[currentImage].urls} alt={images[currentImage].imageType} />
+					<img src={`http://localhost:4000` + images[currentImage].urls} alt={images[currentImage].imageType} />
 					{images.length > 1 && (
 						<div className="arrow-buttons">
 							<div className="arrow-left">
@@ -60,17 +60,9 @@ const Card = (props) => {
 					)}
 				</div>
 
-				<div className="name-section">
-				 {name}
-				</div>
-
-				<div className="description-section">
-					<b>Desc : </b> {description}
-				</div>
-
-				<div className="price-section">
-				₹{price}
-				</div>
+				<div className="name-section"> {name} </div>
+				<div className="description-section"> <b>Description : </b> {description} </div>
+				<div className="price-section"> ₹{price} </div>
 
 				<div className="button-section">
 					<Button className={btnClass} onClick={() => handleKnowMoreClick()}> Know More </Button>

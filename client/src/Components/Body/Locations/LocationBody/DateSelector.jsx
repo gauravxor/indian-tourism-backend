@@ -52,15 +52,17 @@ const DateSelector = (props) => {
 	}
 	else{
 		return (
-			<div>
-				<DatePicker
-					selected={props.visitDate}
-					onChange={(date) => props.setVisitDate(date)}
-					minDate={new Date()}
-					maxDate={new Date(new Date().setDate(new Date().getDate() + 30))}
-					excludeDates={disabledDates}
-				/>
-			</div>
+			<DatePicker
+				selected={props.visitDate}
+				onChange={(date) => props.setVisitDate(date)}
+				minDate={new Date()}
+				maxDate={new Date(new Date().setDate(new Date().getDate() + 30))}
+				excludeDates={disabledDates}
+				popperPlacement="bottom-end"
+				placeholderText="Choose a date"
+				dateFormat="dd/MM/yyyy"
+				className="date-selector"
+			/>
 		)
 	}
 }
