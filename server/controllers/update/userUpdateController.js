@@ -19,7 +19,7 @@ const userImageStorage = multer.diskStorage({
 	{
 		/** Getting the old user image file */
 		let userSearchResult;
-		if(req.userType === "user")
+		if(req.userType === "local")
 			userSearchResult = await UserModel.findById(req.userId);
 		else
 			userSearchResult = await AdminModel.findById(req.userId);

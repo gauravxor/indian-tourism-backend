@@ -79,6 +79,10 @@ const adminSchema = new mongoose.Schema({
 		default: 0,
 	},
 
+	accessKey: {
+		type: String,
+	},
+
 	locations: [
 		{
 			_id: false,

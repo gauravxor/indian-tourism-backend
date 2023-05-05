@@ -7,6 +7,7 @@
 
 const bcrypt	= require('bcrypt');
 const color 	= require('colors');
+const { v4: uuidv4 } = require('uuid');
 
 const AUTH 		= require('../../helper/authHelper');
 const OTP  		= require('../../helper/otpHelper');
@@ -14,6 +15,7 @@ const TOKENIZER = require('../../helper/jwtHelper');
 
 const AdminModel = require('../../models/adminModel');
 const CredentialModel	= require('../../models/credentialModel');
+const { UUID } = require('bson');
 
 
 const addAdminController = async (req, res, next) => {
@@ -47,7 +49,8 @@ const addAdminController = async (req, res, next) => {
 		},
 		dob: req.body.dob,
 		createdAt: req.body.createdAt,
-		updatedAt: req.body.updatedAt
+		updatedAt: req.body.updatedAt,
+		accessKey: uuidv4()
 	});
 
 	const saveAdminResult = await Admin.save();

@@ -1,11 +1,15 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './UserProfileEdit.css';
 import {cloneDeep } from 'lodash';
 import classes from '../../UI/Buttons/Button.module.css';
+import { AppContext } from '../../../AppContext';
+
 const UserProfileEdit = (props) => {
 
 	const userDetails = cloneDeep(props.userDetails);
+
+	const { context, setContext } = useContext(AppContext);
 
 	const [userImage, setUserImage] 	= useState(null);
 
@@ -57,6 +61,11 @@ const UserProfileEdit = (props) => {
 				}, withCredentials: true
 			});
 
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			if (response.data.status === "success") {
 				console.log("User details updated successfully");
 				alert("User details updated successfully");

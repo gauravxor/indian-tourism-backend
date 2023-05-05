@@ -40,6 +40,11 @@ const ForgotPasswordModal = () => {
 			const url = "http://localhost:4000/api/auth/forgot-password";
 			const response = await axios.post(url ,data);
 
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			if(response.data.status === "success"){
 
 				/** Setting the appropriate message to user's click action */

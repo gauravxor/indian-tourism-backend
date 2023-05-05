@@ -1,9 +1,12 @@
+import React, {useContext} from 'react';
 import axios from 'axios';
-import React from 'react';
+
+import {AppContext} from '../../../../AppContext.js';
 
 
+const CancellationCard = (props) => {
 
-const cancellationCard = (props) => {
+	const { context, setContext } = useContext(AppContext);
 
 	/** Storing the cancellationData object */
 	const cancellationData = props.cancellationData;
@@ -22,6 +25,12 @@ const cancellationCard = (props) => {
 		axios
 		.post(url, data, {withCredentials: true})
 		.then((response) => {
+
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			if(response.data.status === "success"){
 				console.log("Cancellation approved successfully");
 			}
@@ -56,4 +65,4 @@ const cancellationCard = (props) => {
 	)
 }
 
-export default cancellationCard;
+export default CancellationCard;

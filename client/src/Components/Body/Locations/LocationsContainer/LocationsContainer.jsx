@@ -26,17 +26,19 @@ function LocationsContainer() {
 		let url = "";
 		/** If search text is empty, call the API to get random locations or else get specific results */
 		if(context.searchText === "") {
-			console.log("Calling the default function");
 			url = 'http://localhost:4000/api/location';
 		}
 		else {
-			console.log("Calling the city function");
 			url = 'http://localhost:4000/api/location/search/' + context.searchText;
 		}
-
 		axios.get(url, {withCredentials: false})
 		.then((response) => {
 
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			/** The response will contain an array of objects. If the array is empty, we will render the main body
 			 *  or else we will render the fetched location data for search query.
 			*/

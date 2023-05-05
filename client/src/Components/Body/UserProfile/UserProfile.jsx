@@ -9,7 +9,7 @@ import './UserProfile.css';
 const UserProfile = () => {
 
 	console.log("Component UserProfile rendered");
-	//eslint-disable-next-line
+
 	const { context, setContext } = useContext(AppContext);
 
 	const [userDetails, setUserDetails] = useState({});
@@ -26,6 +26,11 @@ const UserProfile = () => {
 		axios
 		.get(url, { withCredentials: true })
 		.then((response) => {
+			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+				alert("Session Expired. Please Login Again");
+				setContext({...context, isLoggedIn: false});
+			}
+			else
 			if (response.data.status === "success") {
 				console.log("User details fetched successfully");
 				console.log("The response data is: " + JSON.stringify(response.data));

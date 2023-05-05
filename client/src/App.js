@@ -5,7 +5,7 @@ import {AppContext} 			from './AppContext';
 import classes from './App.module.css'
 import Body from './Components/Body/Body.jsx';
 import Header from './Components/Header/Header.jsx';
-import Footer from './Components/Footer/Footer.jsx';
+import Scanner from './Components/Scanner/Scanner.jsx'
 import slides from './Components/ImageSliders/slides.jsx';
 import Profile from './Components/Body/UserProfile/UserProfile.jsx';
 import ImageSlider from './Components/ImageSliders/ImageSlider.jsx';
@@ -34,16 +34,15 @@ function App() {
 		<div className={classes.body}>
 			<Routes>
 				<Route path="/" Component={Body} />
-				<Route exact path="/profile" Component={Profile} />
+				<Route path="/profile" Component={Profile} />
 				<Route path="/bookings" Component={BookingsContainer} />
 				<Route path="/locations" Component={LocationsContainer} />
 				<Route path="/locations/:locationId" Component={LocationBody} />
 				<Route path="/add-location/" Component={AddLocationContainer} />
 				<Route path="/cancellations" Component={CancellationContainer} />
+				<Route path="/scanner" Component={Scanner} />
 			</Routes>
 		</div>
-
-		{/* <Footer className={classes.footer} /> */}
 	</div>
 	);
 }
