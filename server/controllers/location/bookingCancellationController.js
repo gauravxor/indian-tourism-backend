@@ -1,6 +1,8 @@
 const CancellationModel = require('../../models/cancellationModel');
 const BookingModel = require('../../models/bookingsModel');
 const UserModel = require('../../models/userModel');
+const AvailabilityModel = require('../../models/availabilityModel');
+const color = require('colors');
 
 const bookingCancellationController = async(req, res, next) => {
 
@@ -34,44 +36,81 @@ const bookingCancellationController = async(req, res, next) => {
 				message: "Cannot update the booking model, something went wrong"
 			});
 		}
-		else{
 
-			console.log("Booking model updated successfully");
-			console.log(bookingUpdateResult);
+		console.log("Booking model updated successfully");
+		console.log(bookingUpdateResult);
 
-			/** Once the booking status is updated update the user wallet balance */
-			const userWalletUpdateResult = await UserModel.updateOne(
-				{_id: cancellationData.userId},
-				{$inc: {walletBalance: cancellationData.bookingPrice}}
-			);
-
-			if(userWalletUpdateResult === null){
-				return res.status(400).json({
-					status: "failure",
-					message: "Cannot update the user wallet balance"
-				});
+		/** Once the booking status is updated update the user wallet balance & bookingCount*/
+		const userWalletUpdateResult = await UserModel.updateOne(
+			{_id: cancellationData.userId},
+			{
+				$inc: {walletBalance: cancellationData.bookingPrice, bookingCount: -1},
+				$pull: { bookings: { bookingId: bookingId }}
 			}
-			else{
-				console.log("User wallet balance updated successfully");
-				console.log(userWalletUpdateResult);
+		);
 
-				/** Once the wallet is updated delete the cancellation entry from the cancellation model */
-				const cancellationDeleteResult = await CancellationModel.deleteOne({ bookingId: bookingId, adminId: adminId });
-				if(cancellationDeleteResult === null){
-					console.log("Cannot delete the cancellation entry from the cancellation model");
-					return res.status(400).json({
-						status: "failure",
-						message: "Cannot delete the cancellation entry from the cancellation model"
-					})
-				}
-				else{
-					console.log("Deleted the cancellation data from the cancellation model");
-					return res.status(200).json({
-						status: "success",
-						message: "Successfully cancelled the booking"
-					})
+		if(userWalletUpdateResult === null){
+			return res.status(400).json({
+				status: "failure",
+				message: "Cannot update the user wallet balance"
+			});
+		}
+		console.log("Cancellation Controller : Wallet Balance Updated".green);
+
+		/** Once the wallet is updated delete the cancellation entry from the cancellation model */
+		const cancellationDeleteResult = await CancellationModel.deleteOne({ bookingId: bookingId, adminId: adminId });
+		if(cancellationDeleteResult === null){
+			console.log("Cannot delete the cancellation entry from the cancellation model");
+			return res.status(400).json({
+				status: "failure",
+				message: "Cannot delete the cancellation entry from the cancellation model"
+			})
+		}
+
+		/** Now once everything is done, update the availability model */
+		const locationAvailabilityData = await AvailabilityModel.findOne( {locationId: cancellationData.locationId});
+		if(locationAvailabilityData === null){
+			console.log("Lock Controller : Location availability data does not exist".red);
+			return res.status(400).json({
+				status: "failure",
+				message: "Location was found but no availability data was found"
+			});
+		}
+
+		var isDateFound = false;
+		const availabilityData = locationAvailabilityData.calendarMonths;
+		const dateOfVisit = cancellationData.dateOfVisit;
+		console.log("performing date check".yellow);
+		for (var i = 0; i < availabilityData.length && !isDateFound; i++) {
+
+			/** Month will have the object where "days" key is an array of dates */
+			const month = availabilityData[i];
+			// console.log("Month = " + month);
+
+			/** If the month of booking request date is equal to the current month object */
+			console.log(dateOfVisit.getMonth());
+			if(month.month == dateOfVisit.getMonth() + 1){
+
+				console.log("Month found".yellow);
+				for (var j = 0; j < month.days.length; j++) {
+
+					const currentDate = new Date(month.days[j].calendarDate).getDate();
+					console.log(currentDate + " - > " + dateOfVisit.getDate());
+					if(currentDate === dateOfVisit.getDate()){
+						isDateFound = true;
+						month.days[j].availableTickets += cancellationData.noOfTickets;
+						break;
+					}
 				}
 			}
+		}
+		const availabilityUpdateResult = await locationAvailabilityData.save();
+
+		if(isDateFound === true){
+			return res.status(200).json({
+				status: "success",
+				message: "Successfully cancelled the booking"
+			});
 		}
 	}
 }

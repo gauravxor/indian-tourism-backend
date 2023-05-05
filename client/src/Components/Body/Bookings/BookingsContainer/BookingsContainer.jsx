@@ -25,7 +25,7 @@ function BookingsContainer() {
 		.then((response) => {
 
 			/** Check if token is expired */
-			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
+			if(response.data.status === "failure" && response.data.message === "Tokens Expired"){
 				alert("Session Expired. Please Login Again");
 				setContext({...context, isLoggedIn: false});
 			}
@@ -46,11 +46,12 @@ function BookingsContainer() {
 
 	return (
 		<div className='bookings-card-container'>
-			{bookings.map(booking => (
+			{bookings.map((booking) => (
+				booking.cancellationStatus !== "approved" && (
 				<BookingCard
 					key={uuidv4()}
 					bookingData = {booking}
-				/>
+				/>)
 				))
 			}
 		</div>
