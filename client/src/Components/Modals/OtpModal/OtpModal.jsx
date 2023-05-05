@@ -117,8 +117,8 @@ const OtpModal = () => {
 
 
 	return (
-		<div className="modal">
-			<div className="modal-content">
+		<div className="modal_2">
+			<div className="modal-_content">
 				<Button className="close-btn" onClick={() => handleModalClose()}>&times;</Button>
 				<h2>Verify Email Address</h2>
 
@@ -133,13 +133,13 @@ const OtpModal = () => {
 						required
 					/>
 					<br/>
-					<button type="submit">Verify</button>
+					<Button type="submit">Verify</Button>
 				</form>
 
 				{/* Enable OTP resend button when OTP timer expires*/}
-				<div>
+				<div className="resend">
 					{timer === 0 ? (
-						<button type="submit" onClick={handleResendOtp}>Resend OTP</button>
+						<Button type="submit" onClick={handleResendOtp}>Resend OTP</Button>
 					) : (
 						<p>Resend OTP in {timer} seconds</p>
 					)}
