@@ -2,14 +2,17 @@
 	background-color: aquamarine;
 	display: flex;
 	justify-content: space-between;
-}
 .booking-card {
+	width: 450px;
+	height: 700px;
 	background-color: #fff;
-	border-radius: 10px;
+	background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+	border-radius: 5px;
 	border: 5px solid black;
 	box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 	padding: 20px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 
 .booking-card-header {
@@ -28,6 +31,7 @@
 .booking-card-details-row {
 	display: flex;
 	justify-content: space-between;
+	flex-direction: column;
 	margin-bottom: 5px;
 }
 
@@ -38,4 +42,9 @@
 .booking-card-details p strong {
 	font-weight: bold;
 	margin-right: 10px;
+}
+
+button{
+	float: right;
+	
 }

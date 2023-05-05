@@ -1,5 +1,7 @@
 import React, {useContext} from 'react'
 import axios from 'axios';
+import './BookingCard.css';
+import classes from '../../../UI/Buttons/Button.module.css';
 import {AppContext} from '../../../../AppContext';
 const BookingCard = (props) => {
 
@@ -55,7 +57,8 @@ const BookingCard = (props) => {
 					<p><strong>Cancellation Status</strong> {bookingData.cancellationStatus}</p>
 				</div>
 			</div>
-			<button type='submit' onClick={cancelBookingHandler}> Cancel Booking </button>
+			<button  className={`${props.className} ${classes.button} `} type='submit' onClick={cancelBookingHandler}> Cancel Booking </button>
+		</div>
 		</div>
 		</div>
 	)
