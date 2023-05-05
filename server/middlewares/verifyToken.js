@@ -35,7 +35,7 @@ async function verifyToken(req, res, next) {
 
 	/** Getting userType from access token payload */
 	const userType = accessTokenPayload.userType;
-	console.log("VerifyToken : User Type: ".yellow + userType);
+	console.log(`VerifyToken : User Type: `.yellow + `${(userType).toUpperCase()}`.cyan);
 
 	const credentialsSearchResult = await AUTH.searchCredentials(accessTokenPayloadUserId);
 

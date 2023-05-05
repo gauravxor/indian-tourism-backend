@@ -243,8 +243,8 @@ const ForgotPasswordModal = () => {
 	}
 
 	return (
-		<div className="modal">
-			<div className="modal--content">
+		<div className="modal_1">
+			<div className="modal--content_">
 				<div className="head"></div>
 				<Button className="close__" onClick={() => handleModalClose()}>&times;</Button>
 

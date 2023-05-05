@@ -1,6 +1,6 @@
 .modal_content {
 	width: 100%;
-	height: 470px;
+	height: 490px;
 	margin: 5px;
 	padding: 5px;
 	top: 70px;
@@ -20,17 +20,33 @@
 }
 
 .actions {
-	margin: 50px;
-	margin-bottom: 20px;
+/* align-items: left;
+display: block;
+position: relative;
+margin-left: -50px; */
+/* margin-top: 30px; */
+/* position:relative;
+left: -50%;
+font-size: 18px; */
+    display: block;
+    margin: auto;
+    /* margin-left: -121px; */
+    position: relative;
+    left: -154px;
+	
 }
-
+.forgot-password{
+	/* position:relative;
+left: -30%;
+font-size: 18px; */
+}
 .header {
 	height: 32px;
 	width: 100%;
 	margin-left: -20px;
 	background-color: black;
 	position: fixed;
-	top: 0;
+	top: 10px;
 }
 
 .footer {
@@ -97,7 +113,7 @@
 }
 
 .image {
-	height: 80px;
+	height:110px;
 	display: block;
 	margin: auto;
 	background: none;
@@ -110,7 +126,9 @@
 	margin-top: 50px;
 	border-radius: 10px;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-
+   height: 380px;
+   display: flex;
+   flex-direction: column;
 }
 
 .checkbox {
@@ -167,10 +185,13 @@
 
 .actions {
 	text-align: center;
+	display: block;
+	margin: auto;
 }
 
 .message {
-	margin-top: 8px;
+	position: relative;
+	bottom: 2px;
 	color: red;
 }
 
@@ -212,5 +233,8 @@
 	.control label,
 	.control input {
 		font-size: 14px;
+	}
+	.actions{
+		margin-top: 25px;
 	}
 }

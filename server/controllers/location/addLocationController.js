@@ -91,11 +91,9 @@ const addLocationController = async (req, res, next) => {
 	});
 
 	if(availabilityEntry !== null){
-		// console.log(images);
 		const imageAddResult = await LocationModel.findByIdAndUpdate(locationId, {
 			$set: { images: images }
 		});
-		// console.log(imageAddResult);
 		if(imageAddResult !== null){
 
 			// if images are added successfully, then add location to admin locations array

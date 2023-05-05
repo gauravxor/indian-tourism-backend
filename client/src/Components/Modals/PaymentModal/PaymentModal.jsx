@@ -84,8 +84,8 @@ const PaymentModal = () => {
 
 
 	return (
-		<div className="modal">
-			<div className="modal-content">
+		<div className="_modal_">
+			<div className="modal_content_">
 				<h2>Payment</h2>
 				<form onSubmit={handlePaymentSubmit}>
 

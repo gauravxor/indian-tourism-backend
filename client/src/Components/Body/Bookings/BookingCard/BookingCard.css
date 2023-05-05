@@ -1,7 +1,8 @@
 .main{
+	background-color: #edf9ff;
 	display: flex;
 	justify-content: space-between;
-
+	border-radius: 15px;
 }
 .booking-card {
 	width: 450px;

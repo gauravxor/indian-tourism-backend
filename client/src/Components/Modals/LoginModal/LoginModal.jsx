@@ -6,6 +6,7 @@ import logo			from '../../UI/Images/profile.png'
 
 import {AppContext}	from '../../../AppContext.js'
 import "./LoginModal.css";
+import { PlaceholderButton } from "react-bootstrap";
 
 const resendOtp = async (userEmail) => {
 
@@ -114,6 +115,7 @@ const LoginModal = () => {
 	return (
 		<div className="modal">
 			<div className="modal_content">
+				<div className="heade"></div>
 				<Button className="close" onClick={() => handleModalClose()}>&times;</Button>
 
 				<div className="login">
@@ -150,16 +152,17 @@ const LoginModal = () => {
 								onChange={(e) => setIsAdmin(e.target.checked)}
 							/>
 						</div>
-
-						<div className="actions">
-							<Button type="submit">Login</Button>
-						</div>
+						<br /><br />
+						
+							<Button className="actions" type="submit">Login</Button>
 					</form>
-					<Button type="button" onClick={() => handlePasswordReset()}>Forgot Password?</Button>
-
+					<div className="forgot-password">
+					    <Button type="button" onClick={() => handlePasswordReset()}>Forgot Password?</Button>
+					</div>
 					<div className="message">
 						{loginMessage}
 					</div>
+					<div className="footer"></div>
 				</div>
 			</div>
 		</div>

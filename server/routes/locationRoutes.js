@@ -43,6 +43,6 @@ locationRoutes.post('/update-location/:locationId', upload.any(), verifyToken, u
 
 
 /** Route to get availability data of a location */
-locationRoutes.get('/get-availability/:locationId', verifyToken, getAvailabilityController);
+locationRoutes.get('/get-availability/:locationId', getAvailabilityController);
 
 module.exports = locationRoutes;
