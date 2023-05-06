@@ -65,7 +65,7 @@ const BookingCard = (props) => {
 	}
 
 	return (
-		<div className='main'>
+		<div className='main_'>
 		<div className="booking-card">
 			<div className="booking-card-header">
 				<h2>{bookingData.locationName}</h2>

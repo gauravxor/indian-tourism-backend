@@ -6,11 +6,13 @@
 	background: rgb(51, 53, 69);
 	color: #fff;
 	border-radius: 0px 0px 10px 10px;
-	font-family: "Secular One", sans-serif;
-	font-family: "Source Sans Pro", sans-serif;
+	
 	font-weight: 500;
 	height: 30px;
 	margin: -8px -8px 0px -8px;
+
+	font-family: 'Merriweather', serif;
+/* font-family: 'Roboto Slab', serif; */
 }
 
 .navbar-logo {
