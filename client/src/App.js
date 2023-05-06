@@ -13,7 +13,7 @@ import BookingsContainer from './Components/Body/Bookings/BookingsContainer/Book
 import LocationsContainer from './Components/Body/Locations/LocationsContainer/LocationsContainer.jsx';
 import AddLocationContainer from './Components/Body/Locations/AddLocationContainer/AddLocationContainer.jsx';
 import CancellationContainer from './Components/Body/Cancellation/CancellationContainer/CancellationContainer.jsx';
-
+import About from './Components/Body/About/About';
 
 function App() {
 	// eslint-disable-next-line
@@ -39,6 +39,7 @@ function App() {
 				<Route path="/" Component={LocationsContainer} />
 				<Route path="/profile" Component={Profile} />
 				<Route path="/bookings" Component={BookingsContainer} />
+				<Route path="/about" Component={About} />
 				<Route path="/locations" Component={LocationsContainer} />
 				<Route path="/locations/:locationId" Component={LocationBody} />
 				<Route path="/add-location/" Component={AddLocationContainer} />

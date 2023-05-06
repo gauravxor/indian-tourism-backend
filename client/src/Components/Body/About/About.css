@@ -1,0 +1,23 @@
+.main-box{
+    width: 95%;
+    background-color: black;
+    border-radius: 15px;
+    margin: auto;
+    display: flex;
+
+}
+.profile{
+    margin: 10px;
+    background-color: rgb(158, 171, 208);
+    width: 400px;
+    height: auto;
+    border-radius: 8px;
+}
+.g-img{
+  
+}
+.main-box .profile img{
+   
+    width: 100%;
+   
+}
