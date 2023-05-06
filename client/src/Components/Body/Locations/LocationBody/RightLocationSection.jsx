@@ -119,7 +119,7 @@ const RightLocationSection = (props) => {
 						locationId={context.locationId}
 					/>
 				</div>
-				<br /><br />
+				<br />
 				<Button type="submit" className='submit-btn' >Book Now</Button>
 				<p> {bookingMessage}</p>
 			</form>

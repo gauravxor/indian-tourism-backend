@@ -76,10 +76,10 @@
 	padding: 0;
 }
 
-.left-section h2 {
+.left-section div h2 {
 	text-align: center;
-	/* background-color: aliceblue; */
-	background-color: linear-gradient(to right, #dcd7e6, #baffea);
+	background-color: aliceblue;
+	/* background-color: linear-gradient(to right, #dcd7e6, #baffea); */
 	margin-top: 15px;
 	padding-top: 15px;
 	border-radius: 10px 10px 0px 0px;
@@ -104,16 +104,19 @@
 	color: rgb(1, 1, 1);
 	font-size: 25px;
 	text-transform: uppercase;
+	margin-top: 15px;
+	margin-bottom: -20px;
 }
 
 .right-section label {
-	margin-top: -8px;
+	/* margin-top: -8px; */
+
 }
 
 .right-section input {
 	background-color: white;
 	color: black;
-	margin-top: -8px;
+	margin-bottom: -8px;
 }
 
 .submit-btn {
@@ -191,6 +194,7 @@
 form.booking-form {
 	display: flex;
 	flex-direction: column;
+	
 }
 
 label[for="date"] {
