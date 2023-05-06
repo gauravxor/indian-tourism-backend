@@ -80,6 +80,7 @@ const Scanner = () => {
 					result={result}
 					setShowEntryModal={setShowEntryModal}
 					setResult={setResult}
+					token={accessKey}
 				/>
 			)}
 		</div>

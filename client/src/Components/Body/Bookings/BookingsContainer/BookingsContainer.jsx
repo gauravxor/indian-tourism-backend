@@ -47,13 +47,11 @@ function BookingsContainer() {
 	return (
 		<div className='bookings-card-container'>
 			{bookings.map((booking) => (
-				booking.cancellationStatus !== "approved" && (
 				<BookingCard
 					key={uuidv4()}
 					bookingData = {booking}
 				/>)
-				))
-			}
+			)}
 		</div>
 	)
 }

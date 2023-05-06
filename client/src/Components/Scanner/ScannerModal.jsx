@@ -12,7 +12,7 @@ const ScannerModal = (props) => {
 
 		const url = "http://localhost:4000/scanner/allow";
 		const data = {
-			accessKey : "2345678",
+			accessKey : props.token,
 			bookingId: props.result.bookingId,
 		}
 		try{

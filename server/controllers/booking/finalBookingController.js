@@ -105,7 +105,7 @@ const finalBookingController = async (req, res, next) => {
 
 				/** Once QR is generated send send it to user with booking details */
 				while(true) {
-					const sendEmailResult = await sendQrCode(bookingId, req.userEmail);
+					const sendEmailResult = await sendQrCode(bookingId, req.userEmail, bookingDataSaveResult);
 					if(sendEmailResult === true) {
 						console.log("Booking Controller : QR code emailed".green);
 						break;

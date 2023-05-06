@@ -62,8 +62,18 @@ async function emailOtp(userEmail, userDocumentId)
 	const mailData = {
 		from: process.env.EMAIL,
 		to: userEmail,
-		subject: "OTP for Email verification",
-		text: 'Your OTP is ' + otp,
+		subject: "OTP for Email Verification - Indian Tourism",
+		html: `
+			<div style="background-color:#f2f2f2; padding: 20px;">
+				<div style="background-color:white; padding: 20px;">
+					<h2 style="color:#007bff; font-family:Arial, sans-serif;">Indian Tourism</h2>
+					<p style="font-size:16px; font-family:Arial, sans-serif;">Thank you for registering with Indian Tourism. Please enter the following One-Time Password (OTP) to verify your email address:</p>
+					<div style="background-color:#007bff; color:white; padding:10px 20px; display:inline-block; font-size:20px; font-family:Arial, sans-serif;">${otp}</div>
+					<p style="font-size:16px; font-family:Arial, sans-serif;">Please enter this OTP within 5 minutes to complete the verification process.</p>
+				</div>
+				<p style="font-size:12px; color:#666666; font-family:Arial, sans-serif;">This email was sent from Indian Tourism.</p>
+			</div>
+		`
 	};
 
 	console.log("Sending the email".green)

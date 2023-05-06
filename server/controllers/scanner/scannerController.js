@@ -29,11 +29,26 @@ const scannerFetchController = async(req, res) => {
 		});
 	}
 
-	return res.status(200).json({
-		status: "success",
-		message: "Booking details fetched successfully",
-		data: bookingData
-	});
+	if(bookingData.isVisited === true){
+		return res.status(400).json({
+			status: "failure",
+			message: "Booking already visited"
+		});
+	}
+
+	if(bookingData.cancellationStatus === "na"){
+		return res.status(200).json({
+			status: "success",
+			message: "Booking details fetched successfully",
+			data: bookingData
+		});
+	}
+	else{
+		return res.status(400).json({
+			status: "failure",
+			message: "Ticket was cancelled"
+		});
+	}
 }
 
 
@@ -70,6 +85,13 @@ const scannerAllowController = async(req, res) => {
 		return res.status(400).json({
 			status: "failure",
 			message: "Booking already visited"
+		});
+	}
+
+	if(bookingData.cancellationStatus !== "na"){
+		return res.status(400).json({
+			status: "failure",
+			message: "Ticket was cancelled"
 		});
 	}
 
@@ -113,8 +135,6 @@ const scannerVerifyController = async(req, res) => {
 		message: "Access key verified"
 	});
 }
-
-
 
 module.exports = {
 	scannerFetchController,

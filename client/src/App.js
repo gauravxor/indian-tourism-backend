@@ -3,7 +3,6 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import {AppContext} 			from './AppContext';
 
 import classes from './App.module.css'
-import Body from './Components/Body/Body.jsx';
 import Header from './Components/Header/Header.jsx';
 import Scanner from './Components/Scanner/Scanner.jsx'
 import slides from './Components/ImageSliders/slides.jsx';
@@ -37,7 +36,7 @@ function App() {
 
 		<div className={classes.body}>
 			<Routes>
-				<Route path="/" Component={Body} />
+				<Route path="/" Component={LocationsContainer} />
 				<Route path="/profile" Component={Profile} />
 				<Route path="/bookings" Component={BookingsContainer} />
 				<Route path="/locations" Component={LocationsContainer} />

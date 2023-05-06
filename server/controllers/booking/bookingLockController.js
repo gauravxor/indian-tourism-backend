@@ -95,7 +95,6 @@ const bookingLockController = async (req, res, next) => {
 
 				/** Month will have the object where "days" key is an array of dates */
 				const month = availabilityData[i];
-				console.log("Month = " + month);
 				/** If the month of booking request date is equal to the current month object */
 				if(month.month == bookingDate.getMonth() + 1){
 
@@ -104,7 +103,6 @@ const bookingLockController = async (req, res, next) => {
 						const currentDate = new Date(month.days[j].calendarDate).getDate();
 
 						if(currentDate === bookingDate.getDate()){
-							console.log("date matched");
 							if(month.days[j].availableTickets < noOfTickets){
 								return res.status(400).json({
 									"status": "failure",

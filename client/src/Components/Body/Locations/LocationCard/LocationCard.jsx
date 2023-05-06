@@ -39,7 +39,7 @@ const Card = (props) => {
 		props.setEditLocationId(locationId);
 		props.setInEditableMode(true);
 	}
-	const btnClass = (context.isUserAdmin?'btn-1':'');
+	const btnClass = (context.isUserAdmin?'btn-1':'empty');
 
 	return (<>
 	<div className="cards">

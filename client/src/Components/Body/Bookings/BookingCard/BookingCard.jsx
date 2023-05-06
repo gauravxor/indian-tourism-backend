@@ -79,7 +79,9 @@ const BookingCard = (props) => {
 					<p><strong>Date of Visit:</strong> {formatDate(bookingData.dateOfVisit)}</p>
 					<p><strong>Booking Price: Rs. </strong> {bookingData.bookingPrice}</p>
 					<p><strong>Location Address:</strong> {bookingData.locationAddress.address}, {bookingData.locationAddress.city}, {bookingData.locationAddress.state} {bookingData.locationAddress.pincode}, {bookingData.locationAddress.country}</p>
-					<p><strong>Cancellation Status</strong> {bookingData.cancellationStatus}</p>
+					{bookingData.cancellationStatus !== "na" && (<p><strong>Cancellation Status:</strong> {bookingData.cancellationStatus}</p>)}
+					{bookingData.isVisited === true && (<p><strong>Visited :</strong> YES </p>)}
+
 				</div>
 			</div>
 			{bookingData.cancellationStatus === "na" && (

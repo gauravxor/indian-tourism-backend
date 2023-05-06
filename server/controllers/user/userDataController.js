@@ -82,11 +82,8 @@ const getUserBookingsController = async (req, res) => {
 
 		const userBookings = [];
 		const bookingIds = userData.bookings;
-		const userBookingCount = userData.bookingCount;
 
-		console.log("THe booking count is = " + userBookingCount);
-		console.log("The booking id is = " + bookingIds);
-		for(const bookingObject of bookingIds){
+		for(var bookingObject of bookingIds){
 			const bookingData = await getIndividualBookingData((bookingObject.bookingId).toString());
 			if(bookingData !== null){
 				userBookings.push(bookingData);

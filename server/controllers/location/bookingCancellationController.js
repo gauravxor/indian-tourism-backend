@@ -38,14 +38,12 @@ const bookingCancellationController = async(req, res, next) => {
 		}
 
 		console.log("Booking model updated successfully");
-		console.log(bookingUpdateResult);
 
-		/** Once the booking status is updated update the user wallet balance & bookingCount*/
+		/** Once the booking status is updated update the user wallet balance*/
 		const userWalletUpdateResult = await UserModel.updateOne(
 			{_id: cancellationData.userId},
 			{
-				$inc: {walletBalance: cancellationData.bookingPrice, bookingCount: -1},
-				$pull: { bookings: { bookingId: bookingId }}
+				$inc: {walletBalance: cancellationData.bookingPrice}
 			}
 		);
 

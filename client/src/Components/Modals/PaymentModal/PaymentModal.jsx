@@ -1,8 +1,32 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 
 import {AppContext}	from '../../../AppContext.js'
 import "./PaymentModal.css";
+
+const getDayOfMonthSuffix = (dayOfMonth) => {
+
+	if(dayOfMonth >= 11 && dayOfMonth <= 13) {
+		return 'th';
+	}
+	switch (dayOfMonth % 10) {
+		case 1: return 'st';
+		case 2: return 'nd';
+		case 3: return 'rd';
+		default: return 'th';
+	}
+}
+
+const formatDate = (dateStr) => {
+
+	const date = new Date(dateStr);
+	const options = {month: 'long', year: 'numeric' };
+	const formattedDate = date.toLocaleDateString('en-US', options);
+	const dayOfMonth = date.getDate();
+	const suffix = getDayOfMonthSuffix(dayOfMonth);
+	const finalResult = `${dayOfMonth}${suffix} ${formattedDate}`;
+	return finalResult;
+}
 
 const PaymentModal = () => {
 
@@ -14,31 +38,36 @@ const PaymentModal = () => {
 	/** To store the card number entered by user */
 	const [cardNumber, setCardNumber] = useState("");
 
+	/** To store booking details */
+	const [bookingDetails, setBookingDetails] = useState({});
+
 	const tempBookingId = context.tempBookingId;
 
 	/** Fetch the temporary booking details. As of now this function is not doing anything useful
 	 * Once payment gateway is implemented in the future, this function will be used to fetch the
 	 * temporary booking details and display it to the user for confirmation before making the payment
 	*/
-	try{
-		const url = "http://localhost:4000/api/book/lock/details/" + tempBookingId;
-		axios
-		.get(url, {withCredentials: true})
-		.then((response) => {
-			if(response.date.status === "success")
-			{
-				console.log("Booking details fetched successfully");
-				console.log(response.data);
-			}
-		})
-		.catch((error) => {
+	useEffect(() => {
+		try{
+			const url = "http://localhost:4000/api/book/lock/details/" + tempBookingId;
+			axios
+			.get(url, {withCredentials: true})
+			.then((response) => {
+				if(response.data.status === "success")
+				{
+					console.log("Booking details fetched successfully");
+					setBookingDetails(response.data.data);
+				}
+			})
+			.catch((error) => {
+				console.log("Error fetching booking details")
+				console.log(error);
+			})
+		}
+		catch(error){
 			console.log("Error fetching booking details")
-			console.log(error);
-		})
-	}
-	catch(error){
-		console.log("Error fetching booking details")
-	}
+		}
+	}, [tempBookingId]);
 
 	/** Function to handle things when user clicks the SUBMIT button in payment modal after entering the card number */
 	const handlePaymentSubmit = async (e) => {
@@ -86,7 +115,15 @@ const PaymentModal = () => {
 	return (
 		<div className="_modal_">
 			<div className="modal_content_">
-				<h2>Payment</h2>
+				<div>
+					<h3>Booking Details</h3>
+					<p><strong>Lock Id:</strong> {bookingDetails.lockId}</p>
+					<p><strong>Location Name:</strong> {bookingDetails.locationName}</p>
+					<p><strong>Total Amount:</strong> Rs. {bookingDetails.bookingPrice}</p>
+					<p><strong>No of Tickets:</strong> {bookingDetails.noOfTickets}</p>
+					<p><strong>Date of Visit:</strong> {formatDate(bookingDetails.dateOfVisit)}</p>
+
+				</div>
 				<form onSubmit={handlePaymentSubmit}>
 
 					<label>Card Number:</label>
@@ -99,9 +136,9 @@ const PaymentModal = () => {
 					/>
 					<br />
 
-					<button type="submit">Make Payment</button>
+					<button className="payment-btn" type="submit">Make Payment</button>
 				</form> <br/>
-				<button type="button" onClick={() => handleCancelRequest()}>Cancel</button>
+				<button type="submit" onClick={() => handleCancelRequest()}>Cancel</button>
 				<div> <h1> {paymentMessage} </h1> </div>
 			</div>
 		</div>
