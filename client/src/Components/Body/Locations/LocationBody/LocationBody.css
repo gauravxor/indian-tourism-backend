@@ -48,6 +48,9 @@
 .slider-btn {
 	background: none;
 }
+.slider-btn-disable{
+	display: none;
+}
 
 .prev-btn {
 	position: relative;

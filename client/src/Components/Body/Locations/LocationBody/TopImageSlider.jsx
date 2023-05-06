@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import './LocationBody.css';
 import left_btn from "./image/left_arrow.png"
-import right_btn from "./image/right_arrow.png"
+import right_btn from "./image/right_arrow.png";
+import { AppContext } from '../../../../AppContext';
 function TopImageSlider(props) {
 
 	const imageData = props.imageData;
@@ -24,17 +25,35 @@ function TopImageSlider(props) {
 			setCurrentIndex(currentIndex + 1);
 		}
 	};
-
-
+	//Implementation of hiding slider buttons if any modal window opened
+    const { context, setContext } = useContext(AppContext);
+	const {
+		isLoginModalOpen,
+		isSignUpModalOpen,
+		isOtpModalOpen,
+		isAddLocationModalOpen,
+		isForgotPasswordModalOpen,
+		isPaymentModalOpen,
+	} = context;
+	const isActive =
+		isLoginModalOpen ||
+		isSignUpModalOpen ||
+		isOtpModalOpen ||
+		isAddLocationModalOpen ||
+		isForgotPasswordModalOpen ||
+		isPaymentModalOpen;
+		const sliderBtnClass = (isActive?'slider-btn-disable':'slider-btn');
+     /////////////////////////
+	 
 	if(imageData !== undefined){
 		return (
 
 			<div className="slider-container">
-				<button className="slider-btn prev-btn" onClick={handlePrevClick}>
+				<button className={`${sliderBtnClass} prev-btn`} onClick={handlePrevClick}>
 				<img className="btn_img" src={right_btn} alt="right-btn-img"></img>
 				</button>
 				<img src={`http://localhost:4000${imageData[currentIndex].urls}`} alt={imageData[currentIndex].imageType} className="slider-image" />
-				<button className="slider-btn next-btn" onClick={handleNextClick}>
+				<button className={`${sliderBtnClass} next-btn`} onClick={handleNextClick}>
 				<img className="btn_img" src={left_btn} alt="left-btn-img"></img>
 				</button>
 			</div>
