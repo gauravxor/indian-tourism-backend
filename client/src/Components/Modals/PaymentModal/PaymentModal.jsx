@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
-
+import Button from '../../UI/Buttons/Button';
 import {AppContext}	from '../../../AppContext.js'
 import "./PaymentModal.css";
 
@@ -136,9 +136,10 @@ const PaymentModal = () => {
 					/>
 					<br />
 
-					<button className="payment-btn" type="submit">Make Payment</button>
+					
 				</form> <br/>
-				<button type="submit" onClick={() => handleCancelRequest()}>Cancel</button>
+				<Button className="payment-btn" type="submit" onClick={handlePaymentSubmit}>Make Payment</Button>
+				<Button className="cancel-btn" type="submit" onClick={() => handleCancelRequest()}>Cancel</Button>
 				<div> <h1> {paymentMessage} </h1> </div>
 			</div>
 		</div>

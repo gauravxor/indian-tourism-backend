@@ -40,7 +40,14 @@
 	padding: 10px 20px;
 	border-radius: 5px;
 	border: none;
-	background-color: #007bff;
+	background-color: hsl(339, 100%, 50%);
 	color: #fff;
 	cursor: pointer;
+	
+}
+.cancel-btn{
+	float: left;
+}
+.payment-btn{
+	float: right;
 }
