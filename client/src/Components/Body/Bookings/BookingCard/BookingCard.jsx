@@ -84,7 +84,7 @@ const BookingCard = (props) => {
 
 				</div>
 			</div>
-			{bookingData.cancellationStatus === "na" && (
+			{bookingData.cancellationStatus === "na" && !(bookingData.isVisited) && (
 				<button className={`${props.className} ${classes.button} `} type='submit' onClick={cancelBookingHandler}>
 					Cancel Booking
 				</button>
