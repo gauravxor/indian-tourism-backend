@@ -194,15 +194,15 @@ form.booking-form {
 }
 
 label[for="date"] {
-	margin-bottom: 8px;
+	/* margin-bottom: 8px; */
 	display: block;
-	padding-top: 10px;
+	/* padding-top: 10px; */
 }
 
 label[for="children"] {
-	margin-bottom: 8px;
+	/* margin-bottom: 8px; */
 	display: block;
-	padding-top: 10px;
+	/* padding-top: 10px; */
 }
 
 label[for="adults"] {

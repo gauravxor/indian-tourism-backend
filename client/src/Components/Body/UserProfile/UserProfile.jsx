@@ -4,6 +4,7 @@ import axios from 'axios';
 import UserProfileEdit	from './UserProfileEdit.jsx';
 import { AppContext }	from '../../../AppContext.js'
 import './UserProfile.css';
+import Button from '../../UI/Buttons/Button.jsx';
 
 const getDayOfMonthSuffix = (dayOfMonth) => {
 
@@ -112,7 +113,7 @@ const UserProfile = () => {
 							{(context.isuserAdmin) && (<div>🌏 <b>Total Locations :</b> {userDetails.locationCount} </div>)}
 						</div>
 						<div className="edit-button">
-							<button onClick={() => setInEditableMode(true)}>Edit</button>
+							<Button onClick={() => setInEditableMode(true)}>Edit</Button>
 						</div>
 					</div>
 				</div>
