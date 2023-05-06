@@ -90,10 +90,10 @@ const AddLocationContainer = () => {
 
 	return (
 		<div className={classes.main_container}>
-			<h1>Add Location To Database</h1>
-			 <form onSubmit={handleAddLocation}>
+			<h2>Add Location To Database</h2>
+			 <form className='add_location' onSubmit={handleAddLocation}>
 
-				<div>
+				<span>
 				<label htmlFor="location-name">Location Name</label>
 				<input
 					type="text"
@@ -103,9 +103,9 @@ const AddLocationContainer = () => {
 					value = {locationName}
 					onChange = {(e) => setLocationName(e.target.value)}
 				/><br /><br/>
-				</div>
+				</span>
 
-                <div>
+                <span>
 			    <label htmlFor="location-address">Location Address</label>
 				<input
 					type="text"
@@ -115,7 +115,7 @@ const AddLocationContainer = () => {
 					value = {locationAddress}
 					onChange = {(e) => setLocationAddress(e.target.value)}
 				/> <br /><br />
-				</div>
+				</span>
                  <span>
 				 <label htmlFor="location-description">Location Description</label>
 				<input

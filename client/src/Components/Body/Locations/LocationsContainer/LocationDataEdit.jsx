@@ -122,7 +122,9 @@ const UserProfileEdit = (props) => {
 	return (
 		<>
 			<div className="location-edit-info">
-               <div>
+				<h2>Edit Location</h2>
+			<form className='location-data-edit'>	
+				<div>
 				<label htmlFor="location-name">Location Name</label>
 				<input
 					type="text"
@@ -131,7 +133,7 @@ const UserProfileEdit = (props) => {
 					value={locationName}
 					onChange={(event) => setLocationName(event.target.value)}
 				/>
-                </div>
+				</div>
 				<div>
 				<label htmlFor="location-description">Location Description</label>
 				<textarea
@@ -142,7 +144,7 @@ const UserProfileEdit = (props) => {
 					value={locationDescription}
 					onChange={(event) => setLocationDescription(event.target.value)}
 				/>
-                </div>
+ 				</div>		
 				<div>
 				<label htmlFor="location-address">Location Address</label>
 				<input
@@ -279,11 +281,11 @@ const UserProfileEdit = (props) => {
 				    <Button className='btn1' onClick={() => props.setInEditableMode(false)}>Back</Button>
 				    <Button className='btn2' onClick={(event) => handleSave(event)}>Save</Button>
 			    </div>
+				</form>	
 			</div>
 
 			{/* If user clicks the edit button, the inEditableMode state will be changed in parent component and
 				location edit form component will be rendered */}
-
 		</>
 	)
 }
