@@ -13,7 +13,7 @@ const signUpController = async (req, res) => {
 
 	const searchUserResult = await AUTH.searchUser(requestEmail);
 	if(searchUserResult != null){
-		return res.status(200).send({
+		return res.status(409).send({
 			status: "failure",
 			msg: "User already exists"
 		});
@@ -44,6 +44,7 @@ const signUpController = async (req, res) => {
 		});
 		const saveUserResult = await User.save();
 		if(saveUserResult === null){
+			console.log("SignUp Controller : Error saving the user data in DB".red)
 			return res.status(500).send({
 				status: "failure",
 				msg: "Something went wrong, user not created"

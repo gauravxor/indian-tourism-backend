@@ -211,6 +211,13 @@ async function resendOtp(req, res){
 			otp: otp
 		});
 	}
+	else{
+		return res.stauts(400)
+		.json({
+			status: "failure",
+			msg: "Invalid request"
+		})
+	}
 }
 
 module.exports = {

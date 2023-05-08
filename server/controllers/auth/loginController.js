@@ -43,7 +43,7 @@ const loginController = async (req, res, next) => {
 		searchUserResult = await AUTH.searchUser(requestEmail);
 	console.log(searchUserResult);
 	if(searchUserResult === null){
-		res.status(401).send({
+		res.status(404).send({
 			status: "failure",
 			msg: "User not found"
 		});
@@ -58,7 +58,7 @@ const loginController = async (req, res, next) => {
 		searchCredentialsResult = await AUTH.searchCredentials(userId);
 
 		if(searchCredentialsResult === null){
-			res.status(401).json({
+			res.status(404).json({
 				status: "failure",
 				msg: "User credentials not found"});
 			}
@@ -115,7 +115,7 @@ const loginController = async (req, res, next) => {
 				}
 			}
 			else{ /** If password has does not match */
-				return res.status(401).send({
+				return res.status(404).send({
 					status: "failure",
 					msg: "Incorrect Password"})
 			}

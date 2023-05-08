@@ -26,7 +26,7 @@ const logoutController = async (req, res) => {
 			});
 		}
 		else{
-			res.status(404).send({
+			res.status(500).send({
 				status: "failure",
 				msg: "Error in updating login/logout status"
 			});

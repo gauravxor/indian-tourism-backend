@@ -43,7 +43,7 @@ const changePassword = async (req, res) => {
 		/** If credentials are found, check if the user is logged in */
 		if(searchCredentialsResult.refreshToken === ""){
 			console.log("Password Controller: User not logged in".yellow);
-			return res.status(404).send({
+			return res.status(401).send({
 				status: "failure",
 				msg: "User must be logged in to change password"
 			});
@@ -76,7 +76,7 @@ const changePassword = async (req, res) => {
 			else{
 				/** If current password is invalid */
 				console.log("Password Controller: Invalid current password".yellow)
-				return res.status(200).send({
+				return res.status(400).send({
 					status: "failure",
 					msg: "Invalid current password"
 				});
@@ -121,7 +121,7 @@ const forgotPassword = async (req, res, next) => {
 			res.clearCookie('accessToken');
 			res.clearCookie('refreshToken');
 
-			return res.status(206).json({
+			return res.status(400).json({
 				status: "failure",
 				msg: "Invalid request body"
 			});
@@ -145,7 +145,7 @@ const forgotPassword = async (req, res, next) => {
 		else
 		if(otpSearchResult.isResetOtpValidated === false){
 			console.log("Password reset OTP not verified".yellow);
-			return res.status(200).json({
+			return res.status(401).json({
 				status: "failure",
 				msg: "Otp not yet verified"
 			});
