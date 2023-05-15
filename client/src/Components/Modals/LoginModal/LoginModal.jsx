@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 
 import Button		from "../../UI/Buttons/Button";
@@ -43,9 +43,27 @@ const LoginModal = () => {
 	/** To store the login message to be displayed to user */
 	const [loginMessage, setLoginMessage] = useState("");
 
+	/** To store the email validation message */
+	const [emailError, setEmailError] = useState("");
+
+	/** User email id validation */
+	useEffect(() => {
+		/** RFC 2822 standard email validation regualr expression string */
+		if(email !== ""){
+			// eslint-disable-next-line
+			var mailFormat = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+			(email.match(mailFormat)) ? setEmailError("") : setEmailError("Invalid Email");
+		}
+	}, [email]);
+
 	/** Function to handle things when user clicks the SUBMIT button in login form */
 	const handleLoginSubmit = async (e) => {
 		e.preventDefault();
+
+		if(emailError !== ""){
+			setLoginMessage("Please enter a valid email");
+			return;
+		}
 
 		const data = {
 			email: email,
@@ -130,7 +148,10 @@ const LoginModal = () => {
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 								required
-							/>
+							/><br/><br/>
+							{emailError && (<><br /><div className="errorContainer">{emailError}</div></>)}
+							<br />
+
 
 							<label>Password:</label>
 							<input
@@ -153,15 +174,16 @@ const LoginModal = () => {
 							/>
 						</div>
 						<br /><br />
-
-							<Button className="actions" type="submit">Login</Button>
+						<Button className="actions" type="submit">Login</Button>
 					</form>
 					<div className="forgot-password">
 					    <Button type="button" onClick={() => handlePasswordReset()}>Forgot Password?</Button>
 					</div>
+
 					<div className="message">
 						{loginMessage}
 					</div>
+
 					<div className="footer"></div>
 				</div>
 			</div>
