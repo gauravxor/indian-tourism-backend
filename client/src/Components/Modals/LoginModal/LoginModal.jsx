@@ -22,7 +22,19 @@ const resendOtp = async (userEmail) => {
 		return response.data.status
 	}
 	catch (error) {
-		console.log(error);
+		const response = error.response.data;
+		if(response.msg === "User not logged in"){
+			console.log("User not logged in");
+			alert("Session Expired. Please Login Again!");
+		}
+		else
+		if(response.msg === "Duplicate session"){
+			console.log("Duplicate session");
+			alert("Duplicate session. Please Login Again!");
+		}
+		else{
+			console.log(error);
+		}
 	}
 };
 
@@ -114,8 +126,22 @@ const LoginModal = () => {
 			}
 		}
 		catch (error) {
-			console.log("Error in login");
-			setLoginMessage("Invalid Credentials or user does not exist");
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				console.log("Error in login");
+				setLoginMessage("Invalid Credentials or user does not exist");
+			}
 		}
 	};
 

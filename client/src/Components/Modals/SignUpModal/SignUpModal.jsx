@@ -129,9 +129,23 @@ const SignUpModal = () => {
 						setSignUpMessage("Error in signup");
 					}
 			}
-			catch {
-				console.log("Error in signup");
-				setSignUpMessage("Error in signup");
+			catch (error) {
+				const response = error.response.data;
+				if(response.msg === "User not logged in"){
+					console.log("User not logged in");
+					setContext({...context, isLoggedIn: false});
+					alert("Session Expired. Please Login Again!");
+				}
+				else
+				if(response.msg === "Duplicate session"){
+					console.log("Duplicate session");
+					setContext({...context, isLoggedIn: false});
+					alert("Duplicate session. Please Login Again!");
+				}
+				else{
+					console.log("Error in signup");
+					setSignUpMessage("Error in signup");
+				}
 			}
 		}
 	};

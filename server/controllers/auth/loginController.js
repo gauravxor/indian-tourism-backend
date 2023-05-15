@@ -21,6 +21,7 @@
 
 const AUTH		= require('../../helper/authHelper');
 const TOKENIZER = require('../../helper/jwtHelper');
+const colors	= require('colors');
 
 const loginController = async (req, res, next) => {
 
@@ -28,21 +29,24 @@ const loginController = async (req, res, next) => {
 	const requestPassword = req.body.password;
 	let isUserAdmin = req.body.isAdmin;
 
-	if(requestEmail === "" || requestPassword === "" || isUserAdmin !== "true" && isUserAdmin !== "false"){
-	 	return res.status(400).send({
+	if(requestEmail === "" || requestPassword === ""){
+	 	console.log("Login Controller: Bad Request".red);
+		return res.status(400).send({
 			status: "failure",
 			msg: "Bad Request"
 		});
 	}
 	isUserAdmin = (isUserAdmin === "true")? true : false;
-	console.log("isUserAdmin: ", isUserAdmin);
+	console.log("Login Controller: Is User Admin ? ".yellow + ` ${isUserAdmin}`.cyan);
+
 	let searchUserResult;
 	if(isUserAdmin === true)
 		searchUserResult = await AUTH.searchAdmin(requestEmail);
 	else
 		searchUserResult = await AUTH.searchUser(requestEmail);
-	console.log(searchUserResult);
+
 	if(searchUserResult === null){
+		console.log("Login Controller: User not found".red);
 		res.status(404).send({
 			status: "failure",
 			msg: "User not found"
@@ -58,12 +62,12 @@ const loginController = async (req, res, next) => {
 		searchCredentialsResult = await AUTH.searchCredentials(userId);
 
 		if(searchCredentialsResult === null){
+			console.log("Login Controller: User credentials not found".red);
 			res.status(404).json({
 				status: "failure",
 				msg: "User credentials not found"});
-			}
-		else
-		{
+		}
+		else{
 			const userPasswordHash = searchCredentialsResult.password;
 			const validatePassResult = await AUTH.validatePass(requestPassword, userPasswordHash);
 			const userType = (isUserAdmin === true) ? "admin" : "local";
@@ -71,11 +75,16 @@ const loginController = async (req, res, next) => {
 			if(validatePassResult)
 			{
 				const accessToken = await TOKENIZER.generateAccessToken(userId, userEmail, userType);
-				var refreshToken = searchCredentialsResult.refreshToken;
+				const refreshToken = await TOKENIZER.generateRefreshToken(userId, userEmail, userType);
 
-				/** For an existing login session, update the accessToken and ask to logout */
-				if(refreshToken !== "")
+				/** Change the login status by updating the refresh token. Any old session will be deleted. */
+				await AUTH.updateLoginStatus(searchCredentialsResult._id, refreshToken);
+
+				/** Checking if the user was already logged in from other device */
+				if(searchCredentialsResult.refreshToken !== "")
 				{
+					/** Sending appropriate response by updating the frontend cookies */
+					console.log("Login Controller : Deleted the old session".yellow);
 					res
 					.status(200)
 					.cookie('accessToken', 	accessToken,	{ httpOnly: true, sameSite: "strict", secure: false})
@@ -88,7 +97,6 @@ const loginController = async (req, res, next) => {
 				}
 				else
 				{
-
 					/** If email is verified continue or else move to verification */
 					if(searchUserResult.isEmailVerified === false){
 						return res.status(200).send({
@@ -99,9 +107,7 @@ const loginController = async (req, res, next) => {
 					}
 					else{
 						/** For a fresh login, generate a new refresh token. */
-						console.log("Clean login".yellow);
-						refreshToken = await TOKENIZER.generateRefreshToken(userId, userEmail, userType);
-						await AUTH.updateLoginStatus(searchCredentialsResult._id, refreshToken);
+						console.log("Login Controller : Clean Login".yellow);
 						res
 						.cookie('accessToken', 	accessToken,	{ httpOnly: true, sameSite: "strict", secure: false})
 						.cookie('refreshToken', refreshToken,	{ httpOnly: true, sameSite: "strict", secure: false})
@@ -115,9 +121,12 @@ const loginController = async (req, res, next) => {
 				}
 			}
 			else{ /** If password has does not match */
-				return res.status(404).send({
+				console.log("Login Controller: Incorrect Password provided".red);
+				return res.status(404)
+				.send({
 					status: "failure",
-					msg: "Incorrect Password"})
+					msg: "Incorrect Password"
+				})
 			}
 		}
 	}

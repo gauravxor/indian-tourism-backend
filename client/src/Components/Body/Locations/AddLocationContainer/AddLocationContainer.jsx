@@ -83,11 +83,23 @@ const AddLocationContainer = () => {
 			}
 		}
 		catch(error){
-			alert("Error adding location to the database");
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				alert("Error adding location to the database");
+			}
 		}
 	}
-
-
 	return (
 		<div className={classes.main_container}>
 			<h2>Add Location To Database</h2>

@@ -28,7 +28,21 @@ const UserProfileEdit = (props) => {
 			}
 		})
 		.catch((error) => {
-			console.log("Error fetching location details");
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				console.log("Error fetching location details");
+			}
 		})
 	}, []);  // eslint-disable-line
 
@@ -115,7 +129,21 @@ const UserProfileEdit = (props) => {
 			}
 		}
 		catch(error){
-			alert("Location Update Failed");
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				alert("Location Update Failed");
+			}
 		}
 	}
 

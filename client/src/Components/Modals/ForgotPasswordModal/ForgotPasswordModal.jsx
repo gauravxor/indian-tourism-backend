@@ -65,7 +65,21 @@ const ForgotPasswordModal = () => {
 			}
 		}
 		catch (error) {
-			setResetMessage("Invalid email or user does not exist");
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				setResetMessage("Invalid email or user does not exist");
+			}
 		}
 	};
 
@@ -129,8 +143,22 @@ const ForgotPasswordModal = () => {
 			}
 		}
 		catch(error){
-			console.log("Error resetting the password");
-			setResetMessage("Error resetting the password");
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				console.log("Error resetting the password");
+				setResetMessage("Error resetting the password");
+			}
 		}
 	}
 
@@ -154,8 +182,23 @@ const ForgotPasswordModal = () => {
 			}
 		}
 		catch (error) {
-			console.log("Error sending OTP");
-			console.log(error);
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				console.log("Error sending OTP");
+				console.log(error);
+
+			}
 		}
 	};
 
@@ -170,8 +213,22 @@ const ForgotPasswordModal = () => {
 			return response.data.status;
 		}
 		catch(error){
-			console.log(error)
-			console.log("Error logging out");
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				console.log(error)
+				console.log("Error logging out");
+			}
 		}
 	}
 

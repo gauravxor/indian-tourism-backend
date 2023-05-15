@@ -5,7 +5,6 @@ const otpCleaner = async () => {
 
 	const otpData = await OtpModel.find({});
 	if(JSON.stringify(otpData) === JSON.stringify([])) {
-		console.log("OTP Cleaner : No OTP data found".green);
 	}
 	else{
 		otpData.forEach(async (otp) => {

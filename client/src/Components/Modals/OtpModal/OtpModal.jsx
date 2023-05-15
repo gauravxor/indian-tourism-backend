@@ -52,7 +52,21 @@ const OtpModal = () => {
 			}
 		}
 		catch (error) {
-			console.log("Invalid OTP or OTP expired");
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				console.log("Invalid OTP or OTP expired");
+			}
 		}
 	};
 
@@ -88,7 +102,21 @@ const OtpModal = () => {
 			}
 		}
 		catch (error) {
-			console.log(error);
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				console.log(error);
+			}
 		}
 	};
 

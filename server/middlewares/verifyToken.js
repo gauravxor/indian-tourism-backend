@@ -54,18 +54,24 @@ async function verifyToken(req, res, next) {
 		/** Checking if the user is logged in or not */
 		if(existingRefreshToken === ""){
 			console.log("VerifyToken : User Not Logged In".yellow)
-			return res.status(401).send({
+			return res
+			.clearCookie('accessToken')
+			.clearCookie('refreshToken')
+			.status(401).send({
 				status: "failure",
-				msg: "User Not Loggen In. Please Login to continue"
+				msg: "User not logged in"
 			});
 		}
 		else
 		/** Checking if the user is logged in from another device or not */
 		if(existingRefreshToken !== "" && existingRefreshToken !== requestRefreshToken){
 			console.log("VerifyToken : Logged in from other device".yellow)
-			return res.status(401).send({
+			return res
+			.clearCookie('accessToken')
+			.clearCookie('refreshToken')
+			.status(401).send({
 				status: "failure",
-				msg: "User logged in from another device."
+				msg: "Duplicate session"
 			});
 		}
 		else

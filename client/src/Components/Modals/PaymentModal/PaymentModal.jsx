@@ -64,14 +64,40 @@ const PaymentModal = () => {
 				}
 			})
 			.catch((error) => {
-				console.log("Error fetching booking details")
-				console.log(error);
+				const response = error.response.data;
+				if(response.msg === "User not logged in"){
+					console.log("User not logged in");
+					alert("Session Expired. Please Login Again!");
+				}
+				else
+				if(response.msg === "Duplicate session"){
+					console.log("Duplicate session");
+					alert("Duplicate session. Please Login Again!");
+				}
+				else{
+					console.log("Error fetching booking details")
+					console.log(error);
+				}
 			})
 		}
 		catch(error){
-			console.log("Error fetching booking details")
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				console.log("Error fetching booking details")
+			}
 		}
-	}, [tempBookingId]);
+	}, [tempBookingId]);  // eslint-disable-line
 
 	/** Function to handle things when user clicks the SUBMIT button in payment modal after entering the card number */
 	const handlePaymentSubmit = async (e) => {
@@ -101,8 +127,22 @@ const PaymentModal = () => {
 			}
 		}
 		catch (error) {
-			console.log("Error finalzing booking");
-			setPaymentMessage("Error finalizing booking, please try again later");
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				console.log("Error finalzing booking");
+				setPaymentMessage("Error finalizing booking, please try again later");
+			}
 		}
 	};
 

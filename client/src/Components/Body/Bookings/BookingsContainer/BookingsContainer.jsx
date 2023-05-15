@@ -39,10 +39,23 @@ function BookingsContainer() {
 			}
 		})
 		.catch((error) => {
-			console.log("Faild to fetch bookings");
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				console.log("Faild to fetch bookings");
+			}
 		})
 	}, [context.userId]);  // eslint-disable-line
-
 
 	return (
 		<div className='bookings-card-container'>

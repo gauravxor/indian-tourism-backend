@@ -33,7 +33,23 @@ function LocationBody() {
 				console.log("Error fetching location data");
 			}
 		})
-		.catch(error => console.log("Error fetching location data"));
+		.catch((error) => {
+			const response = error.response.data;
+			if(response.msg === "User not logged in"){
+				console.log("User not logged in");
+				setContext({...context, isLoggedIn: false});
+				alert("Session Expired. Please Login Again!");
+			}
+			else
+			if(response.msg === "Duplicate session"){
+				console.log("Duplicate session");
+				setContext({...context, isLoggedIn: false});
+				alert("Duplicate session. Please Login Again!");
+			}
+			else{
+				console.log("Error fetching location data")
+			}
+		});
 	}, [locationId]); // eslint-disable-line
 
 	return (
