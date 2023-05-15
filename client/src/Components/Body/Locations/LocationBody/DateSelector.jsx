@@ -11,7 +11,7 @@ const DateSelector = (props) => {
 
 	useEffect(() => {
 		const fetchAvailabilityData = async () => {
-			const url = `http://localhost:4000/api/location/get-availability/${props.locationId}`;
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/location/get-availability/${props.locationId}`;
 
 			const response = await axios.get(url);
 			const availabilityData = response.data.availability.calendarMonths;

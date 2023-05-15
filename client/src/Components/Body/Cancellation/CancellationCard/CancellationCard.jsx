@@ -20,7 +20,7 @@ const CancellationCard = (props) => {
 			adminId : cancellationData.adminId
 		}
 
-		const url = `http://localhost:4000/api/book/cancel/approve`;
+		const url = `${window.location.protocol}//${window.location.hostname}:4000/api/book/cancel/approve`;
 
 		/** Calling the cancellation API to approve cancellation */
 		axios

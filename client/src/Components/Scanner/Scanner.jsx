@@ -9,7 +9,7 @@ const Scanner = () => {
 
 	useEffect(() => {
 		console.log("here");
-		const url = "http://localhost:4000/scanner/verify";
+		const url = `${window.location.protocol}//${window.location.hostname}:4000/scanner/verify`;
 		const verifyAccessKey = async () => {
 			var keyInput = prompt("Enter the access key");
 			while (keyInput) {
@@ -22,6 +22,7 @@ const Scanner = () => {
 					}
 					keyInput = prompt("Invalid access key, please try again");
 				} catch (err) {
+					console.log(err.data);
 					keyInput = prompt("An error occurred, please try again");
 				}
 			}
@@ -35,7 +36,7 @@ const Scanner = () => {
 	const handleScan = async (data) => {
 		if (data) {
 			const bookingId = data.text;
-			const url = "http://localhost:4000/scanner/";
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/scanner/`;
 			data = {
 				accessKey: accessKey,
 				bookingId: bookingId

@@ -50,7 +50,7 @@ const RightLocationSection = (props) => {
 		}
 
 		try{
-			const url = "http://localhost:4000/api/book/lock/";
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/book/lock/`;
 			const response = await axios.post(url, data, {withCredentials: true});
 
 			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){

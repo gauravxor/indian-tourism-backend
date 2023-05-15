@@ -19,7 +19,7 @@ function BookingsContainer() {
 		const userId = context.userId;
 		console.log("The user id is = " + userId);
 
-		const url = `http://localhost:4000/api/user/bookings/${userId}`;
+		const url = `${window.location.protocol}//${window.location.hostname}:4000/api/user/bookings/${userId}`;
 
 		axios.get(url, {withCredentials: true})
 		.then((response) => {

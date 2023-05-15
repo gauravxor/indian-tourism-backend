@@ -37,7 +37,7 @@ const ForgotPasswordModal = () => {
 		};
 
 		try {
-			const url = "http://localhost:4000/api/auth/forgot-password";
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/auth/forgot-password`;
 			const response = await axios.post(url ,data);
 
 			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
@@ -80,7 +80,7 @@ const ForgotPasswordModal = () => {
 		}
 
 		try {
-			const url = "http://localhost:4000/api/auth/verify-otp";
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/auth/verify-otp`;
 			const response = await axios.post(url, data);
 
 			if(response.data.status === "success"){
@@ -115,7 +115,7 @@ const ForgotPasswordModal = () => {
 		}
 
 		try{
-			const url = "http://localhost:4000/api/auth/forgot-password";
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/auth/forgot-password`;
 			const response = await axios.post(url, data);
 
 			if(response.data.status === "success"){
@@ -142,7 +142,7 @@ const ForgotPasswordModal = () => {
 		};
 
 		try {
-			const url = "http://localhost:4000/api/auth/resend-otp";
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/auth/resend-otp`;
 			const response = await axios.post(url, data);
 
 			if (response.data.status === "success") {
@@ -164,7 +164,7 @@ const ForgotPasswordModal = () => {
 			email: email
 		}
 		try{
-			const url = "http://localhost:4000/api/auth/logout";
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/auth/logout`;
 			const response = await axios.post(url, data, {withCredentials: true});
 
 			return response.data.status;

@@ -52,7 +52,7 @@ const UserProfileEdit = (props) => {
 
 
 		try{
-			const url = "http://localhost:4000/api/update/user";
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/update/user`;
 
 			/** Calling the Update API with proper headers for multipart data */
 			const response = await axios.post(url, data, {

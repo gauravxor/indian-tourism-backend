@@ -3,6 +3,8 @@ import axios from "axios";
 import Button from '../../UI/Buttons/Button';
 import {AppContext}	from '../../../AppContext.js'
 import "./PaymentModal.css";
+import { useNavigate } from 'react-router-dom';
+
 
 const getDayOfMonthSuffix = (dayOfMonth) => {
 
@@ -30,6 +32,8 @@ const formatDate = (dateStr) => {
 
 const PaymentModal = () => {
 
+	const navigate = useNavigate();
+
 	const { context, setContext } = useContext(AppContext);
 
 	/** To store the user payment status message */
@@ -49,7 +53,7 @@ const PaymentModal = () => {
 	*/
 	useEffect(() => {
 		try{
-			const url = "http://localhost:4000/api/book/lock/details/" + tempBookingId;
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/book/lock/details/ + ${tempBookingId}`;
 			axios
 			.get(url, {withCredentials: true})
 			.then((response) => {
@@ -79,7 +83,7 @@ const PaymentModal = () => {
 		}
 
 		try {
-			const url = "http://localhost:4000/api/book/final";
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/book/final`;
 			const response = await axios.post(url, data, {withCredentials: true});
 			if(response.data.status === "success"){
 				console.log("Booking finalised successfully");
@@ -88,6 +92,7 @@ const PaymentModal = () => {
 				/** Wait for 2 seconds and then close the login modal */
 				setTimeout(() => {
 					setContext({...context, isLoggedIn: true, isPaymentModalOpen: false});
+					navigate(`/bookings`);
 				}, 2000);
 			}
 			else{
@@ -136,7 +141,7 @@ const PaymentModal = () => {
 					/>
 					<br />
 
-					
+
 				</form> <br/>
 				<Button className="payment-btn" type="submit" onClick={handlePaymentSubmit}>Make Payment</Button>
 				<Button className="cancel-btn" type="submit" onClick={() => handleCancelRequest()}>Cancel</Button>

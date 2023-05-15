@@ -39,7 +39,7 @@ app.use(bodyParser.json());
 app.use(cors({
     credentials: true,
     allowedHeaders: ['content-type', 'Authorization', 'Content-Type'],
-    origin: ['http://localhost:3000', 'http://localhost:4000']
+    origin: ['http://localhost:3000', 'http://localhost:4000', "http://192.168.0.100:3000"]
 	// allow all origins
 
 }));

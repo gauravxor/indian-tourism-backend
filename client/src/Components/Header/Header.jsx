@@ -35,7 +35,7 @@ const Header = ( ) => {
 		}
 
 		try {
-			const url = "http://localhost:4000/api/auth/logout";
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/auth/logout`;
 
 			/** Calling the Logout API */
 			const response = await axios.post(url, data, { withCredentials: true });
@@ -97,10 +97,10 @@ const Header = ( ) => {
 				{/* The site logo container */}
 				<div className="site-logo">
 					<Link to="/">
-					<img src={process.env.PUBLIC_URL + "/res/icons/site-icon.png"} href="/" alt="Site Logo" />
+						<img src={process.env.PUBLIC_URL + "/res/icons/site-icon.png"} href="/" alt="Site Logo" />
 					</Link>
 				</div>
-
+				<p><strong> Indian Tourism </strong></p>
 				{/* The navbar links container */}
 				<div className="navbar-links">
 

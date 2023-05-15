@@ -107,7 +107,6 @@
 	color: rgb(1, 1, 1);
 	font-size: 25px;
 	text-transform: uppercase;
-	margin-top: 15px;
 	margin-bottom: -20px;
 }
 
@@ -197,25 +196,22 @@
 form.booking-form {
 	display: flex;
 	flex-direction: column;
-	
+
 }
 
 label[for="date"] {
-	/* margin-bottom: 8px; */
-	display: block;
-	/* padding-top: 10px; */
+	margin-bottom: 8px;
+	padding-top: 10px;
 }
 
 label[for="children"] {
-	/* margin-bottom: 8px; */
-	display: block;
-	/* padding-top: 10px; */
+	margin-bottom: 8px;
+	margin-top: 10px;
 }
 
 label[for="adults"] {
 	margin-bottom: 8px;
-	display: block;
-	padding-top: 10px;
+	margin-top: 10px;
 }
 
 .date-selector {

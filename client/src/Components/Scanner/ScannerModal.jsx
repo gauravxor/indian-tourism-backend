@@ -10,7 +10,7 @@ const ScannerModal = (props) => {
 
 	const handleButtonSubmit = async () => {
 
-		const url = "http://localhost:4000/scanner/allow";
+		const url = `${window.location.protocol}//${window.location.hostname}:4000/scanner/allow`;
 		const data = {
 			accessKey : props.token,
 			bookingId: props.result.bookingId,

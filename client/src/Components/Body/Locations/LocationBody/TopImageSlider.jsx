@@ -26,6 +26,7 @@ function TopImageSlider(props) {
 		}
 	};
 	//Implementation of hiding slider buttons if any modal window opened
+	// eslint-disable-next-line
     const { context, setContext } = useContext(AppContext);
 	const {
 		isLoginModalOpen,
@@ -44,7 +45,7 @@ function TopImageSlider(props) {
 		isPaymentModalOpen;
 		const sliderBtnClass = (isActive?'slider-btn-disable':'slider-btn');
      /////////////////////////
-	 
+
 	if(imageData !== undefined){
 		return (
 
@@ -52,7 +53,7 @@ function TopImageSlider(props) {
 				<button className={`${sliderBtnClass} prev-btn`} onClick={handlePrevClick}>
 				<img className="btn_img" src={right_btn} alt="right-btn-img"></img>
 				</button>
-				<img src={`http://localhost:4000${imageData[currentIndex].urls}`} alt={imageData[currentIndex].imageType} className="slider-image" />
+				<img src={`${window.location.protocol}//${window.location.hostname}:4000${imageData[currentIndex].urls}`} alt={imageData[currentIndex].imageType} className="slider-image" />
 				<button className={`${sliderBtnClass} next-btn`} onClick={handleNextClick}>
 				<img className="btn_img" src={left_btn} alt="left-btn-img"></img>
 				</button>

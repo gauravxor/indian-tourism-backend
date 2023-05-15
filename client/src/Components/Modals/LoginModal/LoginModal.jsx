@@ -6,7 +6,6 @@ import logo			from '../../UI/Images/profile.png'
 
 import {AppContext}	from '../../../AppContext.js'
 import "./LoginModal.css";
-import { PlaceholderButton } from "react-bootstrap";
 
 const resendOtp = async (userEmail) => {
 
@@ -17,7 +16,8 @@ const resendOtp = async (userEmail) => {
 	console.log(data);
 
 	try {
-		const response = await axios.post("http://localhost:4000/api/auth/resend-otp", data);
+		const url = `${window.location.protocol}//${window.location.hostname}:4000/api/auth/resend-otp`;
+		const response = await axios.post(url, data);
 		console.log(response.data);
 		return response.data.status
 	}
@@ -54,7 +54,7 @@ const LoginModal = () => {
 		};
 
 		try {
-			const url = "http://localhost:4000/api/auth/login";
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/auth/login`;
 			const response = await axios.post(url, data);
 			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
 				alert("Session Expired. Please Login Again");
@@ -153,7 +153,7 @@ const LoginModal = () => {
 							/>
 						</div>
 						<br /><br />
-						
+
 							<Button className="actions" type="submit">Login</Button>
 					</form>
 					<div className="forgot-password">

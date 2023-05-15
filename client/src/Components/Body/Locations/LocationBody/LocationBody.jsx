@@ -19,7 +19,7 @@ function LocationBody() {
 
 	const { locationId } = useParams();
 
-	const url = `http://localhost:4000/api/location/${locationId}`;
+	const url = `${window.location.protocol}//${window.location.hostname}:4000/api/location/${locationId}`;
 
 	useEffect(() => {
 		axios

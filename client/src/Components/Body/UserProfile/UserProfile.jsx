@@ -45,7 +45,7 @@ const UserProfile = () => {
 	/** Fetch the user details as soon as the component is mounted */
 	useEffect(() => {
 		console.log("The context user id is " + context.userId);
-		const url = `http://localhost:4000/api/user/details/${context.userId}`;
+		const url = `${window.location.protocol}//${window.location.hostname}:4000/api/user/details/${context.userId}`;
 
 		/** Calling the API to fetch the user data */
 		axios
@@ -91,7 +91,7 @@ const UserProfile = () => {
 			{!inEditableMode ? (
 				<div className="user-details">
 					<div className="user-image">
-						<img src={`http://localhost:4000${userDetails.userImageURL}`} alt="User-profile" />
+						<img src={`${window.location.protocol}//${window.location.hostname}:4000${userDetails.userImageURL}`} alt="User-profile" />
 					</div>
 					<div className="user-info">
 						<div className="name">

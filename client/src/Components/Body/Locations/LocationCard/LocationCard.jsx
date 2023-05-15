@@ -47,7 +47,7 @@ const Card = (props) => {
 			<div className="location-card">
 
 				<div className="image-section">
-					<img src={`http://localhost:4000` + images[currentImage].urls} alt={images[currentImage].imageType} />
+					<img src={`${window.location.protocol}//${window.location.hostname}:4000` + images[currentImage].urls} alt={images[currentImage].imageType} />
 					{images.length > 1 && (
 						<div className="arrow-buttons">
 							<div className="arrow-left">

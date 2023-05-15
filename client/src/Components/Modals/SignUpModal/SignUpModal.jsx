@@ -65,7 +65,7 @@ const SignUpModal = () => {
 		};
 
 		try{
-			const url = "http://localhost:4000/api/auth/signup";
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/auth/signup`;
 			const response = await axios.post(url, data);
 			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
 				alert("Session Expired. Please Login Again");

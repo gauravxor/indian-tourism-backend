@@ -14,7 +14,7 @@ const CancellationContainer = () => {
 
 	/** Fetch the cancellation data as soon as the component is mounted */
 	useEffect(() => {
-		const url = `http://localhost:4000/api/book/cancellations/` + context.userId;
+		const url = `${window.location.protocol}//${window.location.hostname}:4000/api/book/cancellations/` + context.userId;
 
 		axios
 		.get(url, {withCredentials: true})

@@ -60,7 +60,7 @@ const AddLocationContainer = () => {
 		console.log(data);
 
 		try{
-			const url = "http://localhost:4000/api/location/add-location/";
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/location/add-location/`;
 
 			/** Sending out the request with appropriate data */
 			const response = await axios.post(url, data, {

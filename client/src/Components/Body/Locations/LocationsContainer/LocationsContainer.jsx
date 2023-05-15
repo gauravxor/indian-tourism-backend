@@ -26,10 +26,10 @@ function LocationsContainer() {
 		let url = "";
 		/** If search text is empty, call the API to get random locations or else get specific results */
 		if(context.searchText === "") {
-			url = 'http://localhost:4000/api/location';
+			url = `${window.location.protocol}//${window.location.hostname}:4000/api/location`;
 		}
 		else {
-			url = 'http://localhost:4000/api/location/search/' + context.searchText;
+			url = `${window.location.protocol}//${window.location.hostname}:4000/api/location/search/ + ${context.searchText}`;
 		}
 		axios.get(url, {withCredentials: false})
 		.then((response) => {

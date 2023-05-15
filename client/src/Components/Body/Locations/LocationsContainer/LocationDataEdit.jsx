@@ -13,7 +13,7 @@ const UserProfileEdit = (props) => {
 	const { context, setContext } = useContext(AppContext);
 
 	useEffect(() => {
-		const url = `http://localhost:4000/api/location/` + locationId;
+		const url = `${window.location.protocol}//${window.location.hostname}:4000/api/location/` + locationId;
 
 		axios.get(url, { withCredentials: true })
 		.then((response) => {
@@ -98,7 +98,7 @@ const UserProfileEdit = (props) => {
 		console.log(data);
 
 		try{
-			const url = `http://localhost:4000/api/location/update-location/` + locationId;
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/location/update-location/` + locationId;
 
 			/** Sending out request with appropriate multipart headers */
 			const response = await axios.post(url, data, {
@@ -123,7 +123,7 @@ const UserProfileEdit = (props) => {
 		<>
 			<div className="location-edit-info">
 				<h2>Edit Location</h2>
-			<form className='location-data-edit'>	
+			<form className='location-data-edit'>
 				<div>
 				<label htmlFor="location-name">Location Name</label>
 				<input
@@ -144,7 +144,7 @@ const UserProfileEdit = (props) => {
 					value={locationDescription}
 					onChange={(event) => setLocationDescription(event.target.value)}
 				/>
- 				</div>		
+ 				</div>
 				<div>
 				<label htmlFor="location-address">Location Address</label>
 				<input
@@ -281,7 +281,7 @@ const UserProfileEdit = (props) => {
 				    <Button className='btn1' onClick={() => props.setInEditableMode(false)}>Back</Button>
 				    <Button className='btn2' onClick={(event) => handleSave(event)}>Save</Button>
 			    </div>
-				</form>	
+				</form>
 			</div>
 
 			{/* If user clicks the edit button, the inEditableMode state will be changed in parent component and
