@@ -71,8 +71,8 @@ const userUpdateController = async (req, res, next) => {
 		const accessToken = await TOKENIZER.generateAccessToken(userId, req.body.email);
 		const refreshToken = await TOKENIZER.generateRefreshToken(userId, req.body.email);
 		await AUTH.updateLoginStatusByUserId(userId, refreshToken);
-		res.cookie('accessToken',	accessToken, { httpOnly: true, sameSite: "strict", secure: true});
-		res.cookie('refreshToken',	refreshToken,{ httpOnly: true, sameSite: "strict", secure: true});
+		res.cookie('accessToken',	accessToken, { httpOnly: true, sameSite: "strict", secure: false});
+		res.cookie('refreshToken',	refreshToken,{ httpOnly: true, sameSite: "strict", secure: false});
 	}
 
 	/** If user image is not updated then we have to use the old image */

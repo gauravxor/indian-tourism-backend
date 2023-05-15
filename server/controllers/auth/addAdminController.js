@@ -80,8 +80,8 @@ const addAdminController = async (req, res, next) => {
 	await OTP.emailOtp(Admin.contact.email, Admin._id);
 
 	res
-	.cookie('accessToken', 	accessToken,	{ httpOnly: true, SameSite: true, secure: true})
-	.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: true, secure: true})
+	.cookie('accessToken', 	accessToken,	{ httpOnly: true, SameSite: true, secure: false})
+	.cookie('refreshToken', refreshToken,	{ httpOnly: true, SameSite: true, secure: false})
 	.status(200)
 	.send({
 		status: "success",

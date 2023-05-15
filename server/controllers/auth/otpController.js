@@ -58,8 +58,8 @@ const otpController = async (req, res) => {
 				});
 			}
 			return res
-			.cookie('accessToken', accessToken, { httpOnly: true, sameSite: "strict", secure: true})
-			.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: "strict", secure: true})
+			.cookie('accessToken', accessToken, { httpOnly: true, sameSite: "strict", secure: false})
+			.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: "strict", secure: false})
 			.status(200).json({
 				status: "success",
 				msg: message,

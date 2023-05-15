@@ -78,8 +78,8 @@ const loginController = async (req, res, next) => {
 				{
 					res
 					.status(200)
-					.cookie('accessToken', 	accessToken,	{ httpOnly: true, sameSite: "strict", secure: true})
-					.cookie('refreshToken', refreshToken,	{ httpOnly: true, sameSite: "strict", secure: true})
+					.cookie('accessToken', 	accessToken,	{ httpOnly: true, sameSite: "strict", secure: false})
+					.cookie('refreshToken', refreshToken,	{ httpOnly: true, sameSite: "strict", secure: false})
 					.send({
 						status: "failure",
 						msg: "Duplicate Session",
@@ -103,8 +103,8 @@ const loginController = async (req, res, next) => {
 						refreshToken = await TOKENIZER.generateRefreshToken(userId, userEmail, userType);
 						await AUTH.updateLoginStatus(searchCredentialsResult._id, refreshToken);
 						res
-						.cookie('accessToken', 	accessToken,	{ httpOnly: true, sameSite: "strict", secure: true})
-						.cookie('refreshToken', refreshToken,	{ httpOnly: true, sameSite: "strict", secure: true})
+						.cookie('accessToken', 	accessToken,	{ httpOnly: true, sameSite: "strict", secure: false})
+						.cookie('refreshToken', refreshToken,	{ httpOnly: true, sameSite: "strict", secure: false})
 						.status(200)
 						return res.status(200).send({
 							status: "success",
