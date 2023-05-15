@@ -7,7 +7,7 @@ import { AppContext } from '../../../../AppContext';
 
 const AddLocationContainer = () => {
 
-	const { context, setContext } = useContext(AppContext);
+	const { context, setContext, resetContext } = useContext(AppContext);
 
 	/** React states to store location data */
 	const [locationName, setLocationName] = useState("");
@@ -70,7 +70,7 @@ const AddLocationContainer = () => {
 
 			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
 				alert("Your session has expired. Please login again");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 			}
 			else
 			if (response.data.status === "success") {
@@ -86,13 +86,13 @@ const AddLocationContainer = () => {
 			const response = error.response.data;
 			if(response.msg === "User not logged in"){
 				console.log("User not logged in");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Session Expired. Please Login Again!");
 			}
 			else
 			if(response.msg === "Duplicate session"){
 				console.log("Duplicate session");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Duplicate session. Please Login Again!");
 			}
 			else{

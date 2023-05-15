@@ -7,7 +7,7 @@ import { AppContext }	from '../../../../AppContext.js';
 
 const CancellationContainer = () => {
 
-	const { context, setContext } = useContext(AppContext);
+	const { context, setContext, resetContext } = useContext(AppContext);
 
 	/** React state to store the array of cancellation data objects */
 	const [cancellation, setCancellation] = useState([]);
@@ -21,7 +21,7 @@ const CancellationContainer = () => {
 		.then((response) => {
 			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
 				alert("Session Expired. Please Login Again");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 			}
 			else
 			if(response.data.status === "success"){
@@ -36,13 +36,13 @@ const CancellationContainer = () => {
 			const response = error.response.data;
 			if(response.msg === "User not logged in"){
 				console.log("User not logged in");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Session Expired. Please Login Again!");
 			}
 			else
 			if(response.msg === "Duplicate session"){
 				console.log("Duplicate session");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Duplicate session. Please Login Again!");
 			}
 			else{

@@ -17,7 +17,7 @@ const Header = ( ) => {
 
 	const navigate = useNavigate();
 
-	const { context, setContext } = useContext(AppContext);
+	const { context, setContext, resetContext } = useContext(AppContext);
 
 	const { isLoggedIn, isUserAdmin} = context;
 	const { isLoginModalOpen, isSignUpModalOpen, isOtpModalOpen, isForgotPasswordModalOpen } = context;
@@ -42,34 +42,29 @@ const Header = ( ) => {
 
 			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
 				alert("Session Expired. Please Login Again");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 			}
 			else
 			if(response.data.status === "success"){
 				/** Since user is logging out, so reset the context variables */
-				setContext({ ...context,
-					isLoggedIn: false,
-					isUserAdmin: false,
-					showMainBody: true,
-					userEmail: "",
-					isVerified: false,
-				});
+				resetContext();
 			}
 			else{
 				console.log("Error logging out");
 			}
 		}
 		catch (error) {
+			console.log(error);
 			const response = error.response.data;
 			if(response.msg === "User not logged in"){
 				console.log("User not logged in");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Session Expired. Please Login Again!");
 			}
 			else
 			if(response.msg === "Duplicate session"){
 				console.log("Duplicate session");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Duplicate session. Please Login Again!");
 			}
 			else{

@@ -34,7 +34,7 @@ const PaymentModal = () => {
 
 	const navigate = useNavigate();
 
-	const { context, setContext } = useContext(AppContext);
+	const { context, setContext, resetContext } = useContext(AppContext);
 
 	/** To store the user payment status message */
 	const [paymentMessage, setPaymentMessage] = useState("");
@@ -84,13 +84,13 @@ const PaymentModal = () => {
 			const response = error.response.data;
 			if(response.msg === "User not logged in"){
 				console.log("User not logged in");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Session Expired. Please Login Again!");
 			}
 			else
 			if(response.msg === "Duplicate session"){
 				console.log("Duplicate session");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Duplicate session. Please Login Again!");
 			}
 			else{
@@ -130,13 +130,13 @@ const PaymentModal = () => {
 			const response = error.response.data;
 			if(response.msg === "User not logged in"){
 				console.log("User not logged in");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Session Expired. Please Login Again!");
 			}
 			else
 			if(response.msg === "Duplicate session"){
 				console.log("Duplicate session");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Duplicate session. Please Login Again!");
 			}
 			else{

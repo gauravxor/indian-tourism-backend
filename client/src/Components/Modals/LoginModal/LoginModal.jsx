@@ -41,7 +41,7 @@ const resendOtp = async (userEmail) => {
 
 const LoginModal = () => {
 
-	const { context, setContext } = useContext(AppContext);
+	const { context, setContext, resetContext } = useContext(AppContext);
 
 	/** To store the user login email id */
 	const [email, setEmail] = useState("");
@@ -88,7 +88,7 @@ const LoginModal = () => {
 			const response = await axios.post(url, data);
 			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
 				alert("Session Expired. Please Login Again");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 			}
 			else
 			if(response.data.status === "success"){
@@ -129,13 +129,13 @@ const LoginModal = () => {
 			const response = error.response.data;
 			if(response.msg === "User not logged in"){
 				console.log("User not logged in");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Session Expired. Please Login Again!");
 			}
 			else
 			if(response.msg === "Duplicate session"){
 				console.log("Duplicate session");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Duplicate session. Please Login Again!");
 			}
 			else{

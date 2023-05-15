@@ -7,7 +7,7 @@ import {AppContext} from '../../../../AppContext.js';
 
 const CancellationCard = (props) => {
 
-	const { context, setContext } = useContext(AppContext);
+	const { resetContext } = useContext(AppContext);
 
 	/** Storing the cancellationData object */
 	const cancellationData = props.cancellationData;
@@ -29,7 +29,7 @@ const CancellationCard = (props) => {
 
 			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
 				alert("Session Expired. Please Login Again");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 			}
 			else
 			if(response.data.status === "success"){
@@ -45,13 +45,13 @@ const CancellationCard = (props) => {
 			const response = error.response.data;
 			if(response.msg === "User not logged in"){
 				console.log("User not logged in");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Session Expired. Please Login Again!");
 			}
 			else
 			if(response.msg === "Duplicate session"){
 				console.log("Duplicate session");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Duplicate session. Please Login Again!");
 			}
 			else{

@@ -27,7 +27,7 @@ function TopImageSlider(props) {
 	};
 	//Implementation of hiding slider buttons if any modal window opened
 	// eslint-disable-next-line
-    const { context, setContext } = useContext(AppContext);
+    const { context, setContext, resetContext } = useContext(AppContext);
 	const {
 		isLoginModalOpen,
 		isSignUpModalOpen,

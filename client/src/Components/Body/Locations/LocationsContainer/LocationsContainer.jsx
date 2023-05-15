@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 function LocationsContainer() {
 
 	// eslint-disable-next-line
-	const { context, setContext } = useContext(AppContext);
+	const { context, setContext, resetContext } = useContext(AppContext);
 
 	const [locations, setLocations] = useState([]);
 
@@ -36,7 +36,7 @@ function LocationsContainer() {
 
 			if(response.data.status === "failure" && response.data.msg === "Tokens Expired"){
 				alert("Session Expired. Please Login Again");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 			}
 			else
 			/** The response will contain an array of objects. If the array is empty, we will render the main body
@@ -53,13 +53,13 @@ function LocationsContainer() {
 			const response = error.response.data;
 			if(response.msg === "User not logged in"){
 				console.log("User not logged in");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Session Expired. Please Login Again!");
 			}
 			else
 			if(response.msg === "Duplicate session"){
 				console.log("Duplicate session");
-				setContext({...context, isLoggedIn: false});
+				resetContext();
 				alert("Duplicate session. Please Login Again!");
 			}
 			else{

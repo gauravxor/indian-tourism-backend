@@ -44,8 +44,36 @@ const AppContextProvider = ({ children }) => {
 		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(context));
 	},[context]);
 
+	// eslint-disable-next-line
+	const resetContext = () => {
+        setContext({
+			userEmail: "",
+            userId: "",
+            isUserAdmin: false,
+            locationId: "",
+            bookingId: "",
+            paymentId: "",
+            tempBookingId: "",
+            searchText: "",
+            errorMessage: "",
+            // user state variables
+            isLoggedIn: false,
+            isVerified: false,
+            //Slideshow state
+            isSlideShow: false,
+            // context state variables
+            showMainBody: true,
+            isLoginModalOpen: false,
+            isSignUpModalOpen: false,
+            isOtpModalOpen: false,
+            isAddLocationModalOpen: false,
+            isForgotPasswordModalOpen: false,
+            isPaymentModalOpen: false,
+        });
+    };
+
 	return (
-		<AppContext.Provider value={{ context, setContext }}>
+		<AppContext.Provider value={{ context, setContext, resetContext }}>
 			{children}
 		</AppContext.Provider>
 	);

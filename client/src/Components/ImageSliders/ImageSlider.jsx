@@ -160,7 +160,7 @@ const ImageSlider = ({ slides, parentWidth }) => {
 	}, [gotoNext]);
 
 	// eslint-disable-next-line
-	const { context, setContext } = useContext(AppContext);
+	const { context, setContext, resetContext } = useContext(AppContext);
 	const {
 		isLoginModalOpen,
 		isSignUpModalOpen,
@@ -194,7 +194,7 @@ const ImageSlider = ({ slides, parentWidth }) => {
 				<div
 					style={isActive ? RightArrowStyles : rightArrowStyles}
 					onClick={gotoNext}
-					>⮞ 
+					>⮞
 				</div>
 
 			</div>
