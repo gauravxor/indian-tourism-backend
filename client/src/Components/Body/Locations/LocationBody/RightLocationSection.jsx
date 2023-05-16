@@ -32,7 +32,7 @@ const RightLocationSection = (props) => {
 	/** React state to store the booking message that is to be displayed to user */
 	const [bookingMessage, setBookingMessage] = React.useState("");
 
-	const {context, setContext} = useContext(AppContext);
+	const {context, setContext, resetContext} = useContext(AppContext);
 	const {isPaymentModalOpen} = context;
 
 	/** Function to handle the thing when user submits a booking requesr */
@@ -71,6 +71,14 @@ const RightLocationSection = (props) => {
 		}
 		catch(error){
 			const response = error.response.data;
+			if(error.response.status === 401 && response.msg === "Unauthorized access"){
+				console.log("You need to be logged in to book tickets");
+				setBookingMessage("You need to be logged in to book tickets");
+				setTimeout(() => {
+					setBookingMessage("");
+				}, 3000);
+			}
+			else
 			if(response.msg === "User not logged in"){
 				console.log("User not logged in");
 				resetContext();
@@ -122,6 +130,8 @@ const RightLocationSection = (props) => {
 					onChange={(e) => setChildrenCount(e.target.value)}
 				/>
 				<br/>
+				<hr/>
+
 				<label htmlFor="date">Visit date:</label>
 				<div className="date-selector">
 					<DateSelector
@@ -130,7 +140,8 @@ const RightLocationSection = (props) => {
 						locationId={context.locationId}
 					/>
 				</div>
-				<br />
+				<br /><br /><br/>
+
 				<Button type="submit" className='submit-btn' >Book Now</Button>
 				<p> {bookingMessage}</p>
 			</form>

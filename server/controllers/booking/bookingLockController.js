@@ -161,7 +161,7 @@ const bookingLockController = async (req, res, next) => {
 					noOfTickets: noOfTickets,
 					bookingPrice: bookingPrice,
 					dateOfVisit: bookingDate,
-					timeOfExpiry: new Date(Date.now() + 15 * 60 * 1000)
+					timeOfExpiry: new Date(Date.now() + 1 * 60 * 1000)
 				});
 
 				const lockBookingDataSaveResult = await lockBookingSchema.save();

@@ -76,7 +76,7 @@ const CancellationCard = (props) => {
 						<p><strong>Usesr ID:</strong> {cancellationData.userId}</p>
 						<p><strong>User Name:</strong> {cancellationData.userName}</p>
 						<p><strong>Date of Visit:</strong> {new Date(cancellationData.dateOfVisit).toLocaleDateString()}</p>
-						<p><strong>Booking Price:</strong> {cancellationData.bookingPrice}</p>
+						<p><strong>Booking Price:</strong> Rs. {cancellationData.bookingPrice}</p>
 					</div>
 				</div>
 				<button type='submit' className="cancellation-approve-btn" onClick={cancelApprovalHandler}> Approve </button>

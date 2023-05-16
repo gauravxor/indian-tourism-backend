@@ -89,11 +89,11 @@ const bookingCancellationController = async(req, res, next) => {
 			console.log(dateOfVisit.getMonth());
 			if(month.month == dateOfVisit.getMonth() + 1){
 
-				console.log("Month found".yellow);
+				// console.log("Month found".yellow);
 				for (var j = 0; j < month.days.length; j++) {
 
 					const currentDate = new Date(month.days[j].calendarDate).getDate();
-					console.log(currentDate + " - > " + dateOfVisit.getDate());
+					// console.log(currentDate + " - > " + dateOfVisit.getDate());
 					if(currentDate === dateOfVisit.getDate()){
 						isDateFound = true;
 						month.days[j].availableTickets += cancellationData.noOfTickets;

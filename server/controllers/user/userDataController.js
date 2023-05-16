@@ -55,7 +55,7 @@ async function getIndividualBookingData(bookingId)
 		return null;
 	}
 	else{
-		console.log(bookingData);
+		console.log("User Data Controller : Booking data found provided ID".green);
 		return bookingData;
 	}
 }

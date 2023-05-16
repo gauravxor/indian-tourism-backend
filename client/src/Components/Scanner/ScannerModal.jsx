@@ -4,6 +4,30 @@ import axios from 'axios'
 import './ScannerModal.css'
 import Button from '../UI/Buttons/Button'
 
+const getDayOfMonthSuffix = (dayOfMonth) => {
+
+	if(dayOfMonth >= 11 && dayOfMonth <= 13) {
+		return 'th';
+	}
+	switch (dayOfMonth % 10) {
+		case 1: return 'st';
+		case 2: return 'nd';
+		case 3: return 'rd';
+		default: return 'th';
+	}
+}
+
+const formatDate = (dateStr) => {
+
+	const date = new Date(dateStr);
+	const options = {month: 'long', year: 'numeric' };
+	const formattedDate = date.toLocaleDateString('en-US', options);
+	const dayOfMonth = date.getDate();
+	const suffix = getDayOfMonthSuffix(dayOfMonth);
+	const finalResult = `${dayOfMonth}${suffix} ${formattedDate}`;
+	return finalResult;
+}
+
 const ScannerModal = (props) => {
 
 	const [actionMessage, setActionMessage] = useState("")
@@ -53,7 +77,7 @@ const ScannerModal = (props) => {
 				<p>Location Name : {props.result.locationName}</p>
 				<p>Booking Id : {props.result.bookingId}</p>
 				<p>User Name : {props.result.userName}</p>
-				<p>Date of Visit : {props.result.dateOfVisit}</p>
+				<p>Date of Visit : {formatDate(props.result.dateOfVisit)}</p>
 				<p>No of Tickets : {props.result.noOfTickets}</p>
 				{actionMessage !== "" && (<p>{actionMessage}</p>)}
 				<Button onClick={handleButtonSubmit}>Allow Entry</Button>

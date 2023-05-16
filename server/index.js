@@ -58,7 +58,7 @@ app.listen(process.env.PORT, () => {
 
 
 /** Invoke bookingLockCleaner in every 5 seconds */
-// setInterval(lockCleaner, 5 * 1000);
+setInterval(lockCleaner, 5 * 1000);
 
 /** Invoke OtpCleaner in every 15 seconds */
 setInterval(otpCleaner, 15 * 1000);

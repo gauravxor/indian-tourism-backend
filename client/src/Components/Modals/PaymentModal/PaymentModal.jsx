@@ -53,7 +53,7 @@ const PaymentModal = () => {
 	*/
 	useEffect(() => {
 		try{
-			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/book/lock/details/ + ${tempBookingId}`;
+			const url = `${window.location.protocol}//${window.location.hostname}:4000/api/book/lock/details/${tempBookingId}`;
 			axios
 			.get(url, {withCredentials: true})
 			.then((response) => {
