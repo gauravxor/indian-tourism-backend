@@ -4,6 +4,7 @@ const cookieParser 	= require('cookie-parser');
 const mongoose 		= require('mongoose');
 const dotenv 		= require('dotenv');
 const cors 			= require('cors');
+const colors 		= require('colors');
 
 const homeRoute		 = require('./routes/home');
 const authRoutes	 = require('./routes/authRoutes');
@@ -21,14 +22,13 @@ dotenv.config();
 /* DATABASE CONNECTION */
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.DATABASE_URL, {
- 	useNewUrlParser: true,
-	useUnifiedTopology: true
-	},
-	(err) => {
+ 		useNewUrlParser: true,
+		useUnifiedTopology: true
+	},(err) => {
 		if(err)
-			console.log("Error connecting to database");
+			console.log("SERVER : Error connecting to database".red);
 		else
-			console.log("Connected to database");
+			console.log("SERVER : Connected to database".yellow);
 	}
 );
 
@@ -40,8 +40,6 @@ app.use(cors({
     credentials: true,
     allowedHeaders: ['content-type', 'Authorization', 'Content-Type'],
     origin: ['http://localhost:3000', 'http://localhost:4000', "http://192.168.0.100:3000"]
-	// allow all origins
-
 }));
 
 
@@ -55,7 +53,7 @@ app.use('/api/user/', userRoutes);
 app.use('/scanner', scannerRoutes);
 
 app.listen(process.env.PORT, () => {
-	console.log("Server started on port " + process.env.PORT + ".");
+	console.log("SERVER : Service started on port ".yellow + `${process.env.PORT}.`.cyan);
 });
 
 

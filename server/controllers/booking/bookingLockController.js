@@ -35,10 +35,10 @@ const bookingLockController = async (req, res, next) => {
 	const userId = req.userId;
 	const noOfTickets = req.body.noOfTickets;
 
-	console.log("User id from middleware = " + userId);
+	console.log("Booking Lock Controller : User ID ".yellow + `${userId}.cyan`);
 	if(locationId === undefined || userId === undefined || noOfTickets === undefined) {
-		return res
-		.status(400)
+		console.log("Booking Lock Controller : Invalid request".red);
+		return res.status(400)
 		.json({
 			status: "failure",
 			message: "Invalid request"
@@ -46,6 +46,7 @@ const bookingLockController = async (req, res, next) => {
 	}
 
 	if(parseInt(noOfTickets) < 0 ) {
+		console.log("Booking Lock Controller : Invalid number of tickets".red);
 		return res
 		.status(400)
 		.json({
@@ -56,6 +57,7 @@ const bookingLockController = async (req, res, next) => {
 
 	const bookingDate = convertToISODate(req.body.bookingDate);
 	if(bookingDate === null) {
+		console.log("Booking Lock Controller : Invalid booking date".red);
 		return res
 		.status(400)
 		.json({
@@ -67,9 +69,9 @@ const bookingLockController = async (req, res, next) => {
 	const userData = await UserModel.findOne({ _id: userId });
 	const locationData = await LocationModel.findOne({ _id: locationId });
 	if(locationData === null || userData === null) {
-		return res.
-		status(400).
-		json({
+		console.log("Booking Lock Controller : Location/user data not found".red);
+		return res.status(400)
+		.json({
 			status: "failure",
 			message: 'Location/ user not found'
 		});
@@ -78,15 +80,14 @@ const bookingLockController = async (req, res, next) => {
 
 		const locationAvailabilityData = await AvailabilityModel.findOne( {locationId: locationId});
 		if(locationAvailabilityData === null){
-			console.log("Lock Controller : Location availability data does not exist".red);
+			console.log("Booking Lock Controller : Location availability data not found".red);
 			return res.status(400).json({
 				status: "failure",
 				message: "Location was found but no availability data was found"
 			});
 		}
-		else
-		{
-			console.log("Lock Controller : Availability data found".yellow);
+		else{
+			console.log("Booking Lock Controller : Availability data found".yellow);
 
 			var isAvailable = false;
 			const availabilityData = locationAvailabilityData.calendarMonths;
@@ -104,6 +105,7 @@ const bookingLockController = async (req, res, next) => {
 
 						if(currentDate === bookingDate.getDate()){
 							if(month.days[j].availableTickets < noOfTickets){
+								console.log("Booking Lock Controller : Reqested tickets count not available".red);
 								return res.status(400).json({
 									"status": "failure",
 									message: "Not enough tickets available"
@@ -130,15 +132,14 @@ const bookingLockController = async (req, res, next) => {
 
 				await locationAvailabilityData.save();
 
-				// generate a temporary booking id
+				/** Generate a temporary booking id */
 				const tempBookingId = uuidv4();
 
 
-				// calculate the  booking price
+				/** Calculate the booking price */
 				const bookingPrice = noOfTickets * locationData.ticketPrice;
 
-
-				// creating location address oject to save with lock booking data
+				/** Creating location address oject to save with lock booking data */
 				const locationAddress = {
 					address: locationData.address,
 					country: locationData.country,
@@ -171,7 +172,7 @@ const bookingLockController = async (req, res, next) => {
 					});
 				}
 
-				// return detailed response (todo)
+				/** Return detailed response (todo) */
 				return res.status(200).json({
 					status: "success",
 					message: "Booking lock successful",

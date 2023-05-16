@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const jwt 	     = require('jsonwebtoken');
+const colors     = require('colors');
 
 const AUTH = require('./authHelper');
 const OtpModel	= require('../models/otpModel');
@@ -21,8 +22,8 @@ async function saveOtp(generatedOtp, userEmail, userDocumentId, otpType)
 {
 	/** If any old OTP exists in the database, delete it */
 	await OtpModel.deleteOne({emailId: userEmail, userId: userDocumentId});
-	console.log("Document is = " + 	userDocumentId);
-	console.log("Starting to save otp".green);
+	console.log("OTP Helper : User Id is -> ".yellow + `${userDocumentId}`.cyan);
+	console.log("OTP Helper : Starting to save otp".yellow);
 	const OtpDocument = new OtpModel({
 		userId: userDocumentId,
 		emailId: userEmail,
@@ -30,24 +31,24 @@ async function saveOtp(generatedOtp, userEmail, userDocumentId, otpType)
 		otpType: otpType,
 		createdAt: Date.now(),
 	});
-	console.log(OtpDocument);
 
 	const saveOtpResult = await OtpDocument.save();
-	console.log(saveOtpResult);
-	console.log("Done saving otp".green);
+	if(saveOtpResult === null){
+		console.log("OTP Helper : Error saving OTP to database".red);
+	}
+	else{
+		console.log("OTP Helper : Saved OTP data in DB".green);
+	}
 }
 
 /** Function to send OTP to userEmail for Email Verification */
 async function emailOtp(userEmail, userDocumentId)
 {
-	console.log("Generating OTP".green);
 	const otp = generateOtp(8);
-	console.log("Generated OTP: ".green + `${otp}`.blue);
+	console.log("OTP Helper : Generated OTP -> ".yellow + `${otp}`.cyan);
 
-	console.log("Saving OTP to database".green);
-	const saveOtpResult = await saveOtp(otp, userEmail, userDocumentId, "emailVerification");
-	// console.log(saveOtpResult);
-	console.log("Saved OTP to database".green);
+	console.log("OTP Helper : Saving OTP to database".yellow);
+	await saveOtp(otp, userEmail, userDocumentId, "emailVerification");
 
 	/** Creating the nodemailer object */
 	const transporter = nodemailer.createTransport({
@@ -76,9 +77,9 @@ async function emailOtp(userEmail, userDocumentId)
 		`
 	};
 
-	console.log("Sending the email".green)
+	console.log("OTP Helper: Sending the OTP email".yellow)
 	await transporter.sendMail(mailData);
-	console.log("Otp " + `${otp}`.blue + " sent to " + `${userEmail}`.blue)
+	console.log("OTP Helper : Otp " + `${otp}`.blue + " sent to ".yellow + `${userEmail}`.blue)
 	// return otp;
 }
 
@@ -86,15 +87,11 @@ async function emailOtp(userEmail, userDocumentId)
 /** Function to send OTP to userEmail for Password Reset */
 async function sendPasswordResetEmail(userEmail, userDocumentId)
 {
-	console.log("Generating OTP".green);
 	const otp = generateOtp(8);
-	console.log("Generated OTP: ".green + `${otp}`.blue);
+	console.log("OTP Helper : Generated OTP -> ".yellow + `${otp}`.cyan);
 
-	console.log("Saving OTP to database".green);
-	const saveOtpResult = await saveOtp(otp, userEmail, userDocumentId, "passwordReset");
-	// console.log(saveOtpResult);
-	console.log("Saved OTP to database".green);
-
+	console.log("OTP Helper : Saving OTP in DB".yellow);
+	await saveOtp(otp, userEmail, userDocumentId, "passwordReset");
 
 	/** Creating the nodemailer object */
 	const transporter = nodemailer.createTransport({
@@ -113,19 +110,19 @@ async function sendPasswordResetEmail(userEmail, userDocumentId)
 		text: 'Your OTP is ' + otp,
 	};
 
-	console.log("sending the email".green)
-	const transportResult = await transporter.sendMail(mailData);
-	console.log("Otp " + `${otp}`.blue + " sent to " + `${userEmail}`.blue)
-	// return otp;
+	console.log("OTP Helper : Sending password reset email".yellow)
+	await transporter.sendMail(mailData);
+	console.log("OTP Helper : Otp " + `${otp}`.blue + " sent to ".yellow + `${userEmail}`.blue)
 }
 
 /** Function to check if OTP is expired or not */
 function isOtpExpired(otpCreationTime)
 {
+	/** Validity of OTP is 5 minutes */
 	const timeCreated = (new Date(otpCreationTime)).getTime();
 	const timeNow = (new Date()).getTime();
 	const timeDifference = timeNow - timeCreated;
-	console.log("the time difference is: " + timeDifference + "ms")
+	console.log("OTP Helper : Time (in ms) since OTP creation -> ".yellow + `${timeDifference}`.cyan);
 	return (timeDifference > (50 * 60 * 1000));
 }
 
@@ -149,9 +146,8 @@ async function verifyOtp(userEmail, otp, otpType)
 			return "otpError";
 		else
 		{
-			console.log("Otp Validated".green)
+			console.log("OTP Helper : OTP Validated".green)
 			documentId = (searchOtpResult._id).toString();
-			console.log(documentId);
 
 			/* If OTP is for email verification, update the user's emailVerified field to true and delete OTP Document*/
 			if(otpType === "emailVerification")
@@ -189,7 +185,7 @@ async function resendOtp(req, res){
 	const userId = userData._id;
 	const requestOtpType = req.body.otpType;
 
-	console.log(`OTP Helper : Resending ${requestOtpType} OTP`.green)
+	console.log("OTP Helper : Re-sending OTP for ".yellow + `${requestOtpType}`.cyan);
 
 	var otp = 0;
 	if(requestOtpType === "emailVerification"){

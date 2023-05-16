@@ -144,7 +144,7 @@ const forgotPassword = async (req, res, next) => {
 		}
 		else
 		if(otpSearchResult.isResetOtpValidated === false){
-			console.log("Password reset OTP not verified".yellow);
+			console.log("Password Controller : Password reset OTP not verified".yellow);
 			return res.status(401).json({
 				status: "failure",
 				msg: "Otp not yet verified"
@@ -153,8 +153,7 @@ const forgotPassword = async (req, res, next) => {
 		else
 		if(otpSearchResult.isResetOtpValidated === true)
 		{
-			console.log("Password reset OTP verified".green);
-
+			console.log("Password Controller : Password reset OTP verified".green);
 
 			/** The tokens received through cookies must be validated */
 			await verifyToken(req, res);
@@ -164,12 +163,11 @@ const forgotPassword = async (req, res, next) => {
 			const searchCredentialsResult = await AUTH.searchCredentials(searchUserResult._id);
 			const updatePasswordResult = await AUTH.updatePassword(searchCredentialsResult._id, newPasswordHash);
 
-			if(updatePasswordResult)
-			{
-				console.log("Deleting OTP collection".yellow);
+			if(updatePasswordResult){
+				console.log("Password Controller : Deleting OTP collection".yellow);
 				var otpDocumentId = (otpSearchResult._id).toString();
 				await OtpModel.findByIdAndDelete(otpDocumentId);
-				console.log("Otp collection deleted".green);
+				console.log("Password Controller : Deleted OTP collection".green);
 				await AUTH.updateLoginStatus(searchCredentialsResult._id, "");
 
 				return res
@@ -201,6 +199,7 @@ const forgotPassword = async (req, res, next) => {
 		/** If email was sent successfully, send out Access & Refresh Tokens */
 		if(sendPasswordResetEmailResult !== null)
 		{
+			console.log("Password Controller: Password reset email sent".yellow);
 			return res.status(200)
 			.json({
 				status: "success",
@@ -209,6 +208,7 @@ const forgotPassword = async (req, res, next) => {
 			});
 		}
 		else{
+			console.log("Password Controller: Failed to send password reset email".red);
 			res.status(500).send({
 				status: "failure",
 				msg: "Password reset email failed"

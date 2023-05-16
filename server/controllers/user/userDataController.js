@@ -8,11 +8,11 @@ const adminModel = require("../../models/adminModel");
 
 const getUserDataController = async (req, res) => {
 
-	console.log(`UserData Controller : User type ->`.yellow + `${req.userType}`.cyan);
+	console.log(`User Data Controller : User Type ->`.yellow + `${req.userType}`.cyan);
 	const userId = (req.params.userId).toString();
-	console.log("User data controller " + userId);
-	console.log("User data controller " + req.userType);
+	console.log("User data controller : User Id -> ".yellow + `${userId}`.cyan);
 	if(userId === undefined || userId === null || userId === ""){
+		console.log("User data controller : User Id not provided".red);
 		return res.status(400).json({
 			status: "failure",
 			message: "User Id is required"
@@ -27,13 +27,14 @@ const getUserDataController = async (req, res) => {
 		userData = await AdminModel.findOne({_id: userId});
 
 	if(userData === null){
-
+		console.log("User data controller : User data not found in DB".red);
 		return res.status(400).json({
 			status: "failure",
 			message: "User not found"
 		});
 	}
 	else{
+		console.log("User data controller : User data found in DB".green);
 		return res.status(200).json({
 			status: "success",
 			message: "User data fetched successfully",
@@ -42,14 +43,15 @@ const getUserDataController = async (req, res) => {
 	}
 }
 
+
 /** GET USER BOOKINGS CONRTROLLER CODE */
 
 async function getIndividualBookingData(bookingId)
 {
-	console.log("Passed booking id is = > " + bookingId);
+	console.log("User Data Controller : Received booking id -> ".yellow + `${bookingId}`.cyan);
 	const bookingData = await BookingsModel.findOne({ bookingId: bookingId });
 	if(bookingData === null) {
-		console.log("INTERNAL : No bookings found with the provided ID");
+		console.log("User Data Controller : No bookings found with the provided ID".red.bold);
 		return null;
 	}
 	else{
@@ -62,7 +64,7 @@ async function getIndividualBookingData(bookingId)
 const getUserBookingsController = async (req, res) => {
 
 	const userId = (req.params.userId).toString();
-	console.log(userId);
+	console.log("User data controller : User Id -> ".yellow + `${userId}`.cyan);
 	if(userId === undefined || userId === null || userId === ""){
 		return res.status(400).json({
 			status: "failure",
@@ -72,14 +74,14 @@ const getUserBookingsController = async (req, res) => {
 
 	const userData = await UserModel.findOne({_id: userId});
 	if(userData === null){
-
+		console.log("User data controller : User data not found in DB".red);
 		return res.status(400).json({
 			status: "failure",
 			message: "User not found"
 		});
 	}
 	else{
-
+		console.log("User data controller : User data found in DB".green);
 		const userBookings = [];
 		const bookingIds = userData.bookings;
 

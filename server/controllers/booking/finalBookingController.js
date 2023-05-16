@@ -46,7 +46,7 @@ const finalBookingController = async (req, res, next) => {
 		const bookingDataSaveResult = await bookingSchema.save();
 
 		if(bookingDataSaveResult === null) {
-			console.log("Error dsaving booking data".red);
+			console.log("Booking Controller : Error saving booking data".red);
 			res.status(400).json({
 				status: "failure",
 				message: "Error saving booking data"
@@ -54,14 +54,13 @@ const finalBookingController = async (req, res, next) => {
 		}
 		else{
 			console.log("Booking Controller : Booking data saved in DB".green);
-
 			const userModelUpdateResult  = await UserModel.findByIdAndUpdate(req.userId, {
 				$push: { bookings: { bookingId: bookingId } },
 				$inc: { bookingCount: 1 }
 			});
 
 			if(userModelUpdateResult === null) {
-				console.log("Booking Controller : Failed to save booking data in User document".red);
+				console.log("Booking Controller : Failed to add bookingId in User document".red);
 				return res.status(400).json({
 					status: "failure",
 					message: "Error saving booking data in user model"
@@ -101,7 +100,7 @@ const finalBookingController = async (req, res, next) => {
 				console.log("Booking Controller : Error generating the QR code".red);
 			}
 			else{
-				console.log("Booking Controller :  QR code generated for ticket".green);
+				console.log("Booking Controller : QR code generated for ticket".green);
 
 				/** Once QR is generated send send it to user with booking details */
 				while(true) {

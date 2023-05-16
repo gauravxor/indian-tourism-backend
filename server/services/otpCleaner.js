@@ -4,21 +4,23 @@ const otpCleaner = async () => {
 
 
 	const otpData = await OtpModel.find({});
-	if(JSON.stringify(otpData) === JSON.stringify([])) {
-	}
-	else{
+
+	/** If lock OTP collection is not empty */
+	if(!(JSON.stringify(otpData) === JSON.stringify([]))) {
 		otpData.forEach(async (otp) => {
 			const currentTime = new Date();
 			const otpTime = otp.createdAt;
 
 			const diff = currentTime - otpTime;
 			const diffInMinutes = diff / 1000;
-			console.log("The time difference " + diffInMinutes);
 			if((diffInMinutes > 150 && otp.otpType === "emailVerification") || (diffInMinutes > 300 && otp.otpType === "passwordReset")) {
-				console.log("OTP Cleaner : Deleting expired OTP".yellow);
+				console.log("OTP Cleaner : Expired OTPs found".yellow);
 				const deleteOtpResult = await OtpModel.deleteOne({ email: otp.email });
 				if(deleteOtpResult === null) {
-					console.log("OTP Cleaner : Error deleting OTP data".red);
+					console.log("OTP Cleaner : Error deleting expired OTP data".red);
+				}
+				else{
+					console.log("OTP Cleaner : Expired OTP data deleted".green)
 				}
 			}
 		});

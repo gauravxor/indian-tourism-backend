@@ -74,12 +74,14 @@ const sendQrCode = async (bookingId, userEmail, bookingData) => {
 		attachments: [{ filename: bookingId+'.png', path:'./public/qr/'+bookingId+'.png', cid: 'bandito@123' }]
 	};
 
-	console.log("sending the email".green)
+	console.log("Booking Helper : Sending booking confirmation email".yellow)
 	try{
 		await transporter.sendMail(mailData);
+		console.log("Booking Helper : Booking confirmation email sent".green)
 		return true;
 	}
 	catch(err) {
+		console.log("Booking Helper : Failed to send Booking confirmation email".green)
 		return false;
 	}
 };

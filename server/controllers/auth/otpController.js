@@ -18,9 +18,9 @@ const otpController = async (req, res) => {
 	else
 	{
 		const verifyOtpResult = await OTP.verifyOtp(requestEmail, requestOtp, requestOtpType);
-		console.log("The returned result is = "+ verifyOtpResult);
 
 		if(verifyOtpResult === "emailError"){
+			console.log("OTP CONTROLLER : User not found in DB".red);
 			return res.status(200).send({
 				status: "failure",
 				msg: "User not found or invalid email"
@@ -28,6 +28,7 @@ const otpController = async (req, res) => {
 		}
 		else
 		if(verifyOtpResult === "otpError"){
+			console.log("OTP CONTROLLER : OTP expired or invalid otp".yellow);
 			return res.status(200).send({
 					status: "failure",
 					msg: "OTP expired or invalid otp"
@@ -51,12 +52,13 @@ const otpController = async (req, res) => {
 			const searchCredentialsResult = await AUTH.searchCredentials(userId);
 			const updateLoginStatusResult = AUTH.updateLoginStatus(searchCredentialsResult._id, refreshToken);
 			if(updateLoginStatusResult === null){
-				console.log("OTP Controller: Error in updating login status".red);
+				console.log("OTP CONTROLLER: Error in updating login status".red);
 				return res.status(404).send({
 					status: "failure",
 					msg: "Error in updating login status"
 				});
 			}
+			console.log("OTP CONTROLLER: Login status updated".yellow);
 			return res
 			.cookie('accessToken', accessToken, { httpOnly: true, sameSite: "strict", secure: false})
 			.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: "strict", secure: false})

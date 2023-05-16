@@ -58,7 +58,7 @@ const addAdminController = async (req, res, next) => {
 	/** Generating the password hash */
 	const adminPassword = (req.body.password).toString();
 	const adminPasswordHash = await bcrypt.hash(adminPassword, 10);
-	console.log("generated the password".green);
+	console.log("ADD ADMIN CONTROLLER : Generated the password hash".yellow);
 
 	const adminDocumentId = saveAdminResult._id;
 	const adminEmail = saveAdminResult.contact.email;
@@ -66,7 +66,8 @@ const addAdminController = async (req, res, next) => {
 	/** Generating Tokens */
 	const accessToken = await TOKENIZER.generateAccessToken(adminDocumentId, adminEmail);
 	const refreshToken = await TOKENIZER.generateRefreshToken(adminDocumentId, adminEmail);
-	console.log("generated the token".green);
+	console.log("ADD ADMIN CONTROLLER : Generated the access tokens".yellow);
+
 
 	/** Creating the Credentials Document for the new admin */
 	const Credential = new CredentialModel({
@@ -74,8 +75,8 @@ const addAdminController = async (req, res, next) => {
 		password: adminPasswordHash,
 		refreshToken: refreshToken
 	});
-	const saveCredentialResult = await Credential.save();
-	console.log("saved the credentials".green);
+	await Credential.save();
+	console.log("ADD ADMIN CONTROLLER : Saved admin credentials".yellow);
 
 	await OTP.emailOtp(Admin.contact.email, Admin._id);
 

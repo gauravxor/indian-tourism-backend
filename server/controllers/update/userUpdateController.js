@@ -26,7 +26,7 @@ const userImageStorage = multer.diskStorage({
 		else
 			userSearchResult = await AdminModel.findById(req.userId);
 		const imageUrl = userSearchResult.userImageURL;
-		console.log("The old image url is : " + imageUrl);
+		console.log("User Update Controller : Old user image URL : ".yellow + `${imageUrl}`.cyan);
 
 		/** If user does not have the default image, then delete the old one */
 		if(imageUrl !== "/public/images/users/default.png")
@@ -35,8 +35,10 @@ const userImageStorage = multer.diskStorage({
 			try{
 				const filePath = path.join(__dirname, '..', '..', imageUrl);
 				fs.unlinkSync(filePath);
+				console.log("User Update Controller : Old user image deleted".green);
 			}
 			catch (err){
+				console.log("User Update Controller : Error deleting old user image".red);
 				console.error(err);
 			}
 		}
@@ -67,10 +69,11 @@ const userUpdateController = async (req, res, next) => {
 	**/
 	if(oldUserData.contact.email !== req.body.email)
 	{
-		console.log("Update Controller : Email changed generating new tokens...".yellow);
+		console.log("User Update Controller : Email changed generating new tokens...".yellow);
 		const accessToken = await TOKENIZER.generateAccessToken(userId, req.body.email);
 		const refreshToken = await TOKENIZER.generateRefreshToken(userId, req.body.email);
 		await AUTH.updateLoginStatusByUserId(userId, refreshToken);
+		console.log("User Update Controller : Generated tokens for updated emailID".green);
 		res.cookie('accessToken',	accessToken, { httpOnly: true, sameSite: "strict", secure: false});
 		res.cookie('refreshToken',	refreshToken,{ httpOnly: true, sameSite: "strict", secure: false});
 	}
@@ -121,12 +124,14 @@ const userUpdateController = async (req, res, next) => {
 
 	/** Sending the appropriate response */
 	if(saveUserResult === null){
+		console.log("User Update Controller : Faild to update user data".red);
 		res.status(200).send({
 			status: "failure",
 			msg: "Error updating user data",
 		});
 	}
 	else{
+		console.log("User Update Controller : User data updated".green);
 		res.status(200).send({
 			status: "success",
 			msg: "User data updated successfully",
