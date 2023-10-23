@@ -1,86 +1,84 @@
 .navbar {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 1rem;
-	background: rgb(51, 53, 69);
-	color: #fff;
-	border-radius: 0px 0px 10px 10px;
-
-	font-weight: 500;
-	height: 30px;
-	margin: -8px -8px 0px -8px;
-
-	font-family: 'Merriweather', serif;
-/* font-family: 'Roboto Slab', serif; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgb(51, 53, 69);
+    color: #fff;
+    border-radius: 0px 0px 10px 10px;
+    font-weight: 500;
+    height: 30px;
+    margin: -8px -8px 0px -8px;
+    font-family: "Merriweather", serif;
 }
 
 .navbar-logo {
-	font-size: 2rem;
-	font-weight: bold;
+    font-size: 2rem;
+    font-weight: bold;
 }
 
 .navbar-links {
-	display: flex;
-	gap: 1rem;
+    display: flex;
+    gap: 1rem;
 }
 
 .navbar-links a {
-	color: #fff;
-	text-decoration: none;
-	font-weight: bold;
-	transition: color 0.2s;
-	font-size: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+    font-size: 20px;
 }
 
 .navbar-links a:hover {
-	color: #f5f5f5;
-	font-size: 22px;
+    color: #f5f5f5;
+    font-size: 22px;
 }
 
 .navbar-search {
-	display: flex;
-	align-items: center;
-	border-radius: 0.5rem;
-	padding: 0.1rem;
-	background-color: #f5f5f5;
-	width: 265px;
+    display: flex;
+    align-items: center;
+    border-radius: 0.5rem;
+    padding: 0.1rem;
+    background-color: #f5f5f5;
+    width: 265px;
 }
 
 .navbar-search input[type="text"] {
-	flex-grow: 1;
-	border: none;
-	background-color: transparent;
-	font-size: 1rem;
-	color: #333;
+    flex-grow: 1;
+    background-color: transparent;
+    font-size: 1rem;
+    color: #333;
+    height: 50px;
+    border: none;
+    border-radius: 0px;
 }
 
 .navbar-search button {
-	padding: 0.5rem;
-	font-weight: bold;
-	cursor: pointer;
-
+    padding: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .navbar-buttons {
-	display: flex;
-	gap: 1rem;
-	align-items: center;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
 
 .navbar-buttons button {
-	padding: 0.5rem 1rem;
-	font-weight: bold;
-	cursor: pointer;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .site-logo img {
-	width: 50px;
-	height: 50px;
+    width: 50px;
+    height: 50px;
 }
 
-@media screen and (max-width:750px) {
-	.navbar-links {
-		display: none;
-	}
+@media screen and (max-width: 750px) {
+    .navbar-links {
+        display: none;
+    }
 }
