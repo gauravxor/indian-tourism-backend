@@ -1,37 +1,33 @@
-import profile1 from '../../UI/Images/gaurav1.jpg';
-import profile2 from '../../UI/Images/kaushal.jpg';
-import profile3 from '../../UI/Images/rohit.jpg';
-import profile4 from '../../UI/Images/sumit-1.jpg';
-import './About.css';
+import gaurav from "../../../assets/images/gaurav.jpg";
+import kaushal from "../../../assets/images/kaushal.jpg";
+import rohit from "../../../assets/images/rohit.jpg";
+import "./About.css";
 
-const About = ()=>{
-    return(
-        <div className="main-box">
-            <div className="profile">
-                <img className='g-img' src={profile1} alt="profile1" />
-                <div className="details">
-                  <h2>Gaurav Aggarwal</h2>
-                </div>
-            </div>
-            <div className="profile">
-                <img src={profile2} alt="profile2" />
-                <div className="details">
-                  <h2>Kaushal Pandit</h2>
-                </div>
-            </div>
-            <div className="profile">
-                <img src={profile3} alt="profile3" />
-                <div className="details">
-                  <h2>Rohit Kumar</h2>
-                </div>
-            </div>
-            <div className="profile">
-                <img src={profile4} alt="profile4" />
-                <div className="details">
-                  <h2>Sumit Kumar Shaw</h2>
-                </div>
+const profiles = [
+    { name: "Gaurav Aggarwal", src: gaurav },
+    { name: "Kaushal Pandit", src: kaushal },
+    { name: "Rohit Kumar", src: rohit },
+];
+
+const Profile = ({name, imageSrc}) => {
+    return (
+        <div className="profile">
+            <img src={imageSrc} alt={`${name}'s image`} />
+            <div className="details">
+                <h2>{name}</h2>
             </div>
         </div>
     );
 };
+
+const About = () => {
+    return (
+        <div className="main-box">
+            {profiles.map((profile) => {
+                return <Profile name={profile.name} imageSrc={profile.src} />;
+            })}
+        </div>
+    );
+};
+
 export default About;
