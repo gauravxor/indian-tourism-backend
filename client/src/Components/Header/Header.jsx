@@ -108,47 +108,46 @@ const Header = () => {
     return (
         <div className="navbar-container">
             <nav className="navbar">
-                {/* The site logo container */}
-                <div className="site-logo">
+                <div className="site-info">
                     <Link to="/">
-                        <img src={site_logo} href="/" alt="Site Logo" />
+                        <img
+                            className="site-logo"
+                            src={site_logo}
+                            href="/"
+                            alt="Site Logo"
+                        />
                     </Link>
-                </div>
-                <p>
-                    <strong> Indian Tourism </strong>
-                </p>
-                {/* The navbar links container */}
-                <div className="navbar-links">
-                    {isLoggedIn && !isUserAdmin && (
-                        <>
-                            <Link to="/">Home</Link>
-                            <Link to="/profile">Profile</Link>
-                            <Link to="/bookings">Bookings</Link>
-                            <Link to="/about">About</Link>
-                        </>
-                    )}
-
-                    {isLoggedIn && isUserAdmin && (
-                        <>
-                            <Link to="/">Home</Link>
-                            <Link to="/profile">Profile</Link>
-                            <Link to="/locations">Locations</Link>
-                            <Link to="/add-location">Add Location</Link>
-                            <Link to="/cancellations">Cancellations</Link>
-                            <Link to="/about">About</Link>
-                        </>
-                    )}
-
-                    {!isLoggedIn && (
-                        <>
-                            <Link to="/">Home</Link>
-                            <Link to="/locations">Locations</Link>
-                            <Link to="/about">About</Link>
-                        </>
-                    )}
+                    <div className="site-text">Indian Tourism</div>
                 </div>
 
-                {/* The search bar container */}
+                {isLoggedIn && !isUserAdmin && (
+                    <div className="navbar-links">
+                        <Link to="/">Home</Link>
+                        <Link to="/profile">Profile</Link>
+                        <Link to="/bookings">Bookings</Link>
+                        <Link to="/about">About</Link>
+                    </div>
+                )}
+
+                {isLoggedIn && isUserAdmin && (
+                    <div className="navbar-links">
+                        <Link to="/">Home</Link>
+                        <Link to="/profile">Profile</Link>
+                        <Link to="/locations">Locations</Link>
+                        <Link to="/add-location">Add Location</Link>
+                        <Link to="/cancellations">Cancellations</Link>
+                        <Link to="/about">About</Link>
+                    </div>
+                )}
+
+                {!isLoggedIn && (
+                    <div className="navbar-links">
+                        <Link to="/">Home</Link>
+                        <Link to="/locations">Locations</Link>
+                        <Link to="/about">About</Link>
+                    </div>
+                )}
+
                 <form className="navbar-search">
                     <input
                         type="text"
