@@ -17,3 +17,6 @@ previewConfig.json
 qr/
 location/
 !location/users/default.png
+location/
+users/
+!default.png
