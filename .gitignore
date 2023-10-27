@@ -15,7 +15,4 @@ yarn-error.log*
 # React Component Preview
 previewConfig.json
 qr/
-location/
-!location/users/default.png
-location/
 users/
