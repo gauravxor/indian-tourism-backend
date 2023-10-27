@@ -1,1 +1,0 @@
-1) Fix on reload, the user should not get logged out. Store the state vars in local storage.

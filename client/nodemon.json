@@ -1,8 +1,0 @@
-{
-	"watch": ["src"],
-	"ext": "js,jsx,json",
-	"ignore": ["src/**/*.test.js", "src/setupTests.js", "src/reportWebVitals.js"],
-	"execMap": {
-	  "js": "node --experimental-modules"
-	}
-  }
