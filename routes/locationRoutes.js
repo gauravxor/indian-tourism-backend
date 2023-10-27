@@ -8,7 +8,7 @@ const {
 	getLocationController,
 	getRandomLocationsController,
 	getLocationByQueryController
-} = require('../controllers/location/getLocationController');
+} = require('../controllers/location/getLocationController.js');
 
 
 const addLocationController = require('../controllers/location/addLocationController');

@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const color = require('colors');
 
 const AUTH		= require('../../helper/authHelper');

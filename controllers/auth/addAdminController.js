@@ -5,7 +5,7 @@
  */
 
 
-const bcrypt	= require('bcrypt');
+const bcrypt	= require('bcryptjs');
 const color 	= require('colors');
 const { v4: uuidv4 } = require('uuid');
 
