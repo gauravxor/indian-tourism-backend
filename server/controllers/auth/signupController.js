@@ -7,7 +7,7 @@ const OTP  		= require('../../helper/otpHelper');
 const UserModel 		= require('../../models/userModel');
 const CredentialModel	= require('../../models/credentialModel');
 
-import {defaultUserImage} from "../../fileUrls";
+const {defaultUserImage} = require ("../../fileUrls");
 
 const signUpController = async (req, res) => {
 	const requestEmail = req.body.contact.email;

@@ -8,7 +8,7 @@ const path = require('path');
 const color = require('colors');
 const multer = require('multer');
 
-import { defaultUserImage } from "../../fileUrls";
+const {defaultUserImage} = require ("../../fileUrls");
 
 /** Multer storage configuration */
 const userImageStorage = multer.diskStorage({

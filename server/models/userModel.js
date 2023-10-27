@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-import { defaultUserImage } from "../fileUrls"
+const {defaultUserImage} = require ("../fileUrls");
 
 
 const userSchema = new mongoose.Schema({

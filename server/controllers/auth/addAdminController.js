@@ -17,7 +17,7 @@ const AdminModel = require('../../models/adminModel');
 const CredentialModel	= require('../../models/credentialModel');
 const { UUID } = require('bson');
 
-import {defaultUserImage} from "../../fileUrls";
+const {defaultUserImage} = require ("../../fileUrls");
 
 const addAdminController = async (req, res, next) => {
 
