@@ -6,7 +6,7 @@ import Button from '../../../UI/Buttons/Button';
 import { AppContext } from '../../../../AppContext';
 
 const AddLocationContainer = () => {
-
+    // eslint-disable-next-line
 	const { context, setContext, resetContext } = useContext(AppContext);
 
 	/** React states to store location data */

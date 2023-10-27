@@ -1,0 +1,1 @@
+export const defaultUserImage = "https://i.imgur.com/IwJZwei.png";

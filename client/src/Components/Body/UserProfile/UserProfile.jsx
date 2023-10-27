@@ -34,7 +34,7 @@ const formatDate = (dateStr) => {
 const UserProfile = () => {
 
 	console.log("Component UserProfile rendered");
-
+    // eslint-disable-next-line
 	const { context, setContext, resetContext } = useContext(AppContext);
 
 	const [userDetails, setUserDetails] = useState({});

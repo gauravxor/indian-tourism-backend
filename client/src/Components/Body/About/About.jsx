@@ -1,18 +1,15 @@
-import gaurav from "../../../assets/images/gaurav.jpg";
-import kaushal from "../../../assets/images/kaushal.jpg";
-import rohit from "../../../assets/images/rohit.jpg";
 import "./About.css";
-
+import imageUrls from "../../../fileUrls";
 const profiles = [
-    { name: "Gaurav Aggarwal", src: gaurav },
-    { name: "Kaushal Pandit", src: kaushal },
-    { name: "Rohit Kumar", src: rohit },
+    { name: "Gaurav Aggarwal", src: imageUrls.gaurav },
+    { name: "Kaushal Pandit", src: imageUrls.kaushal },
+    { name: "Rohit Kumar", src: imageUrls.rohit },
 ];
 
-const Profile = ({name, imageSrc}) => {
+const Profile = ({ name, imageSrc }) => {
     return (
         <div className="profile">
-            <img src={imageSrc} alt={`${name}'s image`} />
+            <img src={imageSrc} alt={`${name}'s profile img`} />
             <div className="details">
                 <h2>{name}</h2>
             </div>

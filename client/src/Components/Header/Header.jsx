@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import ForgotPasswordModal from "../Modals/ForgotPasswordModal/ForgotPasswordModal";
 import LoginModal from "../Modals/LoginModal/LoginModal";
@@ -8,10 +9,8 @@ import OtpModal from "../Modals/OtpModal/OtpModal";
 import Button from "../UI/Buttons/Button";
 
 import { AppContext } from "../../AppContext.js";
-import site_logo from "../../assets/images/site-logo.png";
+import { siteLogo } from "../../fileUrls";
 import "./Header.css";
-
-import axios from "axios";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -112,7 +111,7 @@ const Header = () => {
                     <Link to="/">
                         <img
                             className="site-logo"
-                            src={site_logo}
+                            src={siteLogo}
                             href="/"
                             alt="Site Logo"
                         />

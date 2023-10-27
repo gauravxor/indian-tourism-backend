@@ -17,6 +17,7 @@ const AdminModel = require('../../models/adminModel');
 const CredentialModel	= require('../../models/credentialModel');
 const { UUID } = require('bson');
 
+import {defaultUserImage} from "../../fileUrls";
 
 const addAdminController = async (req, res, next) => {
 
@@ -30,7 +31,7 @@ const addAdminController = async (req, res, next) => {
 	}
 
 	const Admin = new AdminModel({
-		userImageURL: "/public/images/users/default.png",
+		userImageURL: defaultUserImage,
 		name: {
 			firstName: req.body.name.firstName,
 			middleName: req.body.name.middleName,

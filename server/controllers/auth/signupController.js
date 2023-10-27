@@ -7,6 +7,7 @@ const OTP  		= require('../../helper/otpHelper');
 const UserModel 		= require('../../models/userModel');
 const CredentialModel	= require('../../models/credentialModel');
 
+import {defaultUserImage} from "../../fileUrls";
 
 const signUpController = async (req, res) => {
 	const requestEmail = req.body.contact.email;
@@ -20,7 +21,7 @@ const signUpController = async (req, res) => {
 	}
 	else{
 		const User = new UserModel({
-			userImageURL: "/public/images/users/default.png",
+			userImageURL: defaultUserImage,
 			name: {
 				firstName: req.body.name.firstName,
 				middleName: req.body.name.middleName,

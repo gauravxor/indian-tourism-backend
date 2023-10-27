@@ -6,7 +6,7 @@ import CancellationCard	from '../CancellationCard/CancellationCard.jsx';
 import { AppContext }	from '../../../../AppContext.js';
 
 const CancellationContainer = () => {
-
+    // eslint-disable-next-line
 	const { context, setContext, resetContext } = useContext(AppContext);
 
 	/** React state to store the array of cancellation data objects */
