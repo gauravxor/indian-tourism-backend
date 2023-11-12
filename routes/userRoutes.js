@@ -1,15 +1,13 @@
-const express 		= require('express');
-const userRoutes 	= express.Router();
+const express = require('express');
 
-const verifyToken 	= require('../middlewares/verifyToken');
+const userRoutes = express.Router();
 
-const {getUserDataController} = require('../controllers/user/userDataController');
-const {getUserBookingsController} = require('../controllers/user/userDataController');
+const verifyToken = require('../middlewares/verifyToken');
 
-
+const { getUserDataController } = require('../controllers/user/userDataController');
+const { getUserBookingsController } = require('../controllers/user/userDataController');
 
 userRoutes.get('/details/:userId', verifyToken, getUserDataController);
 userRoutes.get('/bookings/:userId', verifyToken, getUserBookingsController);
-
 
 module.exports = userRoutes;

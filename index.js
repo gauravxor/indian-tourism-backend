@@ -1,20 +1,19 @@
-const express		= require('express');
-const bodyParser	= require('body-parser');
-const cookieParser 	= require('cookie-parser');
-const mongoose 		= require('mongoose');
-const dotenv 		= require('dotenv');
-const cors 			= require('cors');
-const colors 		= require('colors');
+const express = require('express');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors');
 
-const homeRoute		 = require('./routes/home');
-const authRoutes	 = require('./routes/authRoutes');
-const updateRoutes	 = require('./routes/updateRoutes');
+const homeRoute = require('./routes/home');
+const authRoutes = require('./routes/authRoutes');
+const updateRoutes = require('./routes/updateRoutes');
 const locationRoutes = require('./routes/locationRoutes');
-const bookingRoutes  =  require('./routes/bookingRoutes');
-const userRoutes 	 = require('./routes/userRoutes');
-const scannerRoutes  = require('./routes/scannerRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+const userRoutes = require('./routes/userRoutes');
+const scannerRoutes = require('./routes/scannerRoutes');
 
-const otpCleaner 	 = require('./services/otpCleaner');
+const otpCleaner = require('./services/otpCleaner');
 const lockCleaner = require('./services/bookingLockCleaner');
 
 dotenv.config();
@@ -22,26 +21,22 @@ dotenv.config();
 /* DATABASE CONNECTION */
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.DATABASE_URL, {
- 		useNewUrlParser: true,
-		useUnifiedTopology: true
-	},(err) => {
-		if(err)
-			console.log("SERVER : Error connecting to database".red);
-		else
-			console.log("SERVER : Connected to database".yellow);
-	}
-);
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}, (err) => {
+  if (err) console.log('SERVER : Error connecting to database');
+  else console.log('SERVER : Connected to database'.yellow);
+});
 
 const app = express();
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({
-    credentials: true,
-    allowedHeaders: ['content-type', 'Authorization', 'Content-Type'],
-    origin: ['http://localhost:3000', 'http://localhost:4000', "http://192.168.0.100:3000"]
+  credentials: true,
+  allowedHeaders: ['content-type', 'Authorization', 'Content-Type'],
+  origin: ['http://localhost:3000', 'http://localhost:4000', 'http://192.168.0.100:3000'],
 }));
-
 
 app.use('/', homeRoute);
 app.use('/public', express.static('public'));
@@ -53,9 +48,8 @@ app.use('/api/user/', userRoutes);
 app.use('/scanner', scannerRoutes);
 
 app.listen(process.env.PORT, () => {
-	console.log("SERVER : Service started on port ".yellow + `${process.env.PORT}.`.cyan);
+  console.log('SERVER : Service started on port '.yellow + `${process.env.PORT}.`.cyan);
 });
-
 
 /** Invoke bookingLockCleaner in every 5 seconds */
 setInterval(lockCleaner, 5 * 1000);

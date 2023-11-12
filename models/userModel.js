@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const {defaultUserImage} = require ("../fileUrls");
-
+const { defaultUserImage } = require('../fileUrls');
 
 const userSchema = new mongoose.Schema({
 
@@ -73,7 +72,6 @@ const userSchema = new mongoose.Schema({
         },
     },
 
-
     dob: {
         type: Date,
         required: true,
@@ -102,11 +100,9 @@ const userSchema = new mongoose.Schema({
                 required: true,
                 ref: 'bookings',
             },
-        }
-    ]
+        },
+    ],
 });
-
-
 
 const userModel = mongoose.model('users', userSchema);
 

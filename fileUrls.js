@@ -1,1 +1,1 @@
-module.exports.defaultUserImage = "https://i.imgur.com/IwJZwei.png";
+module.exports.defaultUserImage = 'https://i.imgur.com/IwJZwei.png';

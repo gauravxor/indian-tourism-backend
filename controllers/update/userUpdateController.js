@@ -1,14 +1,15 @@
+const fs = require('fs');
+const path = require('path');
+
+const multer = require('multer');
 const UserModel = require('../../models/userModel');
 const AdminModel = require('../../models/adminModel');
 const AUTH = require('../../helper/authHelper');
 const TOKENIZER = require('../../helper/jwtHelper');
-const fs = require('fs');
-const path = require('path');
 
 const color = require('colors');
-const multer = require('multer');
 
-const {defaultUserImage} = require ("../../fileUrls");
+const { defaultUserImage } = require('../../fileUrls');
 
 /** Multer storage configuration */
 const userImageStorage = multer.diskStorage({
@@ -22,28 +23,29 @@ const userImageStorage = multer.diskStorage({
     filename: async function (req, file, cb) {
         /** Getting the old user image file */
         let userSearchResult;
-        if (req.userType === "local")
+        if (req.userType === 'local') {
             userSearchResult = await UserModel.findById(req.userId);
-        else
+        } else {
             userSearchResult = await AdminModel.findById(req.userId);
+        }
         const imageUrl = userSearchResult.userImageURL;
-        console.log("User Update Controller : Old user image URL : ".yellow + `${imageUrl}`.cyan);
+        console.log('User Update Controller : Old user image URL : '.yellow + `${imageUrl}`.cyan);
 
         /** If user does not have the default image, then delete the old one */
         if (imageUrl !== defaultUserImage) {
-            console.log("User Update Controller : Deleting old user image...".yellow);
+            console.log('User Update Controller : Deleting old user image...'.yellow);
             try {
-                const filePath = path.join(__dirname, '..', '..', imageUrl);
+                const imagePath = imageUrl.substring(imageUrl.indexOf('public'));
+                const filePath = path.join(__dirname, '..', '..', imagePath);
                 fs.unlinkSync(filePath);
-                console.log("User Update Controller : Old user image deleted".green);
-            }
-            catch (err) {
-                console.log("User Update Controller : Error deleting old user image".red);
+                console.log('User Update Controller : Old user image deleted'.green);
+            } catch (err) {
+                console.log('User Update Controller : Error deleting old user image'.red);
                 console.error(err);
             }
         }
-        const newFileName = req.userId + '-' + file.originalname;
-        console.log("The new file name is : " + newFileName);
+        const newFileName = `${req.userId}-${file.originalname}`;
+        console.log(`The new file name is : ${newFileName}`);
         /** Saving the new file name in the request object */
         req.newFileName = newFileName;
         cb(null, newFileName);
@@ -53,40 +55,42 @@ const userImageStorage = multer.diskStorage({
 const userUpload = multer({ storage: userImageStorage });
 const userMulterConfig = userUpload.single('userImage');
 
-
-const userUpdateController = async (req, res, next) => {
-
+const userUpdateController = async (req, res) => {
     const userId = req.userId;
     let oldUserData;
 
-    if (req.userType === "local")
+    if (req.userType === 'local') {
         oldUserData = await AUTH.searchUserById(userId);
-    else
+    } else {
         oldUserData = await AUTH.searchAdminUserById(userId);
+    }
 
     /** If email is updated then we have to regenerate the acccess tokens
      * and update the refresh token in the database
-    **/
+     */
     if (oldUserData.contact.email !== req.body.email) {
-        console.log("User Update Controller : Email changed generating new tokens...".yellow);
+        console.log('User Update Controller : Email changed generating new tokens...'.yellow);
         const accessToken = await TOKENIZER.generateAccessToken(userId, req.body.email);
         const refreshToken = await TOKENIZER.generateRefreshToken(userId, req.body.email);
         await AUTH.updateLoginStatusByUserId(userId, refreshToken);
-        console.log("User Update Controller : Generated tokens for updated emailID".green);
-        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: "strict", secure: false });
-        res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: "strict", secure: false });
+        console.log('User Update Controller : Generated tokens for updated emailID'.green);
+        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'strict', secure: false });
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict', secure: false });
     }
+    let fileName = oldUserData.userImageURL;
+    /** If the user is uploading an image to update */
+    if (req.file !== undefined) {
+        /** If user image is not updated then we have to use the old image */
+        /** Root path to old image */
+        const domain = 'http://localhost:4000';
+        fileName = `${domain}/public/images/users/`;
+        /** Getting the exact file name from old image URL in DB */
+        let oldFileName = oldUserData.userImageURL;
+        console.log(`oldFileName : ${oldFileName}`);
+        oldFileName = oldFileName.substring(oldFileName.lastIndexOf('/') + 1);
 
-    /** If user image is not updated then we have to use the old image */
-    /** Root path to old image */
-    var fileName = "/public/images/users/";
-
-    /** Getting the exact file name from old image URL in DB */
-    var oldFileName = oldUserData.userImageURL;
-    oldFileName = oldFileName.substring(oldFileName.lastIndexOf('/') + 1);
-
-    fileName += (req.file === undefined) ? oldFileName : req.newFileName;
-
+        fileName += (req.file === undefined) ? oldFileName : req.newFileName;
+    }
     const updatedUserData = ({
 
         userImageURL: fileName,
@@ -115,30 +119,28 @@ const userUpdateController = async (req, res, next) => {
 
     /** Updating the user data */
     let saveUserResult;
-    if (req.userType === "local")
+    if (req.userType === 'local') {
         saveUserResult = await UserModel.findByIdAndUpdate(userId, updatedUserData, { new: true });
-    else
-        if (req.userType === "admin")
-            saveUserResult = await AdminModel.findByIdAndUpdate(userId, updatedUserData, { new: true });
+    } else if (req.userType === 'admin') {
+        saveUserResult = await AdminModel.findByIdAndUpdate(userId, updatedUserData, { new: true });
+    }
 
     /** Sending the appropriate response */
     if (saveUserResult === null) {
-        console.log("User Update Controller : Faild to update user data".red);
-        res.status(200).send({
-            status: "failure",
-            msg: "Error updating user data",
+        console.log('User Update Controller : Faild to update user data'.red);
+        return res.status(200).send({
+            status: 'failure',
+            msg: 'Error updating user data',
         });
     }
-    else {
-        console.log("User Update Controller : User data updated".green);
-        res.status(200).send({
-            status: "success",
-            msg: "User data updated successfully",
-        });
-    }
-}
+    console.log('User Update Controller : User data updated'.green);
+    return res.status(200).send({
+        status: 'success',
+        msg: 'User data updated successfully',
+    });
+};
 
 module.exports = {
     userUpdateController,
     userMulterConfig,
-}
+};
