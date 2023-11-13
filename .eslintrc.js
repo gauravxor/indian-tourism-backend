@@ -25,5 +25,8 @@ module.exports = {
         'no-console': 'off',
         'object-shorthand': 'off',
         indent: 'off',
+        'consistent-return': 'off',
+        'no-underscore-dangle': 'off',
+        'max-len': 'off',
     },
 };

@@ -7,7 +7,7 @@ const verifyToken = require('../middlewares/verifyToken');
 const { getUserDataController } = require('../controllers/user/userDataController');
 const { getUserBookingsController } = require('../controllers/user/userDataController');
 
-userRoutes.get('/details/:userId', verifyToken, getUserDataController);
-userRoutes.get('/bookings/:userId', verifyToken, getUserBookingsController);
+userRoutes.get('/details/:userId', verifyToken.verifyAccessToken, getUserDataController);
+userRoutes.get('/bookings/:userId', verifyToken.verifyAccessToken, getUserBookingsController);
 
 module.exports = userRoutes;

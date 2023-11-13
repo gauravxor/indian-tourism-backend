@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
  *  The Access and Refresh Tokens have the following payloads
  *  1. User's Document ID
  *  2. User's Email ID
- *  3. Expiry Time
+ *  3. User's Type (Local/Admin)
+ *  4. Expiry Time
  */
 
 /* Function to generate User Access Token */

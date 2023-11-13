@@ -36,10 +36,10 @@ const multerConfig = {
     },
 };
 const upload = multer(multerConfig);
-locationRoutes.post('/add-location', upload.any(), verifyToken, addLocationController);
+locationRoutes.post('/add-location', upload.any(), verifyToken.verifyAccessToken, addLocationController);
 
 /** Route to update location data */
-locationRoutes.post('/update-location/:locationId', upload.any(), verifyToken, updateLocationController);
+locationRoutes.post('/update-location/:locationId', upload.any(), verifyToken.verifyAccessToken, updateLocationController);
 
 /** Route to get availability data of a location */
 locationRoutes.get('/get-availability/:locationId', getAvailabilityController);

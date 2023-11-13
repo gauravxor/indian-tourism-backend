@@ -15,10 +15,6 @@ const credentialsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    refreshToken: {
-        type: String,
-        default: null,
-    },
 });
 
 const credentialsModel = mongoose.model('credentials', credentialsSchema);

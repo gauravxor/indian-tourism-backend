@@ -6,16 +6,17 @@ const CredentialModel = require('../../models/credentialModel');
 const { defaultUserImage } = require('../../fileUrls');
 
 const signUpController = async (req, res) => {
-    const requestEmail = req.body.contact.email;
+    const userEmail = req.body.contact.email;
 
-    const searchUserResult = await AUTH.searchUser(requestEmail);
+    const searchUserResult = await AUTH.searchUser(userEmail);
     if (searchUserResult != null) {
-        return res.status(409).send({
+        return res.status(409).json({
             status: 'failure',
             msg: 'User already exists',
         });
     }
 
+    /** If we have a new user */
     const User = new UserModel({
         userImageURL: defaultUserImage,
         name: {
@@ -40,9 +41,9 @@ const signUpController = async (req, res) => {
         updatedAt: req.body.updatedAt,
     });
     const saveUserResult = await User.save();
-    if (saveUserResult === null) {
+    if (!saveUserResult) {
         console.log('SignUp Controller : Error saving the user data in DB'.red);
-        return res.status(500).send({
+        return res.status(500).json({
             status: 'failure',
             msg: 'Something went wrong, user not created',
         });
@@ -79,12 +80,11 @@ const signUpController = async (req, res) => {
         });
     }
     console.log('SignUp Controller : Email verification OTP sent'.green);
-    return res.status(200)
-        .json({
-            status: 'success',
-            msg: 'User Created',
-            userId: User._id,
-        });
+    return res.status(200).json({
+        status: 'success',
+        msg: 'User Created',
+        userId: User._id,
+    });
 };
 
 module.exports = signUpController;

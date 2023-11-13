@@ -1,6 +1,3 @@
-const color = require('colors');
-const _ = require('lodash');
-
 const UserModel = require('../../models/userModel');
 const AdminModel = require('../../models/adminModel');
 const BookingsModel = require('../../models/bookingsModel');

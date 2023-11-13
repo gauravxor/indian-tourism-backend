@@ -178,27 +178,24 @@ async function resendOtp(req, res) {
     let otp = 0;
     if (requestOtpType === 'emailVerification') {
         otp = await emailOtp(requestEmail, userId);
-        return res.status(200)
-            .json({
-                status: 'success',
-                msg: 'Otp for sent for email verification',
-                otp: otp,
-            });
+        return res.status(200).json({
+            status: 'success',
+            msg: 'Otp for sent for email verification',
+            otp: otp,
+        });
     }
     if (requestOtpType === 'passwordReset') {
         otp = await sendPasswordResetEmail(requestEmail, userId);
-        return res.status(200)
-            .json({
-                status: 'success',
-                msg: 'Otp for sent for password reset',
-                otp: otp,
-            });
-    }
-    return res.stauts(400)
-        .json({
-            status: 'failure',
-            msg: 'Invalid request',
+        return res.status(200).json({
+            status: 'success',
+            msg: 'Otp for sent for password reset',
+            otp: otp,
         });
+    }
+    return res.stauts(400).json({
+        status: 'failure',
+        msg: 'Invalid request',
+    });
 }
 
 module.exports = {

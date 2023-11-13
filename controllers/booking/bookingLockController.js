@@ -32,46 +32,40 @@ const bookingLockController = async (req, res) => {
     const userId = req.userId;
     const noOfTickets = req.body.noOfTickets;
 
-    console.log('Booking Lock Controller : User ID '.yellow + ` ${userId}.cyan`);
+    console.log(`${'Booking Lock Controller : User ID '.yellow} ${userId}.cyan`);
     if (locationId === undefined || userId === undefined || noOfTickets === undefined) {
         console.log('Booking Lock Controller : Invalid request'.red);
-        return res.status(400)
-            .json({
-                status: 'failure',
-                message: 'Invalid request',
-            });
+        return res.status(400).json({
+            status: 'failure',
+            message: 'Invalid request',
+        });
     }
 
     if (parseInt(noOfTickets, 10) < 0) {
         console.log('Booking Lock Controller : Invalid number of tickets'.red);
-        return res
-            .status(400)
-            .json({
-                status: 'failure',
-                message: 'Invalid number of tickets',
-            });
+        return res.status(400).json({
+            status: 'failure',
+            message: 'Invalid number of tickets',
+        });
     }
 
     const bookingDate = convertToISODate(req.body.bookingDate);
     if (bookingDate === null) {
         console.log('Booking Lock Controller : Invalid booking date'.red);
-        return res
-            .status(400)
-            .json({
-                status: 'failure',
-                message: 'Invalid date',
-            });
+        return res.status(400).json({
+            status: 'failure',
+            message: 'Invalid date',
+        });
     }
 
     const userData = await UserModel.findOne({ _id: userId });
     const locationData = await LocationModel.findOne({ _id: locationId });
     if (locationData === null || userData === null) {
         console.log('Booking Lock Controller : Location/user data not found'.red);
-        return res.status(400)
-            .json({
-                status: 'failure',
-                message: 'Location/ user not found',
-            });
+        return res.status(400).json({
+            status: 'failure',
+            message: 'Location/ user not found',
+        });
     }
 
     const locationAvailabilityData = await AvailabilityModel.findOne({ locationId: locationId });

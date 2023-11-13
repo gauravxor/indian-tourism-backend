@@ -40,26 +40,6 @@ async function searchCredentials(userId) {
     return searchResult;
 }
 
-/** Function to update User's refresh Token in CREDENTIALS collection
- * using it's Document Id
- */
-async function updateLoginStatus(documentId, refreshToken) {
-    const updateResult = await CredentialModel.findByIdAndUpdate(documentId, {
-        refreshToken: refreshToken,
-    });
-    return updateResult;
-}
-
-/** Function to update User's refresh Token in CREDENTIALS collection using USER's document ID */
-async function updateLoginStatusByUserId(userId, refreshToken) {
-    const updateResult = await CredentialModel.findOneAndUpdate({
-        userId: userId,
-    }, {
-        refreshToken: refreshToken,
-    });
-    return updateResult;
-}
-
 /** Function to validate user password */
 async function validatePass(plaintextPassword, hash) {
     const hashCheckResult = await bcrypt.compare(plaintextPassword, hash);
@@ -79,8 +59,6 @@ module.exports = {
     searchUser,
     searchAdmin,
     validatePass,
-    updateLoginStatus,
-    updateLoginStatusByUserId,
     updatePassword,
     searchUserById,
     searchAdminUserById,

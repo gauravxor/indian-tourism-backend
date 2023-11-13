@@ -9,7 +9,7 @@ const { userUpdateController, userMulterConfig } = require('../controllers/updat
 // const locationUpdateController = require('../controllers/update/locationUpdateController');
 
 /** Token Verification -> Save the image -> Make changes in database */
-updateRoutes.post('/user', verifyToken, userMulterConfig, userUpdateController);
+updateRoutes.post('/user', verifyToken.verifyAccessToken, userMulterConfig, userUpdateController);
 
 // updateRoutes.post('/location', locationUpdateController);
 

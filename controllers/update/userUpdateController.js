@@ -65,18 +65,11 @@ const userUpdateController = async (req, res) => {
         oldUserData = await AUTH.searchAdminUserById(userId);
     }
 
-    /** If email is updated then we have to regenerate the acccess tokens
-     * and update the refresh token in the database
-     */
-    if (oldUserData.contact.email !== req.body.email) {
-        console.log('User Update Controller : Email changed generating new tokens...'.yellow);
-        const accessToken = await TOKENIZER.generateAccessToken(userId, req.body.email);
-        const refreshToken = await TOKENIZER.generateRefreshToken(userId, req.body.email);
-        await AUTH.updateLoginStatusByUserId(userId, refreshToken);
-        console.log('User Update Controller : Generated tokens for updated emailID'.green);
-        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'strict', secure: false });
-        res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict', secure: false });
-    }
+    /** If email is updated, rotate the tokens with new email */
+    const isEmailUpdated = (oldUserData.contact.email !== req.body.email);
+    const accessToken = (isEmailUpdated) ? TOKENIZER.generateAccessToken(userId, req.body.email) : null;
+    const refreshToken = (isEmailUpdated) ? TOKENIZER.generateRefreshToken(userId, req.body.email) : null;
+
     let fileName = oldUserData.userImageURL;
     /** If the user is uploading an image to update */
     if (req.file !== undefined) {
@@ -128,15 +121,17 @@ const userUpdateController = async (req, res) => {
     /** Sending the appropriate response */
     if (saveUserResult === null) {
         console.log('User Update Controller : Faild to update user data'.red);
-        return res.status(200).send({
+        return res.status(200).json({
             status: 'failure',
             msg: 'Error updating user data',
         });
     }
     console.log('User Update Controller : User data updated'.green);
-    return res.status(200).send({
+    return res.status(200).json({
         status: 'success',
         msg: 'User data updated successfully',
+        accessToken,
+        refreshToken,
     });
 };
 
