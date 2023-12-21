@@ -27,21 +27,19 @@ const addLocationController = async (req, res) => {
     if (req.userType !== 'admin') {
         return res.status(401).json({
             status: 'failure',
-            msg: 'You are not authorized to perform this action',
+            code: 401,
+            error: {
+                message: 'unauthorized access',
+                details: 'only admins can add locations',
+            },
         });
     }
 
-    const { name, description, address, city, state, country, pincode, capacity, ticketPrice } = req.body;
+    const {
+        name, description, address, city, state, country, pincode, capacity, ticketPrice,
+    } = req.body;
     const newLocation = await LocationModel.create({
-        name,
-        description,
-        address,
-        city,
-        state,
-        country,
-        pincode,
-        capacity,
-        ticketPrice,
+        name, description, address, city, state, country, pincode, capacity, ticketPrice,
     });
 
     const locationId = newLocation._id.toString();
@@ -96,24 +94,40 @@ const addLocationController = async (req, res) => {
             if (adminAddResult === null) {
                 return res.status(500).json({
                     status: 'failure',
-                    message: 'Error saving location in admin location model',
+                    code: 500,
+                    error: {
+                        message: 'failed to save location data',
+                        details: 'could not save location data in the database',
+                    },
                 });
             }
             return res.status(200).json({
                 status: 'success',
-                message: 'Location added successfully',
-                locationId: locationId,
+                code: 200,
+                data: {
+                    message: 'location added successfully',
+                    details: 'location data saved in the database',
+                    locationId,
+                },
             });
         }
         /** If image was not added */
         return res.status(500).json({
             status: 'failure',
-            message: 'Error saving location',
+            code: 500,
+            error: {
+                message: 'failed to save location data',
+                details: 'could not save location data in the database',
+            },
         });
     }
     return res.status(500).json({
         status: 'failure',
-        message: 'Error saving location',
+        code: 500,
+        error: {
+            message: 'failed to save location data',
+            details: 'could not save location data in the database',
+        },
     });
 };
 

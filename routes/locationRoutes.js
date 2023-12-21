@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 const locationRoutes = express.Router();
 const multer = require('multer');
 
-const verifyToken = require('../middlewares/verifyToken');
+const verifyToken = require('../middlewares/tokenware');
 
 const {
     getLocationController,

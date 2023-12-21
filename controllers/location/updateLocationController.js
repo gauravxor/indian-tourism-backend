@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const util = require('util');
 const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
 
@@ -12,7 +11,11 @@ const updateLocationController = async (req, res) => {
     if (req.userType !== 'admin') {
         return res.status(401).json({
             status: 'failure',
-            msg: 'You are not authorized to perform this action',
+            code: 401,
+            error: {
+                message: 'unauthorized access',
+                debugger: 'user is not an administrator',
+            },
         });
     }
 
@@ -23,14 +26,18 @@ const updateLocationController = async (req, res) => {
     /** Searching if locationId is there in current user i.e. admin's model */
     const adminSearchResult = await AdminModel.findOne({
         _id: adminId,
-        'locations.locationId': locationId
+        'locations.locationId': locationId,
     });
 
     /** If search fails, then current user is not the creator of the location */
     if (adminSearchResult === null) {
         return res.status(401).json({
             status: 'failure',
-            msg: 'You are not the admin of this location',
+            code: 401,
+            error: {
+                msg: 'unauthorized access',
+                details: 'user is not the administrator of the location',
+            },
         });
     }
 
@@ -40,11 +47,17 @@ const updateLocationController = async (req, res) => {
         if (!locationData) {
             return res.status(404).json({
                 status: 'failure',
-                message: 'Location not found',
+                code: 404,
+                error: {
+                    message: 'location not found',
+                    details: 'no location data found for the given location id',
+                },
             });
         }
 
-        const { name, description, address, city, state, country, pincode, capacity, ticketPrice } = req.body;
+        const {
+            name, description, address, city, state, country, pincode, capacity, ticketPrice,
+        } = req.body;
 
         const updatedLocation = {
             name: name || locationData.name,
@@ -55,7 +68,7 @@ const updateLocationController = async (req, res) => {
             country: country || locationData.country,
             pincode: pincode || locationData.pincode,
             capacity: capacity || locationData.capacity,
-            ticketPrice: ticketPrice || locationData.ticketPrice
+            ticketPrice: ticketPrice || locationData.ticketPrice,
         };
 
         const locationFolderPath = path.join(__dirname, `../../public/images/location/${locationId}`);
@@ -112,19 +125,30 @@ const updateLocationController = async (req, res) => {
         if (locationUpdateResult === null) {
             return res.status(500).json({
                 status: 'failure',
-                message: 'Error updating location',
+                code: 500,
+                error: {
+                    message: 'failed to update location',
+                    code: 'could not save updated location data in database',
+                },
             });
         }
 
         return res.status(200).json({
             status: 'success',
-            message: 'Location updated successfully',
+            code: 200,
+            data: {
+                message: 'location updated',
+                details: 'updated location data saved in database',
+            },
         });
     } catch (err) {
-        console.log(err);
-        res.status(500).json({
+        return res.status(500).json({
             status: 'failure',
-            message: 'Error updating location',
+            code: 500,
+            error: {
+                message: 'failed to update location',
+                code: 'could not save updated location data in database',
+            },
         });
     }
 };

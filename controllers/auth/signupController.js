@@ -12,7 +12,11 @@ const signUpController = async (req, res) => {
     if (searchUserResult != null) {
         return res.status(409).json({
             status: 'failure',
-            msg: 'User already exists',
+            code: 409,
+            error: {
+                message: 'duplicate email',
+                details: 'email id already registered',
+            },
         });
     }
 
@@ -21,31 +25,29 @@ const signUpController = async (req, res) => {
         userImageURL: defaultUserImage,
         name: {
             firstName: req.body.name.firstName,
-            middleName: req.body.name.middleName,
             lastName: req.body.name.lastName,
         },
         contact: {
-            phone: req.body.contact.phone,
             email: req.body.contact.email,
         },
         address: {
-            addressMain: req.body.address.addressMain,
             country: req.body.address.country,
-            state: req.body.address.state,
-            city: req.body.address.city,
-            pincode: req.body.address.pincode,
         },
-        dob: req.body.dob,
-        gender: req.body.gender,
+        ...(req.body.dob && { dob: req.body.dob }),
         createdAt: req.body.createdAt,
         updatedAt: req.body.updatedAt,
     });
+
     const saveUserResult = await User.save();
     if (!saveUserResult) {
         console.log('SignUp Controller : Error saving the user data in DB'.red);
         return res.status(500).json({
             status: 'failure',
-            msg: 'Something went wrong, user not created',
+            code: 500,
+            error: {
+                message: 'database failure',
+                details: 'error occured while saving the user data in the database',
+            },
         });
     }
     console.log('SignUp Controller : User Saved in DB'.green);
@@ -59,13 +61,16 @@ const signUpController = async (req, res) => {
     const Credentials = new CredentialModel({
         userId: User._id,
         password: userPasswordHash,
-        refreshToken: '',
     });
     const credentialsSaveResult = await Credentials.save();
     if (credentialsSaveResult === null) {
         return res.status(500).json({
             status: 'failure',
-            msg: 'Something went wrong, user credentials not created',
+            code: 500,
+            error: {
+                message: 'database failure',
+                details: 'error occured while saving the user credentails in the database',
+            },
         });
     }
     console.log('SignUp Controller : Credentials Saved in DB'.green);
@@ -76,14 +81,22 @@ const signUpController = async (req, res) => {
         console.log('SignUp Controller : Email verificatino OTP not sent'.red);
         return res.status(500).json({
             status: 'failure',
-            msg: 'Something went wrong, OTP not sent',
+            code: 500,
+            error: {
+                message: 'otp failure',
+                details: 'error sending the verification OTP to the user email id',
+            },
         });
     }
+
     console.log('SignUp Controller : Email verification OTP sent'.green);
-    return res.status(200).json({
+    return res.status(201).json({
         status: 'success',
-        msg: 'User Created',
-        userId: User._id,
+        code: 201,
+        data: {
+            message: 'user created',
+            userId: User._id,
+        },
     });
 };
 

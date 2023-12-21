@@ -19,7 +19,11 @@ const bookingCancellationController = async (req, res) => {
     if (cancellationData === null) {
         return res.status(400).json({
             status: 'failure',
-            message: 'No cancellations found with the provided ID',
+            code: 400,
+            error: {
+                message: 'no cancellations found with the provided ID',
+                details: 'either the ticket was never cancelled or the cancellation is already approved',
+            },
         });
     }
     /** If we get a cencellation data */
@@ -35,7 +39,12 @@ const bookingCancellationController = async (req, res) => {
     if (bookingUpdateResult === null) {
         return res.statsus(400).json({
             status: 'failure',
-            message: 'Cannot update the booking model, something went wrong',
+            code: 400,
+            error: {
+                message: 'failed to update the booking data',
+                details: 'failed to update cancellation status in booking data',
+            },
+            message: 'cannot update the booking model, something went wrong',
         });
     }
 
@@ -52,7 +61,11 @@ const bookingCancellationController = async (req, res) => {
     if (userWalletUpdateResult === null) {
         return res.status(400).json({
             status: 'failure',
-            message: 'Cannot update the user wallet balance',
+            code: 400,
+            error: {
+                message: 'failed to update user wallet',
+                details: 'failed to make refund the ticket amount in user wallet',
+            },
         });
     }
     console.log('Cancellation Controller : Wallet Balance Updated'.green);
@@ -63,7 +76,11 @@ const bookingCancellationController = async (req, res) => {
         console.log('Cannot delete the cancellation entry from the cancellation model');
         return res.status(400).json({
             status: 'failure',
-            message: 'Cannot delete the cancellation entry from the cancellation model',
+            code: 400,
+            error: {
+                message: 'failed to delete cancellation entry',
+                details: 'failed to delete cancellation entry from cancellation model',
+            },
         });
     }
 
@@ -73,7 +90,11 @@ const bookingCancellationController = async (req, res) => {
         console.log('Lock Controller : Location availability data does not exist'.red);
         return res.status(400).json({
             status: 'failure',
-            message: 'Location was found but no availability data was found',
+            code: 400,
+            error: {
+                message: 'location availability data not found',
+                details: 'locationId is invalid',
+            },
         });
     }
 
@@ -106,7 +127,11 @@ const bookingCancellationController = async (req, res) => {
     if (isDateFound === true) {
         return res.status(200).json({
             status: 'success',
-            message: 'Successfully cancelled the booking',
+            code: 200,
+            data: {
+                message: 'ticket cancelled successfully',
+                details: 'ticket booking was cancelled successfully',
+            },
         });
     }
 };

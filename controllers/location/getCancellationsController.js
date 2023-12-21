@@ -8,15 +8,23 @@ const getCancellationsController = async (req, res) => {
     });
     if (cancellationData === null) {
         return res.status(400).json({
-            status: 'sucess',
-            message: 'No cancellations found',
+            status: 'failure',
+            code: 400,
+            data: {
+                message: 'no cancellations found',
+                details: 'no cancellations found for the given admin id',
+            },
         });
     }
 
     return res.status(200).json({
         status: 'success',
-        message: 'Cancellations found',
-        data: cancellationData,
+        code: 200,
+        data: {
+            message: 'cancellations found',
+            details: 'cancellations found for the given admin id',
+            cancellationData,
+        },
     });
 };
 

@@ -28,5 +28,6 @@ module.exports = {
         'consistent-return': 'off',
         'no-underscore-dangle': 'off',
         'max-len': 'off',
+        'prefer-destructuring': 'off',
     },
 };

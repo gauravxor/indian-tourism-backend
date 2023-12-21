@@ -2,7 +2,7 @@ const express = require('express');
 
 const updateRoutes = express.Router();
 
-const verifyToken = require('../middlewares/verifyToken');
+const verifyToken = require('../middlewares/tokenware');
 
 const { userUpdateController, userMulterConfig } = require('../controllers/update/userUpdateController');
 

@@ -10,7 +10,11 @@ const getUserDataController = async (req, res) => {
         console.log('User data controller : User Id not provided'.red);
         return res.status(400).json({
             status: 'failure',
-            message: 'User Id is required',
+            code: 400,
+            error: {
+                message: 'missing user id',
+                details: 'user id required to get user details',
+            },
         });
     }
 
@@ -25,18 +29,25 @@ const getUserDataController = async (req, res) => {
         console.log('User data controller : User data not found in DB'.red);
         return res.status(400).json({
             status: 'failure',
-            message: 'User not found',
+            code: 400,
+            error: {
+                message: 'user not found',
+                details: 'no user exists with requested user id',
+            },
         });
     }
     console.log('User data controller : User data found in DB'.green);
     return res.status(200).json({
         status: 'success',
-        message: 'User data fetched successfully',
-        userData,
+        code: 200,
+        data: {
+            message: 'user data fetched successfully',
+            userData,
+        },
     });
 };
 
-/** GET USER BOOKINGS CONRTROLLER CODE */
+/** Function to get user's bookings */
 async function getIndividualBookingData(bookingId) {
     console.log('User Data Controller : Received booking id -> '.yellow + `${bookingId}`.cyan);
     const bookingData = await BookingsModel.findOne({ bookingId: bookingId });
@@ -51,19 +62,28 @@ async function getIndividualBookingData(bookingId) {
 const getUserBookingsController = async (req, res) => {
     const userId = (req.params.userId).toString();
     console.log('User data controller : User Id -> '.yellow + `${userId}`.cyan);
+
     if (userId === undefined || userId === null || userId === '') {
         return res.status(400).json({
             status: 'failure',
-            message: 'User Id is required',
+            code: 400,
+            error: {
+                message: 'user id not provided',
+                details: 'user id is required to get user bookings',
+            },
         });
     }
 
     const userData = await UserModel.findOne({ _id: userId });
     if (userData === null) {
         console.log('User data controller : User data not found in DB'.red);
-        return res.status(400).json({
+        return res.status(404).json({
             status: 'failure',
-            message: 'User not found',
+            code: 404,
+            error: {
+                message: 'user not found',
+                details: 'user data not found for the given user id',
+            },
         });
     }
 
@@ -80,8 +100,12 @@ const getUserBookingsController = async (req, res) => {
 
     return res.status(200).json({
         status: 'success',
-        message: 'User bookings fetched successfully',
-        userBookings,
+        code: 200,
+        data: {
+            message: 'fetched user bookings',
+            details: 'user bookings books fetched from the database',
+            userBookings,
+        },
     });
 };
 

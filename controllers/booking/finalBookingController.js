@@ -22,7 +22,11 @@ const finalBookingController = async (req, res) => {
     if (bookingData === null) {
         res.status(400).json({
             status: 'failure',
-            message: 'Invalid booking id',
+            code: 400,
+            error: {
+                message: 'invalid booking id',
+                details: 'no temporary booking details found for the given id',
+            },
         });
     } else {
         const bookingId = uuidv4();
@@ -48,7 +52,11 @@ const finalBookingController = async (req, res) => {
             console.log('Booking Controller : Error saving booking data'.red);
             res.status(400).json({
                 status: 'failure',
-                message: 'Error, saving booking data',
+                code: 400,
+                error: {
+                    message: 'error saving booking data',
+                    details: 'failed to save booking data in database',
+                },
             });
         } else {
             console.log('Booking Controller : Booking data saved in DB'.green);
@@ -61,13 +69,20 @@ const finalBookingController = async (req, res) => {
                 console.log('Booking Controller : Failed to add bookingId in User document'.red);
                 return res.status(400).json({
                     status: 'failure',
-                    message: 'Error saving booking data in user model',
+                    code: 400,
+                    error: {
+                        message: 'error saving booking data in user model',
+                        details: 'failed to save booking data in user model',
+                    },
                 });
             }
             res.status(200).json({
                 status: 'success',
-                message: 'Booking successful',
-                bookingId: bookingId,
+                code: 200,
+                data: {
+                    message: 'booking successful',
+                    bookingId: bookingId,
+                },
             });
 
             /** Delete the lock booking data */
@@ -85,7 +100,7 @@ const finalBookingController = async (req, res) => {
             }
 
             /** Generate the qr for the booking id and send that qr to user email id */
-            const qrFile = `./public/qr/'${bookingId}.png`;
+            const qrFile = `./public/qr/${bookingId}.png`;
             const qrResult = await qrcode.toFile(qrFile, bookingId, {
                 version: 5,
                 errorCorrectionLevel: 'H',
@@ -102,6 +117,7 @@ const finalBookingController = async (req, res) => {
                 let sendEmailResult;
                 do {
                     sendEmailResult = await sendQrCode(bookingId, req.userEmail, bookingDataSaveResult);
+                    console.log(sendEmailResult);
                     if (sendEmailResult === true) {
                         console.log('Booking Controller : QR code emailed'.green);
                     } else {

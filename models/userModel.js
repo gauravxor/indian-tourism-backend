@@ -5,38 +5,30 @@ const userSchema = new mongoose.Schema({
 
     userImageURL: {
         type: String,
-        required: true,
         default: defaultUserImage,
     },
 
     name: {
         firstName: {
             type: String,
-            required: true,
-        },
-        middleName: {
-            type: String,
-            required: false,
         },
         lastName: {
             type: String,
-            required: true,
         },
     },
 
     contact: {
         phone: {
             type: Number,
-            required: true,
+            required: false,
         },
         email: {
             type: String,
-            required: true,
         },
     },
     gender: {
         type: String,
-        required: true,
+        required: false,
     },
 
     isEmailVerified: {
@@ -52,29 +44,28 @@ const userSchema = new mongoose.Schema({
     address: {
         addressMain: {
             type: String,
-            required: true,
+            required: false,
         },
         country: {
             type: String,
-            required: true,
         },
         state: {
             type: String,
-            required: true,
+            required: false,
         },
         city: {
             type: String,
-            required: true,
+            required: false,
         },
         pincode: {
             type: Number,
-            required: true,
+            required: false,
         },
     },
 
     dob: {
         type: Date,
-        required: true,
+        required: false,
     },
 
     createdAt: {
@@ -97,7 +88,6 @@ const userSchema = new mongoose.Schema({
             bookingId: {
                 _id: false,
                 type: String,
-                required: true,
                 ref: 'bookings',
             },
         },

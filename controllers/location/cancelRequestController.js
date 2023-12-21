@@ -11,7 +11,11 @@ const cancelRequestController = async (req, res) => {
     if (bookingData === null) {
         return res.status(400).json({
             status: 'failure',
-            message: 'No bookings found with the provided ID',
+            code: 400,
+            error: {
+                message: 'no booking data found',
+                details: 'no booking data found with the given booking id',
+            },
         });
     }
 
@@ -29,7 +33,11 @@ const cancelRequestController = async (req, res) => {
     if (dateDifference < 259200) {
         return res.status(400).json({
             status: 'failure',
-            message: 'Tickets cannot be cancelled',
+            code: 400,
+            error: {
+                message: 'tickets cannot be cancelled',
+                details: 'tickets cannot be cancelled 3 days before the date of visit',
+            },
         });
     }
     /** If we have a valid date difference */
@@ -42,7 +50,11 @@ const cancelRequestController = async (req, res) => {
     if (adminData === null) {
         return res.status(400).json({
             status: 'failure',
-            message: 'Something terrible happened in the backend',
+            code: 400,
+            error: {
+                message: 'no admin data found',
+                details: 'no admin data found for the given location id',
+            },
         });
     }
 
@@ -64,7 +76,11 @@ const cancelRequestController = async (req, res) => {
     if (cancellationDataSaveResult === null) {
         return res.status(400).json({
             status: 'failure',
-            message: "Can't save the cancellation data",
+            code: 400,
+            error: {
+                message: 'error saving cancellation data',
+                details: 'failed to save cancellation data in database',
+            },
         });
     }
     /** If cancellation data is saved successfully, then update the booking model
@@ -76,13 +92,21 @@ const cancelRequestController = async (req, res) => {
     if (bookingDataSaveResult === null) {
         return res.status(400).json({
             status: 'failure',
-            message: "Can't update the cancellation status in the booking model",
+            code: 400,
+            error: {
+                message: 'error saving booking data',
+                details: 'failed to save booking data in database',
+            },
         });
     }
     /** If data save was successful */
     return res.status(200).json({
         status: 'success',
-        message: 'Cancellation request submitted',
+        code: 200,
+        data: {
+            message: 'cancellation request submitted',
+            details: 'cancellation request send to the admin of the location',
+        },
     });
 };
 

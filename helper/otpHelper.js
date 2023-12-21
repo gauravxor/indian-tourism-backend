@@ -31,8 +31,7 @@ async function saveOtp(generatedOtp, userEmail, userDocumentId, otpType) {
     const saveOtpResult = await OtpDocument.save();
     if (saveOtpResult === null) {
         console.log('OTP Helper : Error saving OTP to database'.red);
-    }
-    else {
+    } else {
         console.log('OTP Helper : Saved OTP data in DB'.green);
     }
 }
@@ -74,7 +73,7 @@ async function emailOtp(userEmail, userDocumentId) {
 
     console.log('OTP Helper: Sending the OTP email'.yellow);
     await transporter.sendMail(mailData);
-    console.log(`OTP Helper : Otp ${`${otp}`.blue}${' sent to '.yellow}${`${userEmail}`.blue}`)
+    console.log(`OTP Helper : Otp ${`${otp}`.blue}${' sent to '.yellow}${`${userEmail}`.blue}`);
     // return otp
 }
 
@@ -127,13 +126,13 @@ async function verifyOtp(userEmail, otp, otpType) {
 
     /* If no OTP is found in the database */
     if (searchOtpResult === null) {
-        return 'emailError';
+        return 'otp expired';
     }
-    /* If any OTP data is found, check if it is equal to the User's Entered OTP */
+    /* If OTP data is found, check if it is equal to the received OTP */
     if (searchOtpResult.otp === otp) {
         /* If OTP is expired, return error */
-        if (isOtpExpired(searchOtpResult.createdAt) === true) {
-            return 'otpError';
+        if (isOtpExpired(searchOtpResult.createdAt)) {
+            return 'otp expired';
         }
         /** If OTP is still valid */
         console.log('OTP Helper : OTP Validated'.green);
@@ -147,7 +146,7 @@ async function verifyOtp(userEmail, otp, otpType) {
                 isEmailVerified: true,
             });
             await OtpModel.findByIdAndDelete(documentId);
-            return 'emailVerified';
+            return 'email verified';
         }
         /**
          * If OTP is for password reset, update the user's isResetOtpValidated field to true.
@@ -158,43 +157,53 @@ async function verifyOtp(userEmail, otp, otpType) {
             await OtpModel.findOneAndUpdate(searchOtpResult.userId, {
                 isResetOtpValidated: true,
             });
-            return 'otpValidated';
+            return 'otp validated';
         }
     }
     /** If OTP does not matches */
-    return 'otpError';
+    return 'invalid otp';
 }
 
 /** Function to resend OTP. It handles both email verification and password reset */
 async function resendOtp(req, res) {
-    console.log('Received the request');
+    console.log('OTP Helper : OTP resend request for'.yellow + `${req.body.email}`.cyan);
     const requestEmail = req.body.email;
     const userData = await AUTH.searchUser(requestEmail);
     const userId = userData._id;
     const requestOtpType = req.body.otpType;
-
     console.log('OTP Helper : Re-sending OTP for '.yellow + `${requestOtpType}`.cyan);
 
-    let otp = 0;
     if (requestOtpType === 'emailVerification') {
-        otp = await emailOtp(requestEmail, userId);
+        // TODO : Handle error checking after trying to send an email
+        await emailOtp(requestEmail, userId);
         return res.status(200).json({
             status: 'success',
-            msg: 'Otp for sent for email verification',
-            otp: otp,
+            code: 200,
+            data: {
+                message: 'otp sent',
+                details: 'otp sent for email verification',
+            },
         });
     }
     if (requestOtpType === 'passwordReset') {
-        otp = await sendPasswordResetEmail(requestEmail, userId);
+        // TODO : Handle error checking after trying to send an email
+        await sendPasswordResetEmail(requestEmail, userId);
         return res.status(200).json({
             status: 'success',
-            msg: 'Otp for sent for password reset',
-            otp: otp,
+            code: 200,
+            data: {
+                message: 'otp sent',
+                details: 'otp sent for email password reset',
+            },
         });
     }
     return res.stauts(400).json({
         status: 'failure',
-        msg: 'Invalid request',
+        code: 400,
+        error: {
+            message: 'invalid request',
+            details: 'requested otp type is invalid',
+        },
     });
 }
 

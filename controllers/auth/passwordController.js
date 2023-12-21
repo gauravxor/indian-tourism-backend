@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const AUTH = require('../../helper/authHelper');
 const OTP = require('../../helper/otpHelper');
 const OtpModel = require('../../models/otpModel');
+const CredentialModel = require('../../models/credentialModel');
 
 const forgotPassword = async (req, res) => {
     const requestEmail = req.body.email;
@@ -14,7 +15,11 @@ const forgotPassword = async (req, res) => {
         console.log('Password Controller: User not found'.yellow);
         return res.status(404).json({
             status: 'failure',
-            msg: 'User not found',
+            code: 404,
+            error: {
+                message: 'user not found',
+                details: 'user not found in database',
+            },
         });
     }
 
@@ -29,15 +34,22 @@ const forgotPassword = async (req, res) => {
         console.log('Password Controller: Password reset email sent'.yellow);
         return res.status(200).json({
             status: 'success',
-            msg: 'Password reset email sent',
-            otp: sendPasswordResetEmailResult,
+            code: 200,
+            data: {
+                message: 'password reset email sent',
+                details: 'password reset email sent',
+            },
         });
     }
 
     console.log('Password Controller: Failed to send password reset email'.red);
     return res.status(500).json({
         status: 'failure',
-        msg: 'Something went wrong, failed to send password reset email',
+        code: 500,
+        error: {
+            message: 'reset email not sent',
+            details: 'failed to send password reset email',
+        },
     });
 };
 
@@ -49,12 +61,17 @@ const forgotPassword = async (req, res) => {
 const changePassword = async (req, res) => {
     const requestEmail = req.body.email;
     const newPassword = req.body.newPassword;
+    const resetId = req.body.resetId;
 
     /** If request body does not contain user email and new password */
     if (requestEmail === undefined || newPassword === undefined) {
         return res.status(400).json({
             status: 'failure',
-            msg: 'Invalid request body',
+            code: 400,
+            data: {
+                message: 'invalid request body',
+                details: 'request body must contain email and new password',
+            },
         });
     }
 
@@ -63,7 +80,24 @@ const changePassword = async (req, res) => {
         console.log('Password Controller: User not found'.yellow);
         return res.status(404).json({
             status: 'failure',
-            msg: 'User not found',
+            code: 404,
+            error: {
+                msg: 'user not found',
+                details: 'user not found in database',
+            },
+        });
+    }
+
+    /** If user is found, make sure that the password resetId is valid and has not expired */
+    const result = await CredentialModel.findOne({ userId: searchUserResult._id });
+    if (result.resetId !== resetId || result.resetIdExpiry - Date.now() <= 0) {
+        return res.status(401).json({
+            status: 'failure',
+            code: 401,
+            error: {
+                msg: 'invalid resetId',
+                details: 'password resetId is invalid',
+            },
         });
     }
 
@@ -76,7 +110,11 @@ const changePassword = async (req, res) => {
     if (otpSearchResult === null) {
         return res.status(401).json({
             status: 'failure',
-            msg: 'OTP not found',
+            code: 401,
+            error: {
+                message: 'otp not found',
+                details: 'password reset otp not found',
+            },
         });
     }
 
@@ -88,7 +126,11 @@ const changePassword = async (req, res) => {
         console.log('Password Controller : Password reset OTP not verified'.yellow);
         return res.status(401).json({
             status: 'failure',
-            msg: 'Otp not yet verified',
+            code: 401,
+            error: {
+                message: 'otp not verified',
+                details: 'password reset otp not verified',
+            },
         });
     }
 
@@ -107,12 +149,20 @@ const changePassword = async (req, res) => {
             // make sure to log client out from the device
             return res.status(200).json({
                 status: 'success',
-                msg: 'Password changed successfully! User your new password to login',
+                code: 200,
+                data: {
+                    message: 'password changed',
+                    details: 'password changed successfully, use new password to login',
+                },
             });
         }
         return res.status(500).json({
             status: 'failure',
-            msg: 'Password update failed',
+            code: 500,
+            error: {
+                message: 'password update failed',
+                details: 'password update failed',
+            },
         });
     }
 };

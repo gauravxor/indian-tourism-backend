@@ -7,14 +7,22 @@ const getBookingDetailsController = async (req, res) => {
     if (bookingData === null) {
         return res.status(400).json({
             status: 'failure',
-            message: 'No bookings found with the provided ID',
+            code: 400,
+            error: {
+                message: 'booking does not exists',
+                details: 'no booking details found for the given booking id',
+            },
         });
     }
     /** If no booking details were found */
     return res.status(200).json({
         status: 'success',
-        message: 'Booking details',
-        data: bookingData,
+        code: 200,
+        data: {
+            message: 'received booking details',
+            details: 'booking details found for the given booking id',
+            bookingData,
+        },
     });
 };
 module.exports = getBookingDetailsController;

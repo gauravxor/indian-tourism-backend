@@ -37,7 +37,11 @@ const bookingLockController = async (req, res) => {
         console.log('Booking Lock Controller : Invalid request'.red);
         return res.status(400).json({
             status: 'failure',
-            message: 'Invalid request',
+            code: 400,
+            error: {
+                message: 'invalid request',
+                details: 'locationId, userId, noOfTickets are required',
+            },
         });
     }
 
@@ -45,7 +49,11 @@ const bookingLockController = async (req, res) => {
         console.log('Booking Lock Controller : Invalid number of tickets'.red);
         return res.status(400).json({
             status: 'failure',
-            message: 'Invalid number of tickets',
+            code: 400,
+            error: {
+                message: 'invalid number of tickets',
+                details: 'number of tickets cannot be negative',
+            },
         });
     }
 
@@ -54,7 +62,11 @@ const bookingLockController = async (req, res) => {
         console.log('Booking Lock Controller : Invalid booking date'.red);
         return res.status(400).json({
             status: 'failure',
-            message: 'Invalid date',
+            code: 400,
+            error: {
+                message: 'invalid date',
+                details: 'date should be in dd-mm-yyyy format',
+            },
         });
     }
 
@@ -64,7 +76,11 @@ const bookingLockController = async (req, res) => {
         console.log('Booking Lock Controller : Location/user data not found'.red);
         return res.status(400).json({
             status: 'failure',
-            message: 'Location/ user not found',
+            code: 400,
+            error: {
+                message: 'location/user not found',
+                details: 'locationId or userId is invalid',
+            },
         });
     }
 
@@ -73,7 +89,11 @@ const bookingLockController = async (req, res) => {
         console.log('Booking Lock Controller : Location availability data not found'.red);
         return res.status(400).json({
             status: 'failure',
-            message: 'Location was found but no availability data was found',
+            code: 400,
+            error: {
+                message: 'location availability data not found',
+                details: 'locationId is invalid',
+            },
         });
     }
 
@@ -94,10 +114,13 @@ const bookingLockController = async (req, res) => {
                         console.log('Booking Lock Controller : Reqested tickets count not available'.red);
                         return res.status(400).json({
                             status: 'failure',
-                            message: 'Not enough tickets available',
+                            code: 400,
+                            error: {
+                                message: 'not enough tickets available',
+                                details: 'requested number of tickets are not available',
+                            },
                         });
                     }
-
                     isAvailable = true;
                     month.days[j].availableTickets -= noOfTickets;
                     break;
@@ -109,7 +132,11 @@ const bookingLockController = async (req, res) => {
     if (!isAvailable) {
         return res.status(400).json({
             status: 'failure',
-            message: 'Not enough tickets available',
+            code: 400,
+            errror: {
+                message: 'not enough tickets available',
+                details: 'requested number of tickets are not available',
+            },
         });
     }
 
@@ -150,14 +177,22 @@ const bookingLockController = async (req, res) => {
     if (lockBookingDataSaveResult === null) {
         return res.status(400).json({
             status: 'failure',
-            message: 'Unable to save booking data',
+            code: 400,
+            error: {
+                message: 'unable to save booking data',
+                details: 'unable to save booking data in database',
+            },
         });
     }
 
     /** Return detailed response (todo) */
     return res.status(200).json({
         status: 'success',
-        message: 'Booking lock successful',
+        code: 200,
+        data: {
+            message: 'booking lock successful',
+            details: 'booking lock successful, use the lock id to pay',
+        },
         lockId: tempBookingId,
     });
 };

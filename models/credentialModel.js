@@ -15,6 +15,14 @@ const credentialsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    resetId: {
+        type: Number,
+        required: false,
+    },
+    resetIdExpiry: {
+        type: Number,
+        required: false,
+    },
 });
 
 const credentialsModel = mongoose.model('credentials', credentialsSchema);

@@ -1,13 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-
 const multer = require('multer');
 const UserModel = require('../../models/userModel');
 const AdminModel = require('../../models/adminModel');
 const AUTH = require('../../helper/authHelper');
 const TOKENIZER = require('../../helper/jwtHelper');
-
-const color = require('colors');
 
 const { defaultUserImage } = require('../../fileUrls');
 
@@ -28,15 +25,15 @@ const userImageStorage = multer.diskStorage({
         } else {
             userSearchResult = await AdminModel.findById(req.userId);
         }
-        const imageUrl = userSearchResult.userImageURL;
-        console.log('User Update Controller : Old user image URL : '.yellow + `${imageUrl}`.cyan);
+
+        const oldImageUrl = userSearchResult.userImageURL;
+        console.log('User Update Controller : Old user image URL : '.yellow + `${oldImageUrl}`.cyan);
 
         /** If user does not have the default image, then delete the old one */
-        if (imageUrl !== defaultUserImage) {
+        if (oldImageUrl !== defaultUserImage) {
             console.log('User Update Controller : Deleting old user image...'.yellow);
             try {
-                const imagePath = imageUrl.substring(imageUrl.indexOf('public'));
-                const filePath = path.join(__dirname, '..', '..', imagePath);
+                const filePath = path.join(__dirname, '..', '..', oldImageUrl);
                 fs.unlinkSync(filePath);
                 console.log('User Update Controller : Old user image deleted'.green);
             } catch (err) {
@@ -46,8 +43,9 @@ const userImageStorage = multer.diskStorage({
         }
         const newFileName = `${req.userId}-${file.originalname}`;
         console.log(`The new file name is : ${newFileName}`);
-        /** Saving the new file name in the request object */
-        req.newFileName = newFileName;
+
+        /** Setting the new file name for userUpdateController */
+        req.newImagePath = `/public/images/users/${newFileName}`;
         cb(null, newFileName);
     },
 });
@@ -64,51 +62,26 @@ const userUpdateController = async (req, res) => {
     } else {
         oldUserData = await AUTH.searchAdminUserById(userId);
     }
-
-    /** If email is updated, rotate the tokens with new email */
-    const isEmailUpdated = (oldUserData.contact.email !== req.body.email);
-    const accessToken = (isEmailUpdated) ? TOKENIZER.generateAccessToken(userId, req.body.email) : null;
-    const refreshToken = (isEmailUpdated) ? TOKENIZER.generateRefreshToken(userId, req.body.email) : null;
-
-    let fileName = oldUserData.userImageURL;
-    /** If the user is uploading an image to update */
-    if (req.file !== undefined) {
-        /** If user image is not updated then we have to use the old image */
-        /** Root path to old image */
-        const domain = 'http://localhost:4000';
-        fileName = `${domain}/public/images/users/`;
-        /** Getting the exact file name from old image URL in DB */
-        let oldFileName = oldUserData.userImageURL;
-        console.log(`oldFileName : ${oldFileName}`);
-        oldFileName = oldFileName.substring(oldFileName.lastIndexOf('/') + 1);
-
-        fileName += (req.file === undefined) ? oldFileName : req.newFileName;
-    }
-    const updatedUserData = ({
-
-        userImageURL: fileName,
-
+    const updatedUserData = {
+        userImageURL: req.newImagePath || oldUserData.userImageURL,
         name: {
             firstName: req.body.firstName,
-            middleName: req.body.middleName,
             lastName: req.body.lastName,
         },
         contact: {
-            phone: req.body.phone,
             email: req.body.email,
         },
         address: {
-            addressMain: req.body.addressMain,
             country: req.body.country,
-            state: req.body.state,
-            city: req.body.city,
-            pincode: req.body.pincode,
         },
-
-        /** converting ISO date(YYYY-MM-DD) to Date object */
-        dob: new Date(req.body.dob),
         updatedAt: Date(),
-    });
+    };
+    if (req.body.phone !== 'undefined') updatedUserData.contact.phone = req.body.phone;
+    if (req.body.dob !== 'undefined') updatedUserData.dob = new Date(req.body.dob);
+    if (req.body.addressMain !== 'undefined') updatedUserData.address.addressMain = req.body.addressMain;
+    if (req.body.state !== 'undefined') updatedUserData.address.state = req.body.state;
+    if (req.body.city !== 'undefined') updatedUserData.address.city = req.body.city;
+    if (req.body.pincode !== 'undefined') updatedUserData.address.pincode = req.body.pincode;
 
     /** Updating the user data */
     let saveUserResult;
@@ -121,17 +94,31 @@ const userUpdateController = async (req, res) => {
     /** Sending the appropriate response */
     if (saveUserResult === null) {
         console.log('User Update Controller : Faild to update user data'.red);
-        return res.status(200).json({
+        return res.status(500).json({
             status: 'failure',
-            msg: 'Error updating user data',
+            code: 500,
+            error: {
+                message: 'User data not updated',
+                details: 'Failed to update the DB data',
+            },
         });
     }
     console.log('User Update Controller : User data updated'.green);
+
+    /** If email is updated, rotate the tokens with new email */
+    const isEmailUpdated = (oldUserData.contact.email !== req.body.email);
+    const accessToken = (isEmailUpdated) ? TOKENIZER.generateAccessToken(userId, req.body.email) : null;
+    const refreshToken = (isEmailUpdated) ? TOKENIZER.generateRefreshToken(userId, req.body.email) : null;
+    if (accessToken) {
+        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'strict', secure: false });
+    }
     return res.status(200).json({
         status: 'success',
-        msg: 'User data updated successfully',
-        accessToken,
-        refreshToken,
+        code: 200,
+        data: {
+            message: 'User data updated',
+            ...(refreshToken && { refreshToken }),
+        },
     });
 };
 
