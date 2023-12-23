@@ -1,10 +1,7 @@
 const express = require('express');
-
-const { v4: uuidv4 } = require('uuid');
-
-const locationRoutes = express.Router();
 const multer = require('multer');
 
+const locationRoutes = express.Router();
 const verifyToken = require('../middlewares/tokenware');
 
 const {
@@ -28,14 +25,8 @@ locationRoutes.get('/:locationId', getLocationController);
 /** Route to get locations by specific query string */
 locationRoutes.get('/search/:query', getLocationByQueryController);
 
-const multerConfig = {
-    storage: multer.memoryStorage(),
-    filename: function (file, cb) {
-        const uniqueFilename = `${uuidv4()}-${file.originalname}`;
-        cb(null, uniqueFilename);
-    },
-};
-const upload = multer(multerConfig);
+const upload = multer({ storage: multer.memoryStorage() });
+
 locationRoutes.post('/add-location', upload.any(), verifyToken.verifyAccessToken, addLocationController);
 
 /** Route to update location data */

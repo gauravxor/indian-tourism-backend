@@ -1,7 +1,5 @@
-const fs = require('fs');
-const path = require('path');
-const { v4: uuidv4 } = require('uuid');
-const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');  // eslint-disable-line
+const FIREBASE = require('../../helper/firebaseHelper');
 
 const LocationModel = require('../../models/locationModel');
 const AdminModel = require('../../models/adminModel');
@@ -71,43 +69,33 @@ const updateLocationController = async (req, res) => {
             ticketPrice: ticketPrice || locationData.ticketPrice,
         };
 
-        const locationFolderPath = path.join(__dirname, `../../public/images/location/${locationId}`);
-        fs.mkdirSync(locationFolderPath, { recursive: true });
-
-        const images = locationData.images.slice();
+        let images = locationData.images.slice();
         const imageFiles = req.files;
-
-        /** If update request contains images for update */
         if (imageFiles && imageFiles.length > 0) {
-            /** Processing each file from the files array */
-            imageFiles.forEach((file) => {
-                const fileExtension = path.extname(file.originalname);
-                const newFilename = `${uuidv4()}-${file.fieldname}${fileExtension}`;
-
-                const imageUrl = `/public/images/location/${locationId}/${newFilename}`;
-                const filePath = path.join(locationFolderPath, newFilename);
-
-                /** Iterating though the exising image files */
-                images.forEach((image, index) => {
-                    /** Checking if the image we are updating, already exists */
+            console.log(images);
+            await Promise.all(req.files.map(async (file) => {
+                const { buffer, mimetype } = file;
+                const directory = 'images/locations';
+                const folderName = locationId;
+                let oldFileName = null;
+                images = images.filter((image) => {
                     if (image.imageType === file.fieldname) {
-                        /** Deleting the existing image file in server */
-                        fs.unlinkSync(path.join(__dirname, '../../', image.urls));
-                        images.splice(index, 1);
+                        console.log('Got an old file');
+                        oldFileName = image.urls.split('/').pop();
+                        return false;
                     }
+                    return true;
                 });
 
-                /** Pusing the updated image URL in images object */
+                const newFilename = `${uuidv4()}.${mimetype.split('/')[1]}`;
+                const imageUrl = await FIREBASE.uploadImage(buffer, directory, folderName, oldFileName, newFilename, mimetype);
                 images.push({
                     imageType: file.fieldname,
                     urls: imageUrl,
                 });
-
-                /** Writing the new image files in the server */
-                fs.writeFileSync(filePath, file.buffer);
-            });
+            }));
         }
-
+        console.log(images);
         /** New updated location data object */
         const updatedLocationData = {
             ...updatedLocation,

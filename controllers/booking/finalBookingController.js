@@ -1,10 +1,10 @@
-const fs = require('fs');
 const qrcode = require('qrcode');
 const { v4: uuidv4 } = require('uuid');
 
 const LockBookingModel = require('../../models/lockBookingModel');
 const BookingModel = require('../../models/bookingsModel');
 const UserModel = require('../../models/userModel');
+const FIREBASE = require('../../helper/firebaseHelper');
 
 const sendQrCode = require('../../helper/bookingHelper');
 
@@ -93,37 +93,21 @@ const finalBookingController = async (req, res) => {
                 console.log('Booking Controller : LOCK data deleted'.green);
             }
 
-            /**  Checking if ./public/qr folder exists or not if not then create one */
-            const qrFolder = './public/qr';
-            if (!fs.existsSync(qrFolder)) {
-                fs.mkdirSync(qrFolder);
-            }
-
-            /** Generate the qr for the booking id and send that qr to user email id */
-            const qrFile = `./public/qr/${bookingId}.png`;
-            const qrResult = await qrcode.toFile(qrFile, bookingId, {
+            const qrBuffer = await qrcode.toBuffer(bookingId, {
                 version: 5,
                 errorCorrectionLevel: 'H',
                 margin: 1,
                 scale: 10,
             });
+            await FIREBASE.uploadImage(qrBuffer, 'qr', null, null, `${bookingId}.png`, 'image/png');
 
-            if (qrResult === null) {
-                console.log('Booking Controller : Error generating the QR code'.red);
+            /** Once QR is generated send send it to user with booking details */
+            const sendEmailResult = await sendQrCode(bookingId, req.userEmail, bookingDataSaveResult);
+            // TODO: Implement a retry queue for sending confirmation emails
+            if (sendEmailResult === true) {
+                console.log('Booking Controller : QR code emailed'.green);
             } else {
-                console.log('Booking Controller : QR code generated for ticket'.green);
-
-                /** Once QR is generated send send it to user with booking details */
-                let sendEmailResult;
-                do {
-                    sendEmailResult = await sendQrCode(bookingId, req.userEmail, bookingDataSaveResult);
-                    console.log(sendEmailResult);
-                    if (sendEmailResult === true) {
-                        console.log('Booking Controller : QR code emailed'.green);
-                    } else {
-                        console.log('Booking Controller : Failed to send QR code, retrying..'.red);
-                    }
-                } while (!sendEmailResult);
+                console.log('Booking Controller : Failed to send QR code'.red);
             }
         }
     }

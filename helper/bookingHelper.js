@@ -33,12 +33,20 @@ const sendQrCode = async (bookingId, userEmail, bookingData) => {
     });
 
     const locationName = bookingData.locationName;
-    console.log(bookingData.locationAddress);
     const locationAddress = `${bookingData.locationAddress.address} ${bookingData.locationAddress.city} ${bookingData.locationAddress.state} ${bookingData.locationAddress.pincode}`;
     const dateOfVisit = formatDate(bookingData.dateOfVisit);
     const noOfTickets = bookingData.noOfTickets;
     const bookingPrice = bookingData.bookingPrice;
-    console.log(userEmail);
+
+    /** Creating the mail attachment object */
+    const attachment = [
+        {
+            filename: `${bookingId}.png`,
+            path: `https://storage.googleapis.com/${process.env.FIREBASE_STORAGE_BUCKET}/qr/${bookingId}.png`,
+            cid: 'bandito@123',
+        },
+    ];
+    console.log(attachment);
     /** Creating the mail body object */
     const mailData = {
         from: process.env.EMAIL,
@@ -68,7 +76,7 @@ const sendQrCode = async (bookingId, userEmail, bookingData) => {
             </div>
             <p style="font-size:12px; color:#666666; font-family:Arial, sans-serif;">This email was sent from Indian Tourism.</p>
             </div>`,
-        attachments: [{ filename: `${bookingId}.png`, path: `./public/qr/${bookingId}.png`, cid: 'bandito@123' }],
+        attachments: attachment,
     };
     console.log('Booking Helper : Sending booking confirmation email'.yellow);
     try {

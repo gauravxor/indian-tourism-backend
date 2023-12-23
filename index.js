@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const cors = require('cors');
 const color = require('colors'); // eslint-disable-line no-unused-vars
 
@@ -17,8 +16,6 @@ const scannerRoutes = require('./routes/scannerRoutes');
 
 const otpCleaner = require('./services/otpCleaner');
 const lockCleaner = require('./services/bookingLockCleaner');
-
-dotenv.config();
 
 /* DATABASE CONNECTION */
 mongoose.set('strictQuery', false);

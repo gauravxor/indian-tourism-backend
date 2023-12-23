@@ -1,10 +1,5 @@
-const fs = require('fs');
-const path = require('path');
-const util = require('util');
-
-const multer = require('multer');
-
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid'); // eslint-disable-line
+const FIREBASE = require('../../helper/firebaseHelper');
 
 const LocationModel = require('../../models/locationModel');
 const AvailabilityModel = require('../../models/availabilityModel');
@@ -41,23 +36,21 @@ const addLocationController = async (req, res) => {
     const newLocation = await LocationModel.create({
         name, description, address, city, state, country, pincode, capacity, ticketPrice,
     });
-
     const locationId = newLocation._id.toString();
-    const locationFolderPath = path.join(__dirname, `../../public/images/location/${locationId}`);
-    fs.mkdirSync(locationFolderPath, { recursive: true });
 
     const images = [];
-    req.files.forEach((file) => {
-        const fileExtension = path.extname(file.originalname);
-        const newFilename = `${uuidv4()}-${file.fieldname}${fileExtension}`;
-        const imageUrl = `/public/images/location/${locationId}/${newFilename}`;
-        const filePath = path.join(locationFolderPath, newFilename);
+    await Promise.all(req.files.map(async (file) => {
+        const { buffer, mimetype } = file;
+        const directory = 'images/locations';
+        const folderName = locationId;
+        const oldFileName = null;
+        const newFilename = `${uuidv4()}.${mimetype.split('/')[1]}`;
+        const imageUrl = await FIREBASE.uploadImage(buffer, directory, folderName, oldFileName, newFilename, mimetype);
         images.push({
             imageType: file.fieldname,
             urls: imageUrl,
         });
-        fs.writeFileSync(filePath, file.buffer);
-    });
+    }));
 
     // Get current year and month
     const now = new Date();
