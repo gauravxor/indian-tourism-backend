@@ -76,7 +76,7 @@ const otpController = async (req, res) => {
         const userId = (userSearchResult._id).toString();
         const accessToken = TOKENIZER.generateAccessToken(userId, requestEmail, 'local');
         const refreshToken = TOKENIZER.generateRefreshToken(userId, requestEmail, 'local');
-        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'strict', secure: false });
+        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true });
         return res.status(200).json({
             status: 'success',
             code: 200,

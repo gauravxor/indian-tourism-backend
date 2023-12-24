@@ -79,7 +79,7 @@ const loginController = async (req, res) => {
         console.log('Login Controller : Clean Login'.yellow);
         const accessToken = TOKENIZER.generateAccessToken(userId, userEmail, userType);
         const refreshToken = TOKENIZER.generateRefreshToken(userId, userEmail, userType);
-        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'strict', secure: false });
+        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true });
         return res.status(200).json({
             status: 'success',
             code: 200,

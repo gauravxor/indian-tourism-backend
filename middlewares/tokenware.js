@@ -73,7 +73,7 @@ function refreshAccessToken(req, res) {
         const { userId, userEmail, userType } = payload;
         const newAccessToken = generateAccessToken(userId, userEmail, userType);
         const newRefreshToken = generateRefreshToken(userId, userEmail, userType);
-        res.cookie('accessToken', newAccessToken, { httpOnly: true, sameSite: 'strict', secure: false });
+        res.cookie('accessToken', newAccessToken, { httpOnly: true, sameSite: 'None', secure: true });
         return res.status(200).json({
             status: 'success',
             code: 200,

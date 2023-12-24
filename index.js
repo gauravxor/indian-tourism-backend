@@ -31,10 +31,10 @@ const app = express();
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.use(cors({
+    origin: ['http://192.168.1.1:3000', 'https://indian-tourism.vercel.app', 'http://localhost:3000'],
     credentials: true,
-    allowedHeaders: ['content-type', 'Authorization', 'Content-Type'],
-    origin: ['http://localhost:3000', 'http://localhost:4000', 'http://192.168.0.100:3000'],
 }));
 
 app.use('/', homeRoute);

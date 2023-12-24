@@ -74,7 +74,7 @@ const userUpdateController = async (req, res) => {
     const accessToken = (isEmailUpdated) ? TOKENIZER.generateAccessToken(userId, req.body.email) : null;
     const refreshToken = (isEmailUpdated) ? TOKENIZER.generateRefreshToken(userId, req.body.email) : null;
     if (accessToken) {
-        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'strict', secure: false });
+        res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true });
     }
     return res.status(200).json({
         status: 'success',
