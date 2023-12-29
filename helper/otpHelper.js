@@ -154,7 +154,7 @@ async function verifyOtp(userEmail, otp, otpType) {
          * be done and we can only delete that after the password is updated.
          */
         if (otpType === 'passwordReset') {
-            await OtpModel.findOneAndUpdate(searchOtpResult.userId, {
+            await OtpModel.findOneAndUpdate({ userId: searchOtpResult.userId }, {
                 isResetOtpValidated: true,
             });
             return 'otp validated';
