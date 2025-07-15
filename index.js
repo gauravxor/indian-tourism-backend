@@ -18,13 +18,13 @@ const otpCleaner = require('./services/otpCleaner');
 const lockCleaner = require('./services/bookingLockCleaner');
 
 /* DATABASE CONNECTION */
-mongoose.set('strictQuery', false);
 mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-}, (err) => {
-    if (err) console.log('SERVER : Error connecting to database');
-    else console.log('SERVER : Connected to database'.yellow);
+}).then(() => {
+    console.log('SERVER : Connected to database'.yellow);
+}).catch((err) => {
+    console.log('SERVER : Error connecting to database', err);
 });
 
 const app = express();
