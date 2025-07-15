@@ -1,7 +1,20 @@
+require('module-alias/register');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
+const logger = require('@config/logger');
+
+/* DATABASE CONNECTION */
+mongoose
+    .connect(process.env.DATABASE_URL)
+    .then(() => {
+        logger.info('Connected to database');
+    })
+    .catch((err) => {
+        logger.error('Error connecting to database', err);
+    });
 
 const homeRoute = require('./routes/home');
 const authRoutes = require('./routes/authRoutes');
@@ -14,16 +27,6 @@ const scannerRoutes = require('./routes/scannerRoutes');
 
 const otpCleaner = require('./services/otpCleaner');
 const lockCleaner = require('./services/bookingLockCleaner');
-
-/* DATABASE CONNECTION */
-mongoose
-    .connect(process.env.DATABASE_URL)
-    .then(() => {
-        console.log('SERVER : Connected to database');
-    })
-    .catch((err) => {
-        console.log('SERVER : Error connecting to database', err);
-    });
 
 const app = express();
 app.use(cookieParser());
@@ -46,7 +49,7 @@ app.use('/api/user/', userRoutes);
 app.use('/scanner', scannerRoutes);
 
 app.listen(process.env.PORT, () => {
-    console.log(`SERVER : Service started on port : ${process.env.PORT}.`);
+    logger.info(`Server started on port : ${process.env.PORT}.`);
 });
 
 /** Invoke bookingLockCleaner in every 5 seconds */

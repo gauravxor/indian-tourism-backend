@@ -3,6 +3,7 @@ const AUTH = require('../../helper/authHelper');
 const OTP = require('../../helper/otpHelper');
 const OtpModel = require('../../models/otpModel');
 const CredentialModel = require('../../models/credentialModel');
+const logger = require('@config/logger');
 
 const forgotPassword = async (req, res) => {
     const requestEmail = req.body.email;
@@ -12,7 +13,7 @@ const forgotPassword = async (req, res) => {
 
     /** If the user is not found in the database */
     if (searchUserResult === null) {
-        console.log('Password Controller: User not found');
+        logger.info('Password Controller: User not found');
         return res.status(404).json({
             status: 'failure',
             code: 404,
@@ -24,14 +25,14 @@ const forgotPassword = async (req, res) => {
     }
 
     /** If we have the user in the db */
-    console.log('Password Controller: User found');
+    logger.info('Password Controller: User found');
     const userId = searchUserResult._id;
 
     const sendPasswordResetEmailResult = await OTP.sendPasswordResetEmail(requestEmail, userId);
 
     /** If password reset email was sent */
     if (sendPasswordResetEmailResult !== null) {
-        console.log('Password Controller: Password reset email sent');
+        logger.info('Password Controller: Password reset email sent');
         return res.status(200).json({
             status: 'success',
             code: 200,
