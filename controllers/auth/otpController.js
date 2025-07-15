@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const OTP = require('../../helper/otpHelper');
 const AUTH = require('../../helper/authHelper');
 const TOKENIZER = require('../../helper/jwtHelper');
+const logger = require('@config/logger');
 
 const CredentialModel = require('../../models/credentialModel');
 
@@ -60,7 +61,7 @@ const otpController = async (req, res) => {
         });
     }
     if (verifyOtpResult === 'invalid otp') {
-        console.log('OTP CONTROLLER : OTP expired or invalid otp');
+        logger.info('OTP CONTROLLER : OTP expired or invalid otp');
         return res.status(401).json({
             status: 'failure',
             code: 401,
