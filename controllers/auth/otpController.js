@@ -1,9 +1,9 @@
-const crypto = require('crypto');
+const logger = require('@config/logger');
 
+const crypto = require('crypto');
 const OTP = require('../../helper/otpHelper');
 const AUTH = require('../../helper/authHelper');
 const TOKENIZER = require('../../helper/jwtHelper');
-const logger = require('@config/logger');
 
 const CredentialModel = require('../../models/credentialModel');
 
