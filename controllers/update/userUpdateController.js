@@ -57,7 +57,7 @@ const userUpdateController = async (req, res) => {
 
     /** Sending the appropriate response */
     if (saveUserResult === null) {
-        console.log('User Update Controller : Faild to update user data'.red);
+        console.log('User Update Controller : Faild to update user data');
         return res.status(500).json({
             status: 'failure',
             code: 500,
@@ -67,7 +67,7 @@ const userUpdateController = async (req, res) => {
             },
         });
     }
-    console.log('User Update Controller : User data updated'.green);
+    console.log('User Update Controller : User data updated');
 
     /** If email is updated, rotate the tokens with new email */
     const isEmailUpdated = (oldUserData.contact.email !== req.body.email);

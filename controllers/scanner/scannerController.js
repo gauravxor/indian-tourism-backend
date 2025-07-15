@@ -163,7 +163,7 @@ const scannerVerifyController = async (req, res) => {
     const accessKey = req.body.accessKey;
 
     if (accessKey === undefined || accessKey === '') {
-        console.log('Scanner controller : Access Key not provided'.red);
+        console.log('Scanner controller : Access Key not provided');
         return res.status(400).json({
             status: 'failure',
             code: 400,
@@ -176,7 +176,7 @@ const scannerVerifyController = async (req, res) => {
 
     const searchResult = await AdminModel.findOne({ accessKey: accessKey });
     if (searchResult === null) {
-        console.log('Scanner controller : Invalid access key'.red);
+        console.log('Scanner controller : Invalid access key');
         return res.status(401).json({
             status: 'failure',
             code: 401,
@@ -187,7 +187,7 @@ const scannerVerifyController = async (req, res) => {
         });
     }
 
-    console.log('Scanner Controller : Access key verified'.green);
+    console.log('Scanner Controller : Access key verified');
     return res.status(200).json({
         status: 'success',
         code: 200,

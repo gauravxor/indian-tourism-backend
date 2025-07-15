@@ -1,9 +1,7 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const color = require('colors'); // eslint-disable-line no-unused-vars
 
 const homeRoute = require('./routes/home');
 const authRoutes = require('./routes/authRoutes');
@@ -18,19 +16,19 @@ const otpCleaner = require('./services/otpCleaner');
 const lockCleaner = require('./services/bookingLockCleaner');
 
 /* DATABASE CONNECTION */
-mongoose.connect(process.env.DATABASE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => {
-    console.log('SERVER : Connected to database'.yellow);
-}).catch((err) => {
-    console.log('SERVER : Error connecting to database', err);
-});
+mongoose
+    .connect(process.env.DATABASE_URL)
+    .then(() => {
+        console.log('SERVER : Connected to database');
+    })
+    .catch((err) => {
+        console.log('SERVER : Error connecting to database', err);
+    });
 
 const app = express();
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use(cors({
     origin: ['http://192.168.1.1:3000', 'https://indian-tourism.vercel.app', 'http://localhost:3000'],
@@ -48,7 +46,7 @@ app.use('/api/user/', userRoutes);
 app.use('/scanner', scannerRoutes);
 
 app.listen(process.env.PORT, () => {
-    console.log('SERVER : Service started on port '.yellow + `${process.env.PORT}.`.cyan);
+    console.log(`SERVER : Service started on port : ${process.env.PORT}.`);
 });
 
 /** Invoke bookingLockCleaner in every 5 seconds */

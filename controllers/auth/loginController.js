@@ -5,10 +5,10 @@ const loginController = async (req, res) => {
     const requestEmail = req.body.email;
     const requestPassword = req.body.password;
     const isUserAdmin = (req.body.isAdmin === 'true');
-    console.log('Login Controller: Is User Admin ? '.yellow + ` ${isUserAdmin}`.cyan);
+    console.log('Login Controller: Is User Admin ? ' + ` ${isUserAdmin}`);
 
     if (requestEmail === '' || requestPassword === '') {
-        console.log('Login Controller: Bad Request'.red);
+        console.log('Login Controller: Bad Request');
         return res.status(400).json({
             status: 'failure',
             code: 400,
@@ -27,7 +27,7 @@ const loginController = async (req, res) => {
     }
 
     if (searchUserResult === null) {
-        console.log('Login Controller: User not found'.red);
+        console.log('Login Controller: User not found');
         return res.status(404).json({
             status: 'failure',
             code: 401,
@@ -48,7 +48,7 @@ const loginController = async (req, res) => {
     const searchCredentialsResult = await AUTH.searchCredentials(userId);
 
     if (searchCredentialsResult === null) {
-        console.log('Login Controller: User credentials not found'.red);
+        console.log('Login Controller: User credentials not found');
         return res.status(500).json({
             status: 'failure',
             code: 500,
@@ -76,7 +76,7 @@ const loginController = async (req, res) => {
         }
 
         /** For verified profiles, send the generated access & refresh tokens. */
-        console.log('Login Controller : Clean Login'.yellow);
+        console.log('Login Controller : Clean Login');
         const accessToken = TOKENIZER.generateAccessToken(userId, userEmail, userType);
         const refreshToken = TOKENIZER.generateRefreshToken(userId, userEmail, userType);
         res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'None', secure: true });
@@ -92,7 +92,7 @@ const loginController = async (req, res) => {
     }
 
     /** If password hash does not match */
-    console.log('Login Controller: Incorrect Password'.red);
+    console.log('Login Controller: Incorrect Password');
     return res.status(401).json({
         status: 'failure',
         code: 401,

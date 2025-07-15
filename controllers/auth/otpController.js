@@ -60,7 +60,7 @@ const otpController = async (req, res) => {
         });
     }
     if (verifyOtpResult === 'invalid otp') {
-        console.log('OTP CONTROLLER : OTP expired or invalid otp'.yellow);
+        console.log('OTP CONTROLLER : OTP expired or invalid otp');
         return res.status(401).json({
             status: 'failure',
             code: 401,

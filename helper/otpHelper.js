@@ -18,8 +18,8 @@ function generateOtp(length) {
 async function saveOtp(generatedOtp, userEmail, userDocumentId, otpType) {
     /** If any old OTP exists in the database, delete it */
     await OtpModel.deleteOne({ emailId: userEmail, userId: userDocumentId });
-    console.log('OTP Helper : User Id is -> '.yellow + `${userDocumentId}`.cyan);
-    console.log('OTP Helper : Starting to save otp'.yellow);
+    console.log('OTP Helper : User Id is -> ' + `${userDocumentId}`);
+    console.log('OTP Helper : Starting to save otp');
     const OtpDocument = new OtpModel({
         userId: userDocumentId,
         emailId: userEmail,
@@ -30,18 +30,18 @@ async function saveOtp(generatedOtp, userEmail, userDocumentId, otpType) {
 
     const saveOtpResult = await OtpDocument.save();
     if (saveOtpResult === null) {
-        console.log('OTP Helper : Error saving OTP to database'.red);
+        console.log('OTP Helper : Error saving OTP to database');
     } else {
-        console.log('OTP Helper : Saved OTP data in DB'.green);
+        console.log('OTP Helper : Saved OTP data in DB');
     }
 }
 
 /** Function to send OTP to userEmail for Email Verification */
 async function emailOtp(userEmail, userDocumentId) {
     const otp = generateOtp(8);
-    console.log('OTP Helper : Generated OTP -> '.yellow + `${otp}`.cyan);
+    console.log('OTP Helper : Generated OTP -> ' + `${otp}`);
 
-    console.log('OTP Helper : Saving OTP to database'.yellow);
+    console.log('OTP Helper : Saving OTP to database');
     await saveOtp(otp, userEmail, userDocumentId, 'emailVerification');
 
     /** Creating the nodemailer object */
@@ -71,18 +71,18 @@ async function emailOtp(userEmail, userDocumentId) {
         `,
     };
 
-    console.log('OTP Helper: Sending the OTP email'.yellow);
+    console.log('OTP Helper: Sending the OTP email');
     await transporter.sendMail(mailData);
-    console.log(`OTP Helper : Otp ${`${otp}`.blue}${' sent to '.yellow}${`${userEmail}`.blue}`);
+    console.log(`OTP Helper : Otp ${`${otp}`.blue}${' sent to '}${`${userEmail}`.blue}`);
     // return otp
 }
 
 /** Function to send OTP to userEmail for Password Reset */
 async function sendPasswordResetEmail(userEmail, userDocumentId) {
     const otp = generateOtp(8);
-    console.log('OTP Helper : Generated OTP -> '.yellow + `${otp}`.cyan);
+    console.log('OTP Helper : Generated OTP -> ' + `${otp}`);
 
-    console.log('OTP Helper : Saving OTP in DB'.yellow);
+    console.log('OTP Helper : Saving OTP in DB');
     await saveOtp(otp, userEmail, userDocumentId, 'passwordReset');
 
     /** Creating the nodemailer object */
@@ -102,9 +102,9 @@ async function sendPasswordResetEmail(userEmail, userDocumentId) {
         text: `Your OTP is ${otp}`,
     };
 
-    console.log('OTP Helper : Sending password reset email'.yellow);
+    console.log('OTP Helper : Sending password reset email');
     await transporter.sendMail(mailData);
-    console.log(`OTP Helper : Otp ${`${otp}`.blue}${' sent to '.yellow}${`${userEmail}`.blue}`);
+    console.log(`OTP Helper : Otp ${`${otp}`.blue}${' sent to '}${`${userEmail}`.blue}`);
 }
 
 /** Function to check if OTP is expired or not */
@@ -113,7 +113,7 @@ function isOtpExpired(otpCreationTime) {
     const timeCreated = (new Date(otpCreationTime)).getTime();
     const timeNow = (new Date()).getTime();
     const timeDifference = timeNow - timeCreated;
-    console.log('OTP Helper : Time (in ms) since OTP creation -> '.yellow + `${timeDifference}`.cyan);
+    console.log('OTP Helper : Time (in ms) since OTP creation -> ' + `${timeDifference}`);
     return (timeDifference > (50 * 60 * 1000));
 }
 
@@ -135,7 +135,7 @@ async function verifyOtp(userEmail, otp, otpType) {
             return 'otp expired';
         }
         /** If OTP is still valid */
-        console.log('OTP Helper : OTP Validated'.green);
+        console.log('OTP Helper : OTP Validated');
         const documentId = (searchOtpResult._id).toString();
 
         /** If OTP is for email verification, update the user's
@@ -166,12 +166,12 @@ async function verifyOtp(userEmail, otp, otpType) {
 
 /** Function to resend OTP. It handles both email verification and password reset */
 async function resendOtp(req, res) {
-    console.log('OTP Helper : OTP resend request for'.yellow + `${req.body.email}`.cyan);
+    console.log('OTP Helper : OTP resend request for' + `${req.body.email}`);
     const requestEmail = req.body.email;
     const userData = await AUTH.searchUser(requestEmail);
     const userId = userData._id;
     const requestOtpType = req.body.otpType;
-    console.log('OTP Helper : Re-sending OTP for '.yellow + `${requestOtpType}`.cyan);
+    console.log('OTP Helper : Re-sending OTP for ' + `${requestOtpType}`);
 
     if (requestOtpType === 'emailVerification') {
         // TODO : Handle error checking after trying to send an email

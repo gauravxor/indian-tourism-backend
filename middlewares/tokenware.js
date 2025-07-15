@@ -3,7 +3,7 @@ const { generateAccessToken, generateRefreshToken } = require('../helper/jwtHelp
 
 function checkCookies(req) {
     if (JSON.stringify(req.cookies) === '{}' || req.cookies.accessToken === undefined) {
-        console.log('VerifyToken : No cookies were provided'.red);
+        console.log('VerifyToken : No cookies were provided');
         return false;
     }
     return true;
@@ -25,7 +25,7 @@ function verifyAccessToken(req, res, next) {
     const accessToken = req.cookies.accessToken;
     jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET, (error, payload) => {
         if (error) {
-            console.log('VerifyToken : Access token expired'.yellow);
+            console.log('VerifyToken : Access token expired');
             return res.status(401).json({
                 status: 'failure',
                 code: 401,
@@ -58,7 +58,7 @@ function refreshAccessToken(req, res) {
     /** Checking if Refresh Token is valid */
     jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (error, payload) => {
         if (error) {
-            console.log('VerifyToken : Refresh token expired'.yellow);
+            console.log('VerifyToken : Refresh token expired');
             return res.status(401).json({
                 status: 'failure',
                 code: 401,
@@ -86,7 +86,7 @@ function refreshAccessToken(req, res) {
 }
 
 function getAccessTokenExpiryEpoch(req, res) {
-    console.log('Getting access token expiry epoch'.yellow);
+    console.log('Getting access token expiry epoch');
     if (!checkCookies(req)) {
         return res.status(401).json({
             status: 'failure',

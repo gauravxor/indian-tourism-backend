@@ -12,13 +12,13 @@ const otpCleaner = async () => {
             const diff = currentTime - otpTime;
             const diffInMinutes = diff / 1000;
             if ((diffInMinutes > 150 && otp.otpType === 'emailVerification') || (diffInMinutes > 300 && otp.otpType === 'passwordReset')) {
-                console.log('OTP Cleaner : Expired OTPs found'.yellow);
+                console.log('OTP Cleaner : Expired OTPs found');
                 const deleteOtpResult = await OtpModel.deleteOne({ email: otp.email });
                 if (deleteOtpResult === null) {
-                    console.log('OTP Cleaner : Error deleting expired OTP data'.red);
+                    console.log('OTP Cleaner : Error deleting expired OTP data');
                 }
                 else {
-                    console.log('OTP Cleaner : Expired OTP data deleted'.green)
+                    console.log('OTP Cleaner : Expired OTP data deleted')
                 }
             }
         });

@@ -40,7 +40,7 @@ const signUpController = async (req, res) => {
 
     const saveUserResult = await User.save();
     if (!saveUserResult) {
-        console.log('SignUp Controller : Error saving the user data in DB'.red);
+        console.log('SignUp Controller : Error saving the user data in DB');
         return res.status(500).json({
             status: 'failure',
             code: 500,
@@ -50,12 +50,12 @@ const signUpController = async (req, res) => {
             },
         });
     }
-    console.log('SignUp Controller : User Saved in DB'.green);
+    console.log('SignUp Controller : User Saved in DB');
 
     /** Generating the password hash */
     const userPassword = (req.body.password).toString();
     const userPasswordHash = await bcrypt.hash(userPassword, 10);
-    console.log('SignUp Controller : Password hash created'.green);
+    console.log('SignUp Controller : Password hash created');
 
     /** Creating the Credentials Document for the new user */
     const Credentials = new CredentialModel({
@@ -73,12 +73,12 @@ const signUpController = async (req, res) => {
             },
         });
     }
-    console.log('SignUp Controller : Credentials Saved in DB'.green);
+    console.log('SignUp Controller : Credentials Saved in DB');
 
     /** Sending OTP for email verification */
     const sendOtpResult = await OTP.emailOtp(User.contact.email, User._id);
     if (sendOtpResult === null) {
-        console.log('SignUp Controller : Email verificatino OTP not sent'.red);
+        console.log('SignUp Controller : Email verificatino OTP not sent');
         return res.status(500).json({
             status: 'failure',
             code: 500,
@@ -89,7 +89,7 @@ const signUpController = async (req, res) => {
         });
     }
 
-    console.log('SignUp Controller : Email verification OTP sent'.green);
+    console.log('SignUp Controller : Email verification OTP sent');
     return res.status(201).json({
         status: 'success',
         code: 201,

@@ -6,7 +6,7 @@ const lockCleaner = async () => {
 
     /** If lock booking data collection is not empty */
     if (!(JSON.stringify(lockBookingData) === JSON.stringify([]))) {
-        console.log('SERVER : Lock Cleaner invoked'.yellow);
+        console.log('SERVER : Lock Cleaner invoked');
         lockBookingData.forEach(async (lockBooking) => {
             const currentTime = new Date();
             const lockTime = lockBooking.timeOfExpiry;
@@ -15,18 +15,18 @@ const lockCleaner = async () => {
             /** For testing purpose we are keeping the expiry time to 1 minutes */
             console.log(`Lock Cleaner : Difference in minutes =  ${diffInMinutes}`);
             if (diffInMinutes < 0) {
-                console.log('Lock Cleaner : Expired Lock data found'.yellow);
+                console.log('Lock Cleaner : Expired Lock data found');
 
                 const locationAvailabilityData = await AvailabilityModel.findOne({
                     locationId: lockBooking.locationId,
                 });
                 if (locationAvailabilityData === null) {
-                    console.log('Lock Cleaner : Location availability data does not exist'.red);
+                    console.log('Lock Cleaner : Location availability data does not exist');
                 } else {
                     let isDateFound = false;
                     const availabilityData = locationAvailabilityData.calendarMonths;
                     const dateOfVisit = lockBooking.dateOfVisit;
-                    console.log('Lock Cleaner : Performing data check'.yellow);
+                    console.log('Lock Cleaner : Performing data check');
                     for (let i = 0; i < availabilityData.length && !isDateFound; i += 1) {
                         /** Month will have the object where "days" key is an array of dates */
                         const month = availabilityData[i];
@@ -46,7 +46,7 @@ const lockCleaner = async () => {
                     const availabilityDataSaveResult = await locationAvailabilityData.save();
 
                     if (isDateFound === true && availabilityDataSaveResult !== null) {
-                        console.log('Lock Cleaner : Availability model updated'.green);
+                        console.log('Lock Cleaner : Availability model updated');
                     }
                 }
 
@@ -54,10 +54,10 @@ const lockCleaner = async () => {
                     lockId: lockBooking.lockId,
                 });
                 if (deleteLockBookingResult === null) {
-                    console.log('Lock Cleaner : Error deleting lock booking data'.red);
+                    console.log('Lock Cleaner : Error deleting lock booking data');
                 }
                 else {
-                    console.log('Lock Clenaer : Booking Lock data deleted'.green);
+                    console.log('Lock Clenaer : Booking Lock data deleted');
                 }
             }
         });

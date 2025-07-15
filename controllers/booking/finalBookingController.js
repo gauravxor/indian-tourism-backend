@@ -49,7 +49,7 @@ const finalBookingController = async (req, res) => {
         const bookingDataSaveResult = await bookingSchema.save();
 
         if (bookingDataSaveResult === null) {
-            console.log('Booking Controller : Error saving booking data'.red);
+            console.log('Booking Controller : Error saving booking data');
             res.status(400).json({
                 status: 'failure',
                 code: 400,
@@ -59,14 +59,14 @@ const finalBookingController = async (req, res) => {
                 },
             });
         } else {
-            console.log('Booking Controller : Booking data saved in DB'.green);
+            console.log('Booking Controller : Booking data saved in DB');
             const userModelUpdateResult = await UserModel.findByIdAndUpdate(req.userId, {
                 $push: { bookings: { bookingId: bookingId } },
                 $inc: { bookingCount: 1 },
             });
 
             if (userModelUpdateResult === null) {
-                console.log('Booking Controller : Failed to add bookingId in User document'.red);
+                console.log('Booking Controller : Failed to add bookingId in User document');
                 return res.status(400).json({
                     status: 'failure',
                     code: 400,
@@ -88,9 +88,9 @@ const finalBookingController = async (req, res) => {
             /** Delete the lock booking data */
             const deleteLockIdResult = await LockBookingModel.deleteOne({ lockId: lockId });
             if (deleteLockIdResult === null) {
-                console.log('Booking Controller : Failed to delete LOCK data'.red);
+                console.log('Booking Controller : Failed to delete LOCK data');
             } else {
-                console.log('Booking Controller : LOCK data deleted'.green);
+                console.log('Booking Controller : LOCK data deleted');
             }
 
             const qrBuffer = await qrcode.toBuffer(bookingId, {
@@ -105,9 +105,9 @@ const finalBookingController = async (req, res) => {
             const sendEmailResult = await sendQrCode(bookingId, req.userEmail, bookingDataSaveResult);
             // TODO: Implement a retry queue for sending confirmation emails
             if (sendEmailResult === true) {
-                console.log('Booking Controller : QR code emailed'.green);
+                console.log('Booking Controller : QR code emailed');
             } else {
-                console.log('Booking Controller : Failed to send QR code'.red);
+                console.log('Booking Controller : Failed to send QR code');
             }
         }
     }

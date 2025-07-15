@@ -12,7 +12,7 @@ const forgotPassword = async (req, res) => {
 
     /** If the user is not found in the database */
     if (searchUserResult === null) {
-        console.log('Password Controller: User not found'.yellow);
+        console.log('Password Controller: User not found');
         return res.status(404).json({
             status: 'failure',
             code: 404,
@@ -24,14 +24,14 @@ const forgotPassword = async (req, res) => {
     }
 
     /** If we have the user in the db */
-    console.log('Password Controller: User found'.green);
+    console.log('Password Controller: User found');
     const userId = searchUserResult._id;
 
     const sendPasswordResetEmailResult = await OTP.sendPasswordResetEmail(requestEmail, userId);
 
     /** If password reset email was sent */
     if (sendPasswordResetEmailResult !== null) {
-        console.log('Password Controller: Password reset email sent'.yellow);
+        console.log('Password Controller: Password reset email sent');
         return res.status(200).json({
             status: 'success',
             code: 200,
@@ -42,7 +42,7 @@ const forgotPassword = async (req, res) => {
         });
     }
 
-    console.log('Password Controller: Failed to send password reset email'.red);
+    console.log('Password Controller: Failed to send password reset email');
     return res.status(500).json({
         status: 'failure',
         code: 500,
@@ -77,7 +77,7 @@ const changePassword = async (req, res) => {
 
     const searchUserResult = await AUTH.searchUser(requestEmail);
     if (searchUserResult === null) {
-        console.log('Password Controller: User not found'.yellow);
+        console.log('Password Controller: User not found');
         return res.status(404).json({
             status: 'failure',
             code: 404,
@@ -123,7 +123,7 @@ const changePassword = async (req, res) => {
     * If the OTP is not validated, then the user must first validate the OTP.
     */
     if (otpSearchResult.isResetOtpValidated === false) {
-        console.log('Password Controller : Password reset OTP not verified'.yellow);
+        console.log('Password Controller : Password reset OTP not verified');
         return res.status(401).json({
             status: 'failure',
             code: 401,
@@ -135,16 +135,16 @@ const changePassword = async (req, res) => {
     }
 
     if (otpSearchResult.isResetOtpValidated === true) {
-        console.log('Password Controller : Password reset OTP verified'.green);
+        console.log('Password Controller : Password reset OTP verified');
         const newPasswordHash = await bcrypt.hash(newPassword, 10);
         const searchCredentialsResult = await AUTH.searchCredentials(searchUserResult._id);
         const updatePasswordResult = await AUTH.updatePassword(searchCredentialsResult._id, newPasswordHash);
 
         if (updatePasswordResult) {
-            console.log('Password Controller : Deleting OTP collection'.yellow);
+            console.log('Password Controller : Deleting OTP collection');
             const otpDocumentId = (otpSearchResult._id).toString();
             await OtpModel.findByIdAndDelete(otpDocumentId);
-            console.log('Password Controller : Deleted OTP collection'.green);
+            console.log('Password Controller : Deleted OTP collection');
 
             // make sure to log client out from the device
             return res.status(200).json({

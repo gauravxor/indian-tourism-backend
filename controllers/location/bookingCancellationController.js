@@ -68,7 +68,7 @@ const bookingCancellationController = async (req, res) => {
             },
         });
     }
-    console.log('Cancellation Controller : Wallet Balance Updated'.green);
+    console.log('Cancellation Controller : Wallet Balance Updated');
 
     /** Once the wallet is updated delete the cancellation entry from the cancellation model */
     const cancellationDeleteResult = await CancellationModel.deleteOne({ bookingId: bookingId, adminId: adminId });
@@ -87,7 +87,7 @@ const bookingCancellationController = async (req, res) => {
     /** Now once everything is done, update the availability model */
     const locationAvailabilityData = await AvailabilityModel.findOne({ locationId: cancellationData.locationId });
     if (locationAvailabilityData === null) {
-        console.log('Lock Controller : Location availability data does not exist'.red);
+        console.log('Lock Controller : Location availability data does not exist');
         return res.status(400).json({
             status: 'failure',
             code: 400,
@@ -101,7 +101,7 @@ const bookingCancellationController = async (req, res) => {
     let isDateFound = false;
     const availabilityData = locationAvailabilityData.calendarMonths;
     const dateOfVisit = cancellationData.dateOfVisit;
-    console.log('performing date check'.yellow);
+    console.log('performing date check');
     for (let i = 0; i < availabilityData.length && !isDateFound; i += 1) {
         /** Month will have the object where "days" key is an array of dates */
         const month = availabilityData[i];
@@ -110,7 +110,7 @@ const bookingCancellationController = async (req, res) => {
         /** If the month of booking request date is equal to the current month object */
         console.log(dateOfVisit.getMonth());
         if (month.month == dateOfVisit.getMonth() + 1) {
-            // console.log("Month found".yellow);
+            // console.log("Month found");
             for (let j = 0; j < month.days.length; j += 1) {
                 const currentDate = new Date(month.days[j].calendarDate).getDate();
                 // console.log(currentDate + " - > " + dateOfVisit.getDate());
