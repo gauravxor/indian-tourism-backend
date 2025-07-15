@@ -6,7 +6,7 @@
                 "./*"
             ],
             "@config/*": [
-                "./configs/*"
+                "config/*"
             ],
             "@controllers/*": [
                 "./controllers/*"

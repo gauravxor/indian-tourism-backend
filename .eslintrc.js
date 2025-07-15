@@ -26,7 +26,7 @@ module.exports = {
             alias: {
                 map: [
                     ['@root', '.'],
-                    ['@config', './configs'],
+                    ['@config', './config'],
                     ['@controllers', './controllers'],
                     ['@helpers', './helpers'],
                     ['@middlewares', './middlewares'],
