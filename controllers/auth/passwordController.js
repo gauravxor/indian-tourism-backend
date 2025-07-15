@@ -1,9 +1,10 @@
+const logger = require('@config/logger');
+
 const bcrypt = require('bcryptjs');
 const AUTH = require('../../helper/authHelper');
 const OTP = require('../../helper/otpHelper');
 const OtpModel = require('../../models/otpModel');
 const CredentialModel = require('../../models/credentialModel');
-const logger = require('@config/logger');
 
 const forgotPassword = async (req, res) => {
     const requestEmail = req.body.email;
