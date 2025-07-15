@@ -1,5 +1,5 @@
 const admin = require("firebase-admin"); // eslint-disable-line
-const serviceAccount = require('../configs/fireBaseConfig');
+const serviceAccount = require('../config/fireBaseConfig');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
