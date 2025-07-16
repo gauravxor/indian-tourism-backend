@@ -1,11 +1,11 @@
 const logger = require('@config/logger');
 
 const crypto = require('crypto');
-const OTP = require('../../helpers/otpHelper');
-const AUTH = require('../../helpers/authHelper');
-const TOKENIZER = require('../../helpers/jwtHelper');
+const OTP = require('@helpers/otpHelper');
+const AUTH = require('@helpers/authHelper');
+const TOKENIZER = require('@helpers/jwtHelper');
 
-const CredentialModel = require('../../models/credential');
+const CredentialModel = require('@models/credential');
 
 const otpController = async (req, res) => {
     const requestOtp = req.body.otp;

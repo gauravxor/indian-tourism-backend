@@ -1,12 +1,12 @@
 const qrcode = require('qrcode');
 const { v4: uuidv4 } = require('uuid');
 
-const LockBookingModel = require('../../models/lockBooking');
-const BookingModel = require('../../models/bookings');
-const UserModel = require('../../models/user');
-const FIREBASE = require('../../helpers/firebaseHelper');
+const LockBookingModel = require('@models/lockBooking');
+const BookingModel = require('@models/bookings');
+const UserModel = require('@models/user');
+const FIREBASE = require('@helpers/firebaseHelper');
 
-const sendQrCode = require('../../helpers/bookingHelper');
+const sendQrCode = require('@helpers/bookingHelper');
 
 /**
  * Once the user pays, the user will send the booking id and the payment id to the

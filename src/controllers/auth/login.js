@@ -1,7 +1,7 @@
 const logger = require('@config/logger');
 
-const AUTH = require('../../helpers/authHelper');
-const TOKENIZER = require('../../helpers/jwtHelper');
+const AUTH = require('@helpers/authHelper');
+const TOKENIZER = require('@helpers/jwtHelper');
 
 const loginController = async (req, res) => {
     const requestEmail = req.body.email;

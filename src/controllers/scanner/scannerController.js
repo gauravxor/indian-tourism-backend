@@ -1,5 +1,5 @@
-const BookingModel = require('../../models/bookings');
-const AdminModel = require('../../models/admin');
+const BookingModel = require('@models/bookings');
+const AdminModel = require('@models/admin');
 
 const scannerFetchController = async (req, res) => {
     const accessKey = req.body.accessKey;

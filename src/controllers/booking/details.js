@@ -1,4 +1,4 @@
-const BookingsModel = require('../../models/bookings');
+const BookingsModel = require('@models/bookings');
 
 const getBookingDetailsController = async (req, res) => {
     const bookingId = req.body.bookingId;

@@ -1,9 +1,9 @@
-const UserModel = require('../../models/user');
-const AdminModel = require('../../models/admin');
+const UserModel = require('@models/user');
+const AdminModel = require('@models/admin');
 const { v4: uuidv4 } = require('uuid');  // eslint-disable-line
-const AUTH = require('../../helpers/authHelper');
-const TOKENIZER = require('../../helpers/jwtHelper');
-const FIREBASE = require('../../helpers/firebaseHelper');
+const AUTH = require('@helpers/authHelper');
+const TOKENIZER = require('@helpers/jwtHelper');
+const FIREBASE = require('@helpers/firebaseHelper');
 
 const userUpdateController = async (req, res) => {
     const userId = req.userId;

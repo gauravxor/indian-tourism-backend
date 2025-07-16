@@ -1,6 +1,6 @@
-const BookingModel = require('../../models/bookings');
-const CancellationModel = require('../../models/cancellation');
-const AdminModel = require('../../models/admin');
+const BookingModel = require('@models/bookings');
+const CancellationModel = require('@models/cancellation');
+const AdminModel = require('@models/admin');
 
 const cancelRequestController = async (req, res) => {
     const bookingId = req.body.bookingId;
