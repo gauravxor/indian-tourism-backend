@@ -2,10 +2,10 @@
     "name": "indian-tourism",
     "version": "1.0.0",
     "description": "Indian Tourism Backend",
-    "main": "index.js",
+    "main": "./src/server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon --env-file .env index.js"
+        "start": "nodemon --env-file .env ./src/server.js"
     },
     "author": "Gaurav Aggarwal",
     "license": "MIT",
@@ -38,12 +38,12 @@
     "_moduleAliases": {
         "@root": ".",
         "@config": "./config",
-        "@controllers": "./controllers",
-        "@helpers": "./helpers",
-        "@middlewares": "./middlewares",
-        "@models": "./models",
-        "@routes": "./routes",
-        "@services": "./services",
-        "@utils": "./utils"
+        "@controllers": "./src/controllers",
+        "@helpers": "./src/helpers",
+        "@middlewares": "./src/middlewares",
+        "@models": "./src/models",
+        "@routes": "./src/routes",
+        "@services": "./src/services",
+        "@utils": "./src/utils"
     }
 }

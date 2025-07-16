@@ -9,25 +9,25 @@
                 "config/*"
             ],
             "@controllers/*": [
-                "./controllers/*"
+                "./src/controllers/*"
             ],
             "@helpers/*": [
-                "./helpers/*"
+                "src/helpers/*"
             ],
             "@middlewares/*": [
-                "./middlewares/*"
+                "./src/middlewares/*"
             ],
             "@models/*": [
-                "./models/*"
+                "./src/models/*"
             ],
             "@routes/*": [
-                "./routes/*"
+                "./src/routes/*"
             ],
             "@services/*": [
-                "./services/*"
+                "./src/services/*"
             ],
             "@utils/*": [
-                "./utils/*"
+                "./src/utils/*"
             ]
         }
     },
