@@ -1,7 +1,7 @@
-const LocationModel = require('../../models/location');
-const AvailabilityModel = require('../../models/availability');
-const LockBookingModel = require('../../models/lockBooking');
-const UserModel = require('../../models/user');
+const LocationModel = require('@models/location');
+const AvailabilityModel = require('@models/availability');
+const LockBookingModel = require('@models/lockBooking');
+const UserModel = require('@models/user');
 const { v4: uuidv4 } = require('uuid');
 
 function convertToISODate(dateString) {

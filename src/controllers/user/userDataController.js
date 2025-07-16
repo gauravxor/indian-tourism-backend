@@ -1,11 +1,11 @@
-const UserModel = require('../../models/user');
-const AdminModel = require('../../models/admin');
-const BookingsModel = require('../../models/bookings');
+const UserModel = require('@models/user');
+const AdminModel = require('@models/admin');
+const BookingsModel = require('@models/bookings');
 
 const getUserDataController = async (req, res) => {
-    console.log('User Data Controller : User Type ->' + `${req.userType}`);
+    console.log(`User Data Controller : User Type -> ${req.userType}`);
     const userId = (req.params.userId).toString();
-    console.log('User data controller : User Id -> ' + `${userId}`);
+    console.log(`User data controller : User Id -> ${userId}`);
     if (userId === undefined || userId === null || userId === '') {
         console.log('User data controller : User Id not provided');
         return res.status(400).json({
@@ -49,7 +49,7 @@ const getUserDataController = async (req, res) => {
 
 /** Function to get user's bookings */
 async function getIndividualBookingData(bookingId) {
-    console.log('User Data Controller : Received booking id -> ' + `${bookingId}`);
+    console.log(`User Data Controller : Received booking id -> ${bookingId}`);
     const bookingData = await BookingsModel.findOne({ bookingId: bookingId });
     if (bookingData === null) {
         console.log('User Data Controller : No bookings found with the provided ID'.bold);
@@ -61,7 +61,7 @@ async function getIndividualBookingData(bookingId) {
 
 const getUserBookingsController = async (req, res) => {
     const userId = (req.params.userId).toString();
-    console.log('User data controller : User Id -> ' + `${userId}`);
+    console.log(`User data controller : User Id -> ${userId}`);
 
     if (userId === undefined || userId === null || userId === '') {
         return res.status(400).json({

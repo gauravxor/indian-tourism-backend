@@ -1,4 +1,4 @@
-const LocationModel = require('../../models/location');
+const LocationModel = require('@models/location');
 
 const getRandomLocationsController = async (req, res) => {
     const locations = await LocationModel.aggregate([

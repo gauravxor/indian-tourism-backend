@@ -1,9 +1,9 @@
 const { v4: uuidv4 } = require('uuid'); // eslint-disable-line
-const FIREBASE = require('../../helpers/firebaseHelper');
+const FIREBASE = require('@helpers/firebaseHelper');
 
-const LocationModel = require('../../models/location');
-const AvailabilityModel = require('../../models/availability');
-const AdminModel = require('../../models/admin');
+const LocationModel = require('@models/location');
+const AvailabilityModel = require('@models/availability');
+const AdminModel = require('@models/admin');
 
 const generateDaysArray = (year, month, capacity) => {
     const numDays = new Date(year, month, 0).getDate();

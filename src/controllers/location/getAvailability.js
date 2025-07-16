@@ -1,4 +1,4 @@
-const AvailabilityModel = require('../../models/availability');
+const AvailabilityModel = require('@models/availability');
 
 const getAvailabilityController = async (req, res) => {
     const locationId = req.params.locationId;

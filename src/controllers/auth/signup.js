@@ -1,9 +1,9 @@
 const bcrypt = require('bcryptjs');
-const AUTH = require('../../helpers/authHelper');
-const OTP = require('../../helpers/otpHelper');
-const UserModel = require('../../models/user');
-const CredentialModel = require('../../models/credential');
-const { defaultUserImage } = require('../../fileUrls');
+const AUTH = require('@helpers/authHelper');
+const OTP = require('@helpers/otpHelper');
+const UserModel = require('@models/user');
+const CredentialModel = require('@models/credential');
+const { defaultUserImage } = require('@root/src/fileUrls');
 
 const signUpController = async (req, res) => {
     const userEmail = req.body.contact.email;

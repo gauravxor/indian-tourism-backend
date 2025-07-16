@@ -1,4 +1,4 @@
-const LockBookingModel = require('../../models/lockBooking');
+const LockBookingModel = require('@models/lockBooking');
 
 const getTempBookingDetailsController = async (req, res) => {
     const lockId = req.params.lockId;

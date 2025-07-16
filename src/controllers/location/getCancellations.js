@@ -1,4 +1,4 @@
-const CancellationModel = require('../../models/cancellation');
+const CancellationModel = require('@models/cancellation');
 
 const getCancellationsController = async (req, res) => {
     const adminId = req.params.adminId;
