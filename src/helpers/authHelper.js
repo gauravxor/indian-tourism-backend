@@ -4,7 +4,9 @@ const CredentialModel = require('@models/credential');
 const UserModel = require('@models/user');
 const AdminModel = require('@models/admin');
 
-/** Function to search User using email in USER collection */
+/** Function to search User using email in USER collection
+ * @deprecated use the function from UserRepository
+ */
 async function searchUser(email) {
     const searchResult = await UserModel.findOne({
         'contact.email': email,
@@ -12,7 +14,9 @@ async function searchUser(email) {
     return searchResult;
 }
 
-/** Function to search Admin using email in ADMIN collection */
+/** Function to search Admin using email in ADMIN collection
+ * @deprecated use the function from AdminRepository
+ */
 async function searchAdmin(email) {
     const searchResult = await AdminModel.findOne({
         'contact.email': email,
@@ -20,19 +24,25 @@ async function searchAdmin(email) {
     return searchResult;
 }
 
-/** Function to search User using User Document ID in USER collection */
+/** Function to search User using User Document ID in USER collection
+ * @deprecated
+*/
 async function searchUserById(userId) {
     const searchResult = await UserModel.findById(userId);
     return searchResult;
 }
 
-/** Function to search Admin using Admin Document ID in ADMIN collection */
+/** Function to search Admin using Admin Document ID in ADMIN collection
+ * @deprecated
+*/
 async function searchAdminUserById(adminId) {
     const searchResult = await AdminModel.findById(adminId);
     return searchResult;
 }
 
-/** Function to search Credentials for a user using User's Document Id */
+/** Function to search Credentials for a user using User's Document Id
+ * @deprecated
+ */
 async function searchCredentials(userId) {
     const searchResult = await CredentialModel.findOne({
         userId: userId,
