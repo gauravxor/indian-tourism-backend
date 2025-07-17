@@ -1,49 +1,50 @@
 {
-    "name": "indian-tourism",
-    "version": "1.0.0",
-    "description": "Indian Tourism Backend",
-    "main": "./src/server.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon --env-file .env ./src/server.js"
-    },
-    "author": "Gaurav Aggarwal",
-    "license": "MIT",
-    "devDependencies": {
-        "eslint": "^8.2.0",
-        "eslint-config-airbnb-base": "^15.0.0",
-        "eslint-import-resolver-alias": "^1.1.2",
-        "eslint-plugin-import": "^2.32.0",
-        "nodemon": "^3.1.10"
-    },
-    "dependencies": {
-        "@google-cloud/storage": "^7.16.0",
-        "agent-base": "^7.1.4",
-        "bcryptjs": "^3.0.2",
-        "cookie-parser": "^1.4.7",
-        "cors": "^2.8.5",
-        "express": "^5.1.0",
-        "firebase-admin": "^13.4.0",
-        "json-web-token": "^3.2.0",
-        "jsonwebtoken": "^9.0.2",
-        "lodash": "^4.17.21",
-        "module-alias": "^2.2.3",
-        "mongoose": "^8.16.3",
-        "multer": "^2.0.1",
-        "nodemailer": "^7.0.5",
-        "qrcode": "^1.5.4",
-        "uuid": "^11.1.0",
-        "winston": "^3.17.0"
-    },
-    "_moduleAliases": {
-        "@root": ".",
-        "@config": "./config",
-        "@controllers": "./src/controllers",
-        "@helpers": "./src/helpers",
-        "@middlewares": "./src/middlewares",
-        "@models": "./src/models",
-        "@routes": "./src/routes",
-        "@services": "./src/services",
-        "@utils": "./src/utils"
-    }
+  "name": "indian-tourism",
+  "version": "1.0.0",
+  "description": "Indian Tourism Backend",
+  "main": "./src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --env-file .env ./src/server.js"
+  },
+  "author": "Gaurav Aggarwal",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.32.0",
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^7.16.0",
+    "agent-base": "^7.1.4",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "firebase-admin": "^13.4.0",
+    "json-web-token": "^3.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "module-alias": "^2.2.3",
+    "mongoose": "^8.16.3",
+    "multer": "^2.0.1",
+    "nodemailer": "^7.0.5",
+    "qrcode": "^1.5.4",
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@config": "./config",
+    "@controllers": "./src/controllers",
+    "@helpers": "./src/helpers",
+    "@middlewares": "./src/middlewares",
+    "@models": "./src/models",
+    "@routes": "./src/routes",
+    "@services": "./src/services",
+    "@utils": "./src/utils",
+    "@repositories": "./src/database/repositories"
+  }
 }

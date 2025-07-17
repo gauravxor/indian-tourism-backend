@@ -11,6 +11,9 @@
             "@controllers/*": [
                 "./src/controllers/*"
             ],
+            "@repositories/*": [
+                "./src/database/repositories/*"
+            ],
             "@helpers/*": [
                 "src/helpers/*"
             ],
