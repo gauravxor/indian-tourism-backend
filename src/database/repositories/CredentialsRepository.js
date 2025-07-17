@@ -4,7 +4,7 @@ const logger = require('@config/logger');
 class CredentialsRepository {
     static async searchCredentials(userId) {
         logger.info(`Searching credentials for userId: ${userId}`);
-        const searchResult = CredentialModel.findOne({ userId: userId });
+        const searchResult = await CredentialModel.findOne({ userId: userId });
         return searchResult;
     }
 
@@ -12,6 +12,14 @@ class CredentialsRepository {
         const updateResult = await CredentialModel.findByIdAndUpdate(documentId, { password: passwordHash });
         return updateResult;
     }
+
+    static async updatePassword(email, newPasswordHash) {
+        const updateResult = await CredentialModel.findOneAndUpdate(
+            { email: email },
+            { password: newPasswordHash },
+        );
+        return updateResult;
+    }
 }
 
-module.exports = new CredentialsRepository();
+module.exports = CredentialsRepository;

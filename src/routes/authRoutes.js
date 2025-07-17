@@ -1,10 +1,10 @@
 const express = require('express');
 
 const signUpController = require('@controllers/auth/signup');
-const loginController = require('@controllers/auth/login');
-const logoutController = require('@controllers/auth/logout');
-const otpController = require('@controllers/auth/otp');
-const passwordController = require('@controllers/auth/password');
+const loginController = require('@controllers/auth/loginController');
+const logoutController = require('@controllers/auth/logoutController');
+const otpController = require('@controllers/auth/otpController');
+const passwordController = require('@controllers/auth/passwordController');
 
 const { resendOtp } = require('@helpers/otpHelper');
 
