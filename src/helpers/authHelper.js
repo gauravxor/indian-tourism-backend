@@ -56,7 +56,9 @@ async function validatePass(plaintextPassword, hash) {
     return hashCheckResult;
 }
 
-/** Function to update password in CREDENTIALS collection */
+/** Function to update password in CREDENTIALS collection
+ * @deprecated
+ */
 async function updatePassword(documentId, hash) {
     const updateResult = await CredentialModel.findByIdAndUpdate(documentId, {
         password: hash,

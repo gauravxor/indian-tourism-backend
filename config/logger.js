@@ -5,6 +5,7 @@ const {
     combine, timestamp, printf, colorize,
 } = winston.format;
 
+// eslint-disable-next-line no-shadow
 const logFormat = printf(({ level, message, timestamp }) => `${timestamp} [${level}] : ${message}`);
 
 const logger = winston.createLogger({
