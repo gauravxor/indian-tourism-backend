@@ -5,19 +5,17 @@ const UserModel = require('@models/user');
 const CredentialModel = require('@models/credential');
 const { defaultUserImage } = require('@root/src/fileUrls');
 
+const {
+    apiError,
+    apiResponse,
+} = require('@utils/responseHelper');
+
 const signUpController = async (req, res) => {
     const userEmail = req.body.contact.email;
 
     const searchUserResult = await AUTH.searchUser(userEmail);
     if (searchUserResult != null) {
-        return res.status(409).json({
-            status: 'failure',
-            code: 409,
-            error: {
-                message: 'duplicate email',
-                details: 'email id already registered',
-            },
-        });
+        return apiError(res, 409, 'user already registered');
     }
 
     /** If we have a new user */
@@ -32,8 +30,7 @@ const signUpController = async (req, res) => {
         },
         address: {
             country: req.body.address.country,
-        },
-        ...(req.body.dob && { dob: req.body.dob }),
+        }, ...(req.body.dob && { dob: req.body.dob }),
         createdAt: req.body.createdAt,
         updatedAt: req.body.updatedAt,
     });
@@ -41,14 +38,7 @@ const signUpController = async (req, res) => {
     const saveUserResult = await User.save();
     if (!saveUserResult) {
         console.log('SignUp Controller : Error saving the user data in DB');
-        return res.status(500).json({
-            status: 'failure',
-            code: 500,
-            error: {
-                message: 'database failure',
-                details: 'error occured while saving the user data in the database',
-            },
-        });
+        return apiError(res, 500, 'internal server error');
     }
     console.log('SignUp Controller : User Saved in DB');
 
@@ -64,40 +54,19 @@ const signUpController = async (req, res) => {
     });
     const credentialsSaveResult = await Credentials.save();
     if (credentialsSaveResult === null) {
-        return res.status(500).json({
-            status: 'failure',
-            code: 500,
-            error: {
-                message: 'database failure',
-                details: 'error occured while saving the user credentails in the database',
-            },
-        });
+        return apiError(res, 500, 'internal server error');
     }
     console.log('SignUp Controller : Credentials Saved in DB');
 
     /** Sending OTP for email verification */
     const sendOtpResult = await OTP.emailOtp(User.contact.email, User._id);
     if (sendOtpResult === null) {
-        console.log('SignUp Controller : Email verificatino OTP not sent');
-        return res.status(500).json({
-            status: 'failure',
-            code: 500,
-            error: {
-                message: 'otp failure',
-                details: 'error sending the verification OTP to the user email id',
-            },
-        });
+        console.log('SignUp Controller : Email verification OTP not sent');
+        return apiError(res, 500, 'internal server error');
     }
 
     console.log('SignUp Controller : Email verification OTP sent');
-    return res.status(201).json({
-        status: 'success',
-        code: 201,
-        data: {
-            message: 'user created',
-            userId: User._id,
-        },
-    });
+    return apiResponse(res, 201, 'user created');
 };
 
 module.exports = signUpController;
