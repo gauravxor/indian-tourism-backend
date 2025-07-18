@@ -6,6 +6,10 @@ const ResetPasswordService = require('@services/auth/ResetPasswordService');
 const OtpService = require('@services/auth/OtpService');
 
 const { NotFoundError } = require('@utils/errors');
+const {
+    apiError,
+    apiResponse,
+} = require('@utils/responseHelper');
 
 const forgotPassword = async (req, res) => {
     const email = req.body.email;
@@ -13,37 +17,13 @@ const forgotPassword = async (req, res) => {
     try {
         await ForgotPasswordService.handle(email);
         logger.info('Password Controller: Password reset email sent');
-        return res.status(200)
-            .json({
-                status: 'success',
-                code: 200,
-                data: {
-                    message: 'password reset email sent',
-                    details: 'password reset email sent',
-                },
-            });
+        return apiResponse(res, 200, 'password reset email sent');
     } catch (error) {
         if (error instanceof NotFoundError) {
-            return res.status(404)
-                .json({
-                    status: 'failure',
-                    code: 404,
-                    error: {
-                        message: 'user not found',
-                        details: 'user not found in database',
-                    },
-                });
+            return apiError(res, 404, 'user not found');
         }
         console.log('Password Controller: Failed to send password reset email');
-        return res.status(500)
-            .json({
-                status: 'failure',
-                code: 500,
-                error: {
-                    message: 'reset email not sent',
-                    details: 'failed to send password reset email',
-                },
-            });
+        return apiError(res, 500, 'internal server error');
     }
 };
 
@@ -64,25 +44,9 @@ const changePassword = async (req, res) => {
 
     } catch (error) {
         if (error instanceof NotFoundError) {
-            return res.status(404)
-                .json({
-                    status: 'failure',
-                    code: 404,
-                    error: {
-                        msg: 'user not found',
-                        details: 'user not found in database',
-                    },
-                });
+            return apiError(res, 404, 'user not found');
         }
-        return res.status(500)
-            .json({
-                status: 'failure',
-                code: 500,
-                error: {
-                    message: 'password update failed',
-                    details: 'password update failed',
-                },
-            });
+        return apiError(res, 500, 'internal server error');
     }
 };
 
@@ -99,29 +63,13 @@ const resetPassword = async (req, res) => {
 
     const isOtpValid = OtpService.verifyOtp(otp, email, 'password_reset');
     if (!isOtpValid) {
-        return res.status(500)
-            .json({
-                status: 'failure',
-                code: 401,
-                error: {
-                    message: 'invalid otp',
-                    details: 'invalid otp',
-                },
-            });
+        return apiError(res, 401, 'invalid OTP');
     }
 
     try {
         await ResetPasswordService.handle(email, newPassword);
     } catch (error) {
-        return res.status(500)
-            .json({
-                status: 'failure',
-                code: 500,
-                error: {
-                    message: 'password reset failed',
-                    details: 'password reset failed',
-                },
-            });
+        return apiError(res, 500, 'internal server error');
     }
 };
 

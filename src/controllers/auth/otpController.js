@@ -1,9 +1,13 @@
-const crypto = require('crypto');
 const TOKENIZER = require('@helpers/jwtHelper');
-
-const CredentialModel = require('@models/credential');
 const OtpService = require('@services/auth/OtpService');
 const OtpError = require('@utils/errors/OtpError');
+
+const {
+    apiError,
+    apiResponse,
+} = require('@utils/responseHelper');
+
+const { setCookie } = require('@utils/cookieHelper');
 
 const otpController = async (req, res) => {
     const {
@@ -14,28 +18,12 @@ const otpController = async (req, res) => {
 
     /** Checking if email id is received with the request. */
     if (!email) {
-        return res.status(400)
-            .json({
-                status: 'failure',
-                code: 400,
-                error: {
-                    message: 'invalid request',
-                    details: 'missing email id from request body',
-                },
-            });
+        return apiError(res, 400, 'email not received');
     }
 
     /** Checking if we received a valid otp type */
     if (otpType !== 'emailVerification' && otpType !== 'passwordReset') {
-        return res.status(400)
-            .json({
-                status: 'failure',
-                code: 400,
-                error: {
-                    message: 'invalid otp type',
-                    details: 'requested otp type was not recognised',
-                },
-            });
+        return apiError(res, 400, 'invalid otp type');
     }
 
     try {
@@ -46,78 +34,15 @@ const otpController = async (req, res) => {
         if (otpType === 'emailVerification') {
             const accessToken = TOKENIZER.generateAccessToken(userId, email, 'local');
             const refreshToken = TOKENIZER.generateRefreshToken(userId, email, 'local');
-            res.cookie('accessToken', accessToken, {
-                httpOnly: true,
-                sameSite: 'None',
-                secure: true,
-            });
-            return res.status(200)
-                .json({
-                    status: 'success',
-                    code: 200,
-                    data: {
-                        message: verificationResult,
-                        refreshToken: refreshToken,
-                    },
-                });
-        }
-
-        /** If request is for password reset and OTP is validated, generate and send a reset ID */
-        // TODO: remove the password reset logic and create a separate functionality
-        if (otpType === 'passwordReset') {
-            const resetId = crypto.randomInt(2 ** 32);
-            const resetIdExpiry = Date.now() + 1000 * 60 * 2; // 2 minutes
-            const result = await CredentialModel.findOneAndUpdate(
-                { userId: userId },
-                {
-                    resetId: resetId,
-                    resetIdExpiry: resetIdExpiry,
-                },
-            );
-
-            if (result === null) {
-                return res.status(500)
-                    .json({
-                        status: 'failure',
-                        code: 500,
-                        error: {
-                            message: 'database error',
-                            details: 'failed to update resetId in database',
-                        },
-                    });
-            }
-            return res.status(200)
-                .json({
-                    status: 'success',
-                    code: 200,
-                    data: {
-                        message: 'otp validated',
-                        resetId,
-                    },
-                });
+            setCookie(res, 'accessToken', accessToken);
+            return apiResponse(res, 200, verificationResult, { refreshToken: refreshToken });
         }
     } catch (error) {
         if (error instanceof OtpError) {
-            return res.status(401)
-                .json({
-                    status: 'failure',
-                    code: 401,
-                    error: {
-                        message: error.message,
-                        details: error.details,
-                    },
-                });
+            return apiError(res, 401, error.message, error.details);
         }
 
-        return res.status(500)
-            .json({
-                status: 'failure',
-                code: 500,
-                error: {
-                    message: 'internal server error',
-                    details: 'something went wrong',
-                },
-            });
+        return apiError(res, 500, 'internal server error');
     }
 };
 
