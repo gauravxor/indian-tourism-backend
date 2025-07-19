@@ -12,7 +12,12 @@
   "author": "Gaurav Aggarwal",
   "license": "MIT",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.9",
+    "@types/cors": "^2.8.19",
+    "@types/multer": "^2.0.0",
     "@types/node": "^24.0.14",
+    "@types/nodemailer": "^6.4.17",
+    "@types/qrcode": "^1.5.5",
     "@typescript-eslint/eslint-plugin": "^8.37.0",
     "@typescript-eslint/parser": "^8.37.0",
     "eslint": "^8.2.0",

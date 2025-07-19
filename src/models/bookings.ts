@@ -1,0 +1,95 @@
+import mongoose, { Document, Schema, Model } from "mongoose";
+
+interface ILocationAddress {
+    addressMain: string;
+    country: string;
+    state?: string;
+    city?: string;
+    pincode?: number;
+}
+
+interface IBooking extends Document {
+    bookingId: string;
+    locationId: string;
+    locationName: string;
+    locationDesc: string;
+    locationAddress: ILocationAddress;
+
+    userId: string;
+    userName: string;
+
+    dateOfVisit: Date;
+    noOfTickets: number;
+    bookingPrice: number;
+    timeOfBooking: Date;
+    cancellationStatus: string;
+    isVisited: boolean;
+}
+
+const bookingSchema = new Schema<IBooking>({
+    bookingId: {
+        type: String,
+        required: true,
+    },
+    locationId: {
+        type: String,
+        required: true,
+        ref: "locations",
+    },
+    locationName: {
+        type: String,
+        required: true,
+    },
+    locationDesc: {
+        type: String,
+        required: true,
+    },
+    locationAddress: {
+        type: Object,
+        required: true,
+    },
+
+    userId: {
+        type: String,
+        required: true,
+        ref: "users",
+    },
+    userName: {
+        type: String,
+        required: true,
+    },
+
+    dateOfVisit: {
+        type: Date,
+        required: true,
+    },
+    noOfTickets: {
+        type: Number,
+        required: true,
+    },
+    bookingPrice: {
+        type: Number,
+        required: true,
+    },
+    timeOfBooking: {
+        type: Date,
+        required: true,
+    },
+    cancellationStatus: {
+        type: String,
+        required: true,
+        default: "na",
+    },
+    isVisited: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+});
+
+const BookingModel: Model<IBooking> = mongoose.model<IBooking>(
+    "bookings",
+    bookingSchema
+);
+
+export { IBooking, BookingModel };
