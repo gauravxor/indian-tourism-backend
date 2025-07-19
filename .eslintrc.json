@@ -1,86 +1,89 @@
 {
-  "env": {
-    "browser": true,
-    "commonjs": true,
-    "es2021": true
-  },
-  "extends": "airbnb-base",
-  "overrides": [
-    {
-      "env": {
-        "node": true
-      },
-      "files": [
-        ".eslintrc.json"
-      ],
-      "parserOptions": {
-        "sourceType": "script"
-      }
-    }
-  ],
-  "parserOptions": {
-    "ecmaVersion": "latest"
-  },
-  "settings": {
-    "import/resolver": {
-      "alias": {
-        "map": [
-          [
-            "@root",
-            "."
-          ],
-          [
-            "@config",
-            "./config"
-          ],
-          [
-            "@controllers",
-            "./src/controllers"
-          ],
-          [
-            "@helpers",
-            "./src/helpers"
-          ],
-          [
-            "@middlewares",
-            "./src/middlewares"
-          ],
-          [
-            "@models",
-            "./src/models"
-          ],
-          [
-            "@routes",
-            "./src/routes"
-          ],
-          [
-            "@services",
-            "./src/services"
-          ],
-          [
-            "@utils",
-            "./src/utils"
-          ],
-          [
-            "@repositories",
-            "./src/database/repositories"
-          ]
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "extends": "airbnb-base",
+    "overrides": [
+        {
+            "env": {
+                "node": true
+            },
+            "files": [
+                ".eslintrc.json"
+            ],
+            "parserOptions": {
+                "sourceType": "script"
+            }
+        }
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "settings": {
+        "import/resolver": {
+            "alias": {
+                "map": [
+                    [
+                        "@root",
+                        "."
+                    ],
+                    [
+                        "@config",
+                        "./config"
+                    ],
+                    [
+                        "@controllers",
+                        "./src/controllers"
+                    ],
+                    [
+                        "@helpers",
+                        "./src/helpers"
+                    ],
+                    [
+                        "@middlewares",
+                        "./src/middlewares"
+                    ],
+                    [
+                        "@models",
+                        "./src/models"
+                    ],
+                    [
+                        "@routes",
+                        "./src/routes"
+                    ],
+                    [
+                        "@services",
+                        "./src/services"
+                    ],
+                    [
+                        "@utils",
+                        "./src/utils"
+                    ],
+                    [
+                        "@repositories",
+                        "./src/database/repositories"
+                    ]
+                ],
+                "extensions": [
+                    ".js",
+                    ".json",
+                    ".node"
+                ]
+            }
+        }
+    },
+    "rules": {
+        "no-console": "off",
+        "object-shorthand": "off",
+        "indent": [
+            "error",
+            4
         ],
-        "extensions": [
-          ".js",
-          ".json",
-          ".node"
-        ]
-      }
+        "consistent-return": "off",
+        "no-underscore-dangle": "off",
+        "max-len": "off",
+        "prefer-destructuring": "off"
     }
-  },
-  "rules": {
-    "no-console": "off",
-    "object-shorthand": "off",
-    "indent": "off",
-    "consistent-return": "off",
-    "no-underscore-dangle": "off",
-    "max-len": "off",
-    "prefer-destructuring": "off"
-  }
 }

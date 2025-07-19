@@ -12,7 +12,7 @@
     "*.txt",
     "coverage/**"
   ],
-  "exec": "node -r ts-node/register --env-file=.env index.js",
+  "exec": "node -r ts-node/register --env-file=.env index.ts",
   "delay": 1000,
   "env": {
     "NODE_ENV": "development"
