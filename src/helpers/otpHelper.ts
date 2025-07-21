@@ -4,7 +4,7 @@ import * as AUTH from "@helpers/authHelper";
 import { OtpModel, IOtp } from "@models/otp";
 import { UserModel } from "@models/user";
 import { NotFoundError } from "@utils/errors";
-
+import UserRepository from "@repositories/UserRepository";
 /** Function to generate OTP */
 function generateOtp(length: number): string {
     let otp = "";
@@ -189,7 +189,7 @@ async function verifyOtp(
 async function resendOtp(req: Request, res: Response): Promise<Response> {
     console.log(`OTP Helper : OTP resend request for ${req?.body.email}`);
     const requestEmail = req.body.email;
-    const userData = await AUTH.searchUser(requestEmail);
+    const userData = await UserRepository.searchUser(requestEmail);
     if (!userData) {
         throw new NotFoundError("User not found");
     }

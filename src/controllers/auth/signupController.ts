@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { searchUser } from "@helpers/authHelper";
+import UserRepository from "@repositories/UserRepository";
 import { emailOtp } from "@helpers/otpHelper";
 import { UserModel } from "@models/user";
 import { CredentialsModel } from "@models/credential";
@@ -11,7 +11,7 @@ import { apiError, apiResponse } from "@utils/responseHelper";
 const signUpController = async (req: Request, res: Response) => {
     const userEmail = req.body.contact.email;
 
-    const searchUserResult = await searchUser(userEmail);
+    const searchUserResult = await UserRepository.searchUser(userEmail);
     if (searchUserResult != null) {
         return apiError(res, 409, "user already registered");
     }
