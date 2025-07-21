@@ -1,89 +1,116 @@
 {
-    "env": {
-        "browser": true,
-        "commonjs": true,
-        "es2021": true
-    },
-    "extends": "airbnb-base",
-    "overrides": [
-        {
-            "env": {
-                "node": true
-            },
-            "files": [
-                ".eslintrc.json"
-            ],
-            "parserOptions": {
-                "sourceType": "script"
-            }
-        }
-    ],
-    "parserOptions": {
-        "ecmaVersion": "latest"
-    },
-    "settings": {
-        "import/resolver": {
-            "alias": {
-                "map": [
-                    [
-                        "@root",
-                        "."
-                    ],
-                    [
-                        "@config",
-                        "./config"
-                    ],
-                    [
-                        "@controllers",
-                        "./src/controllers"
-                    ],
-                    [
-                        "@helpers",
-                        "./src/helpers"
-                    ],
-                    [
-                        "@middlewares",
-                        "./src/middlewares"
-                    ],
-                    [
-                        "@models",
-                        "./src/models"
-                    ],
-                    [
-                        "@routes",
-                        "./src/routes"
-                    ],
-                    [
-                        "@services",
-                        "./src/services"
-                    ],
-                    [
-                        "@utils",
-                        "./src/utils"
-                    ],
-                    [
-                        "@repositories",
-                        "./src/database/repositories"
-                    ]
-                ],
-                "extensions": [
-                    ".js",
-                    ".json",
-                    ".node"
-                ]
-            }
-        }
-    },
-    "rules": {
-        "no-console": "off",
-        "object-shorthand": "off",
-        "indent": [
-            "error",
-            4
+  "env": {
+    "es2024": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "import",
+    "prettier"
+  ],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          [
+            "@root",
+            "."
+          ],
+          [
+            "@config",
+            "./config"
+          ],
+          [
+            "@controllers",
+            "./src/controllers"
+          ],
+          [
+            "@helpers",
+            "./src/helpers"
+          ],
+          [
+            "@middlewares",
+            "./src/middlewares"
+          ],
+          [
+            "@models",
+            "./src/models"
+          ],
+          [
+            "@routes",
+            "./src/routes"
+          ],
+          [
+            "@services",
+            "./src/services"
+          ],
+          [
+            "@utils",
+            "./src/utils"
+          ],
+          [
+            "@repositories",
+            "./src/database/repositories"
+          ]
         ],
-        "consistent-return": "off",
-        "no-underscore-dangle": "off",
-        "max-len": "off",
-        "prefer-destructuring": "off"
+        "extensions": [
+          ".js",
+          ".ts",
+          ".json"
+        ]
+      },
+      "typescript": {
+        "alwaysTryTypes": true
+      }
     }
+  },
+  "rules": {
+    "no-console": "off",
+    "indent": [
+      "error",
+      4
+    ],
+    "prettier/prettier": "warn",
+    "import/order": [
+      "warn",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "newlines-between": "always"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "warn"
+  },
+  "ignorePatterns": [
+    "node_modules/",
+    "dist/",
+    "build/",
+    "*.config.js"
+  ]
 }
