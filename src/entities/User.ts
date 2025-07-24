@@ -1,15 +1,18 @@
 import {
+    BeforeInsert,
     Column,
     CreateDateColumn,
     Entity,
-    PrimaryGeneratedColumn,
+    PrimaryColumn,
     UpdateDateColumn,
 } from 'typeorm';
 
+import generateCuid from '@utils/cuid';
+
 @Entity()
 class User {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryColumn({ type: 'varchar', length: 36 })
+    id: string;
 
     @Column({ type: 'varchar', length: 255 })
     name: string;
@@ -31,6 +34,11 @@ class User {
 
     @UpdateDateColumn({ type: 'timestamp with time zone' })
     updated_at: Date;
+
+    @BeforeInsert()
+    setId() {
+        this.id = generateCuid();
+    }
 }
 
 export default User;

@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@google-cloud/storage": "^7.16.0",
+    "@paralleldrive/cuid2": "^2.2.2",
     "agent-base": "^7.1.4",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
