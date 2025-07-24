@@ -79,10 +79,6 @@
   },
   "rules": {
     "no-console": "off",
-    "indent": [
-      "error",
-      4
-    ],
     "prettier/prettier": "warn",
     "import/order": [
       "warn",
