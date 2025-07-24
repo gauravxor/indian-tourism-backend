@@ -4,7 +4,7 @@
   "description": "Indian Tourism Backend",
   "main": "index.js",
   "scripts": {
-    "typeorm": "typeorm-ts-node-commonjs",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "build": "tsc",
     "start": "node ./build/index.js",
     "dev": "nodemon",
@@ -37,6 +37,7 @@
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3"
   },
   "dependencies": {
