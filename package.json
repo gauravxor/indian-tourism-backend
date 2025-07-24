@@ -4,12 +4,17 @@
   "description": "Indian Tourism Backend",
   "main": "index.js",
   "scripts": {
+    "typeorm": "typeorm-ts-node-commonjs",
     "build": "tsc",
     "start": "node ./build/index.js",
     "dev": "nodemon",
     "lint": "eslint ./src/**/*.{ts,js}",
     "lint:fix": "eslint ./src/**/*.{ts,js} --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "makemigrations": "npm run typeorm -- migration:generate src/database/migrations/Migration -d config/database.ts",
+    "migrate": "npm run typeorm -- migration:run -d config/database.ts",
+    "revertmigration": "npm run typeorm -- migration:revert -d config/database.ts",
+    "showmigrations": "npm run typeorm -- migration:show -d config/database.ts"
   },
   "author": "Gaurav Aggarwal",
   "license": "MIT",
@@ -22,6 +27,7 @@
     "@types/qrcode": "^1.5.5",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "^8.38.0",
+    "dotenv": "^17.2.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-alias": "^1.1.2",
@@ -48,7 +54,10 @@
     "mongoose": "^8.16.4",
     "multer": "^2.0.2",
     "nodemailer": "^7.0.5",
+    "pg": "^8.16.3",
     "qrcode": "^1.5.4",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.25",
     "uuid": "^11.1.0",
     "winston": "^3.17.0"
   },
@@ -62,6 +71,11 @@
     "@models": "build/src/models",
     "@routes": "build/src/routes",
     "@services": "build/src/services",
-    "@utils": "build/src/utils"
+    "@utils": "build/src/utils",
+    "@entities": "build/src/entities",
+    "@database": "build/src/database"
+  },
+  "typeorm": {
+    "dataSource": "config/database.ts"
   }
 }

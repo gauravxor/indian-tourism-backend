@@ -19,3 +19,4 @@ users/
 public/images/
 logs/
 .idea/
+migrations/

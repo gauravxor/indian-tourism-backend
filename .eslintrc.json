@@ -64,6 +64,14 @@
           [
             "@repositories",
             "./src/database/repositories"
+          ],
+          [
+            "@entities",
+            "./src/entities"
+          ],
+          [
+            "@database",
+            "./src/database"
           ]
         ],
         "extensions": [

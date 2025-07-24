@@ -1,21 +1,30 @@
-import "module-alias/register";
+import 'reflect-metadata';
+import 'module-alias/register';
 
-import { connect } from "mongoose";
+import { connect } from 'mongoose';
 
-import logger from "@config/logger";
+import logger from '@config/logger';
+import app from '@root/src/app';
+import otpCleaner from '@services/otpCleaner';
+import lockCleaner from '@services/bookingLockCleaner';
+import AppDataSource from '@config/database';
 
-import app from "@root/src/app";
-
-import otpCleaner from "@services/otpCleaner";
-import lockCleaner from "@services/bookingLockCleaner";
+/* POSTGRES DB CONNECTION */
+AppDataSource.initialize()
+    .then(() => {
+        console.log('Connected to PostgresDB');
+    })
+    .catch(err => {
+        console.error('Error connecting to PostgresDB:', err);
+    });
 
 /* DATABASE CONNECTION */
 connect(process.env.DATABASE_URL as string)
     .then(() => {
-        logger.info("Connected to database");
+        logger.info('Connected to database');
     })
-    .catch((err) => {
-        logger.error("Error connecting to database", err);
+    .catch(err => {
+        logger.error('Error connecting to database', err);
     });
 
 app.listen(process.env.PORT, () => {
