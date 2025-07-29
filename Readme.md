@@ -1,6 +1,6 @@
 <div align="center"><h1>Indian Tourism API Documentation</h1></div>
 <b>All the APIs uses JSON Web Tokens (JWT) for authentication, which are automatically stored as HTTP Cookies. No manual token handling is required.</b>
-<div align="center"><h2>User Authentication Endpoints</h2></div>
+<div align="center"><h2>UserEntity Authentication Endpoints</h2></div>
 
 |     | API Endpoint                              | Method | Auth | Description             |
 | --- | ----------------------------------------- | ------ | ---- | ----------------------- |
@@ -9,11 +9,11 @@
 | 3.  | [/api/auth/logout](#logout)               | POST   | YES  | Logout the current user |
 | 4.  | [/api/auth/forgot-password](#forgot-pass) | POST   | NO   | Reset the password      |
 
-<div align="center"><h2>User Operation Endpoints</h2></div>
+<div align="center"><h2>UserEntity Operation Endpoints</h2></div>
 
 |     | API Endpoint                                            | Method | Auth | Description              |
 | --- | ------------------------------------------------------- | ------ | ---- | ------------------------ |
-| 1.  | [/api/update/user](#user-update)                        | POST   | YES  | Update User Details      |
+| 1.  | [/api/update/user](#user-update)                        | POST   | YES  | Update UserEntity Details      |
 | 2.  | [/api/user/details/{userId}](#user-details)             | GET    | YES  | Get user details         |
 | 3.  | [/api/user/bookings/{userId}](#user-bookings)           | GET    | YES  | Get user's bookings      |
 | 4.  | [/api/book/cancellations/{userId}](#user-cancellations) | GET    | YES  | Get user's cancellations |

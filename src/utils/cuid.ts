@@ -1,7 +1,7 @@
 import { init } from '@paralleldrive/cuid2';
 
 const createId = init({
-    length: 26,
+    length: 24,
 });
 
 const generateCuid = () => createId();

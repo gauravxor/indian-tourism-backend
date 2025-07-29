@@ -11,6 +11,6 @@ export const typeOrmConfig = (): TypeOrmModuleOptions => ({
     database: process.env.DB_NAME,
     synchronize: false,
     logging: process.env.NODE_ENV === 'development',
-    entities: [path.join(__dirname, '../entities/**/*.{ts,js}')],
+    entities: [path.join(__dirname, '../modules/**/entities/**/*.{ts,js}')],
     migrations: [path.join(__dirname, '../database/migrations/**/*.{ts,js}')],
 });
