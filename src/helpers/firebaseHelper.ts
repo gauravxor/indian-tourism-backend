@@ -1,5 +1,6 @@
-import admin from "firebase-admin";
-import fireBaseConfig from "@config/firebase";
+import admin from 'firebase-admin';
+
+import fireBaseConfig from '../../src/config/firebase';
 
 admin.initializeApp({
     credential: admin.credential.cert(fireBaseConfig),
@@ -39,7 +40,7 @@ const uploadImage = async (
         const publicUrl = `https://storage.googleapis.com/${bucket.name}/${newFile.name}`;
         return publicUrl;
     } catch (error) {
-        console.log("Error uploading file to Firebase Storage:", error);
+        console.log('Error uploading file to Firebase Storage:', error);
     }
 };
 

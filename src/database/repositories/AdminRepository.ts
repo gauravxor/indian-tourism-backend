@@ -1,11 +1,11 @@
-import { IAdmin, AdminModel } from "@models/admin";
-import logger from "@config/logger";
+import { AdminModel, IAdmin } from '@models/admin';
+import logger from '@root/src/config/logger';
 
 class AdminRepository {
     static async searchAdmin(email: string): Promise<IAdmin | null> {
         logger.info(`Searching user (admin): ${email}`);
         const searchResult = await AdminModel.findOne({
-            "contact.email": email,
+            'contact.email': email,
         });
         return searchResult;
     }

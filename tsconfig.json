@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "CommonJS",
-    "outDir": "./build",
+    "target": "ES2023",
+    "module": "commonjs",
+    "outDir": "./dist",
     "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
     "allowJs": true,
+    "baseUrl": "./",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
@@ -15,7 +16,14 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "incremental": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
     "paths": {
       "@root/*": [
         "./*"
@@ -51,7 +59,7 @@
   },
   "include": [
     "src/**/*",
-    "config/**/*",
+    "src/config/**/*",
     "index.ts"
   ],
   "exclude": [

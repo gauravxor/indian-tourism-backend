@@ -1,11 +1,11 @@
-import { UserModel, IUser } from "@models/user";
-import logger from "@config/logger";
+import { IUser, UserModel } from '@models/user';
+import logger from '@root/src/config/logger';
 
 class UserRepository {
     static async searchUser(email: string): Promise<IUser | null> {
         logger.info(`Searching user: ${email}`);
         const searchResult = await UserModel.findOne({
-            "contact.email": email,
+            'contact.email': email,
         });
         return searchResult;
     }
