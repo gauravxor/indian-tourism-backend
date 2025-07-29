@@ -3,20 +3,9 @@ import 'module-alias/register';
 
 import { connect } from 'mongoose';
 
-import logger from '@config/logger';
-import app from '@root/src/app';
+import logger from '@root/src/config/logger';
 import otpCleaner from '@services/otpCleaner';
 import lockCleaner from '@services/bookingLockCleaner';
-import AppDataSource from '@config/database';
-
-/* POSTGRES DB CONNECTION */
-AppDataSource.initialize()
-    .then(() => {
-        console.log('Connected to PostgresDB');
-    })
-    .catch(err => {
-        console.error('Error connecting to PostgresDB:', err);
-    });
 
 /* DATABASE CONNECTION */
 connect(process.env.DATABASE_URL as string)
@@ -27,9 +16,9 @@ connect(process.env.DATABASE_URL as string)
         logger.error('Error connecting to database', err);
     });
 
-app.listen(process.env.PORT, () => {
-    logger.info(`Server started on port : ${process.env.PORT}.`);
-});
+// app.listen(process.env.PORT, () => {
+//     logger.info(`Server started on port : ${process.env.PORT}.`);
+// });
 
 /** Invoke bookingLockCleaner in every 5 seconds */
 setInterval(lockCleaner, 5 * 1000);
