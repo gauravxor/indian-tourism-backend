@@ -23,6 +23,13 @@ export class SignupService {
             password: hashedPassword,
         });
 
-        return { message: 'User registered successfully', userId: newUser.id };
+        return {
+            message: 'Signup successful',
+            user: {
+                name: newUser.name,
+                email: newUser.email,
+                id: newUser.id,
+            },
+        };
     }
 }

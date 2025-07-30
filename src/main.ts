@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { ConsoleLogger, Logger } from '@nestjs/common';
+import { ConsoleLogger, Logger, ValidationPipe } from '@nestjs/common';
 
 import { AppModule } from './app.module';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 const logger = new Logger('Bootstrap');
 
@@ -11,6 +12,9 @@ async function bootstrap() {
             prefix: 'Yatra',
         }),
     });
+
+    app.useGlobalInterceptors(new ResponseInterceptor());
+    app.useGlobalPipes(new ValidationPipe());
 
     logger.log('Application starting...');
     await app.listen(Number(process.env.PORT || '3000'));
