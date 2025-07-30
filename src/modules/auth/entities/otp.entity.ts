@@ -6,12 +6,14 @@ import {
     JoinColumn,
     ManyToOne,
     PrimaryColumn,
+    Unique,
 } from 'typeorm';
 
 import generateCuid from '@utils/cuid';
 import { User } from '@root/src/modules/user/entities/user.entity';
 
 @Entity()
+@Unique(['userId', 'purpose'])
 export class Otp {
     @PrimaryColumn({ type: 'varchar', length: 24 })
     id: string;
@@ -29,12 +31,9 @@ export class Otp {
     @Column({ type: 'varchar', length: 30 })
     purpose: string;
 
-    @Column({ type: 'varchar', length: 24 })
-    user_id: string;
-
     @ManyToOne(() => User, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'user_id' })
-    role: User;
+    userId: User;
 
     @Column({ type: 'timestamp with time zone', name: 'expires_at' })
     expiresAt: Date;
