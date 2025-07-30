@@ -59,8 +59,7 @@
   },
   "include": [
     "src/**/*",
-    "src/config/**/*",
-    "index.ts"
+    "src/config/**/*"
   ],
   "exclude": [
     "node_modules",

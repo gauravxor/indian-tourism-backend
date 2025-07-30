@@ -1,3 +1,6 @@
+import 'reflect-metadata';
+import 'module-alias/register';
+
 import { NestFactory } from '@nestjs/core';
 import { ConsoleLogger, Logger, ValidationPipe } from '@nestjs/common';
 
